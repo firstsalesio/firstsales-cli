@@ -1,0 +1,26 @@
+{
+  "name": "firstsales-cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for the FirstSales Developer API.",
+  "type": "module",
+  "bin": {
+    "firstsales": "bin/firstsales.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "test": "node --test tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "firstsales",
+    "cli",
+    "developer-api"
+  ],
+  "license": "UNLICENSED"
+}
