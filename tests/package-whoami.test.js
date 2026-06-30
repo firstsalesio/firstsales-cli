@@ -5,10 +5,10 @@ import path from 'node:path';
 import test from 'node:test';
 import { cliDir, runCli, startApi } from './helpers.js';
 
-test('package metadata publishes firstsales-cli without committed npm auth', async () => {
+test('package metadata publishes @firstsales.io/cli without committed npm auth', async () => {
   const pkg = JSON.parse(await readFile(path.join(cliDir, 'package.json'), 'utf8'));
 
-  assert.equal(pkg.name, 'firstsales-cli');
+  assert.equal(pkg.name, '@firstsales.io/cli');
   assert.equal(pkg.bin.firstsales, 'bin/firstsales.js');
 
   await assert.rejects(stat(path.join(cliDir, '.npmrc')), { code: 'ENOENT' });

@@ -36,7 +36,7 @@ export async function main(argv, env) {
       {
         error: {
           code: 'unsupported_command',
-          message: `Command "${parsed.positionals.join(' ')}" is not supported by firstsales-cli yet.`,
+          message: `Command "${parsed.positionals.join(' ')}" is not supported by @firstsales.io/cli yet.`,
         },
       },
       parsed.flags

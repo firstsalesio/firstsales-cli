@@ -2,7 +2,7 @@ export async function fetchJson(config, request) {
   const headers = {
     accept: 'application/json',
     authorization: `Bearer ${config.apiKey}`,
-    'user-agent': 'firstsales-cli/0.1.0',
+    'user-agent': '@firstsales.io/cli/0.1.0',
   };
   const options = { method: request.method, headers };
   if (config.idempotencyKey) headers['idempotency-key'] = config.idempotencyKey;
