@@ -1,10 +1,10 @@
 <div align="center">
 
-# firstsales-cli
+# @firstsales.io/cli
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://github.com/firstsalesio/firstsales-cli/releases/tag/v0.1.0)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://www.npmjs.com/package/@firstsales.io/cli)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -46,7 +46,7 @@
 
 FirstSales can be managed from the web app, but AI coding agents and internal automation need a stable interface that does not depend on app-private routes.
 
-`firstsales-cli` is the terminal and agent surface for the FirstSales Developer API:
+`@firstsales.io/cli` is the terminal and agent surface for the FirstSales Developer API:
 
 - **Codex / Claude Code:** inspect state, update campaigns, import contacts, approve drafts, and verify results from a shell.
 - **Gemini / CI:** parse stable JSON and react to predictable exit codes.
@@ -90,13 +90,19 @@ COMMAND FLOW:
 ### Install
 
 ```bash
-npm install -g firstsales-cli
+npm install -g @firstsales.io/cli
 ```
 
-Source release:
+Package page:
 
 ```text
-https://github.com/firstsalesio/firstsales-cli/releases/tag/v0.1.0
+https://www.npmjs.com/package/@firstsales.io/cli
+```
+
+Source repository:
+
+```text
+https://github.com/firstsalesio/firstsales-cli
 ```
 
 ### Configure
