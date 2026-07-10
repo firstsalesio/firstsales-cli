@@ -10,6 +10,7 @@ import { EXIT, exitCodeForStatus } from './exit-codes.js';
 import { render, resolveFormat } from './output.js';
 import { paginateAll } from './paginate.js';
 import { checkForUpdate } from './update-notice.js';
+import { runCopilotAsk } from './copilot.js';
 
 const CLI_VERSION = '0.1.1';
 
@@ -38,6 +39,10 @@ export async function main(argv, env) {
   }
   if (parsed.positionals[0] === 'api') {
     return runApi(parsed.positionals, parsed.flags, env);
+  }
+  if (parsed.positionals[0] === 'copilot' && parsed.positionals[1] === 'ask') {
+    const config = await loadConfig(parsed.flags, env);
+    return runCopilotAsk(parsed.positionals[2] ?? '', parsed.flags, config);
   }
 
   const command = resolveCommand(parsed.positionals);
@@ -118,6 +123,7 @@ export async function main(argv, env) {
       return exitCodeForStatus(response.status);
     }
     writeOutput(response.body, parsed.flags);
+    printMergeUndoHint(command, response);
     return exitCodeForStatus(response.status);
   } catch (err) {
     writeOutput(
@@ -258,6 +264,20 @@ function doctorResult(config, response) {
     ],
     ...(authOk ? { identity: response.body } : { error: response.body?.error }),
   };
+}
+
+// ticket 09: after a successful merge, tell the operator how to find the
+// changelog entry an undo would need — the CLI has no undo endpoint itself.
+const MERGE_COMMANDS = new Set(['contacts merge', 'companies merge']);
+
+function printMergeUndoHint(command, response) {
+  if (!MERGE_COMMANDS.has(command.label)) return;
+  if (response.status >= 400) return;
+  const mergeChangelogId = response.body?.mergeChangelogId;
+  if (!mergeChangelogId) return;
+  console.error(
+    `Merged. To undo, contact support with mergeChangelogId=${mergeChangelogId} (undo is not yet self-service).`
+  );
 }
 
 function apiKeyFailure() {

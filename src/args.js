@@ -1,4 +1,14 @@
-const BOOLEAN_FLAGS = new Set(['json', 'pretty', 'dry-run', 'confirm', 'wait', 'help', 'all']);
+const BOOLEAN_FLAGS = new Set([
+  'json',
+  'pretty',
+  'dry-run',
+  'confirm',
+  'wait',
+  'help',
+  'all',
+  'no-wait',
+  'auto-approve',
+]);
 const VALUE_FLAGS = new Set([
   'api-key',
   'base-url',
@@ -24,6 +34,13 @@ const VALUE_FLAGS = new Set([
   'page',
   'limit',
   'query',
+  'deal',
+  'pipeline',
+  'company',
+  'alert',
+  'template',
+  'session',
+  'timeout',
 ]);
 
 export function parseArgs(argv) {
