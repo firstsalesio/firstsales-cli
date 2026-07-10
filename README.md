@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](https://www.npmjs.com/package/@firstsales.io/cli)
+[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://www.npmjs.com/package/@firstsales.io/cli)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 78 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 122 commands. No runtime dependencies. Built for agent-safe automation.**
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -230,6 +230,64 @@ Profiles are useful on a developer machine. Prefer env vars for CI and agents.
 | `--idempotency-key <key>` | retryable mutations | Send an idempotency key. |
 | `--dry-run` | API commands | Print method, URL, and body without sending the request. |
 | `--confirm` | destructive commands | Required for destructive commands. |
+| `--output <json\|table\|tsv>` | all commands | Choose output format. Defaults to `table` on a TTY, `json` when piped. |
+| `--page <n>` / `--limit <n>` | list commands | Page through results manually. |
+| `--all` | GET list commands | Auto-paginate and concatenate every page. |
+
+---
+
+## Exit Codes
+
+| Code | Meaning |
+| --- | --- |
+| `0` | ok |
+| `1` | runtime error |
+| `2` | usage error |
+| `3` | auth error |
+| `4` | not found |
+| `5` | rate limited |
+
+> **Breaking in 0.1.1:** exit codes were redefined from the 0.1.0 scheme. Scripts that branch on exit codes must migrate.
+
+---
+
+## Auth Profiles
+
+Store named API key/base URL profiles locally instead of exporting env vars every session:
+
+```bash
+firstsales auth login --profile prod --api-key "<YOUR_FIRSTSALES_API_KEY>" --base-url "https://api.app.firstsales.io"
+firstsales auth status --profile prod --json
+firstsales auth logout --profile prod
+```
+
+Use `--profile <name>` (or `FIRSTSALES_PROFILE`) on any command to select a saved profile. `auth status` never prints the raw key.
+
+---
+
+## Shell Completions
+
+```bash
+# bash
+firstsales completion bash >> ~/.bashrc
+
+# zsh
+firstsales completion zsh >> ~/.zshrc
+
+# fish
+firstsales completion fish > ~/.config/fish/completions/firstsales.fish
+```
+
+---
+
+## API Escape Hatch
+
+Call any public `/api/v1` route directly, signed with the active key, even before a dedicated command exists:
+
+```bash
+firstsales api GET /api/v1/organizations/org_123/workspaces --json
+firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --data '{"name":"New Campaign"}' --json
+```
 
 ---
 
@@ -310,6 +368,15 @@ firstsales inbox reject-draft --org org_123 --workspace ws_123 --email email_123
 ```
 
 Use this for reply monitoring, draft approval queues, human-in-the-loop workflows, and read-state sync.
+
+### Copilot (Non-Interactive)
+
+```bash
+firstsales copilot ask "Summarize this week's campaign performance" \
+  --org org_123 --workspace ws_123 --json
+```
+
+Posts a prompt, polls the session, and prints only the assistant's reply text on stdout (safe to pipe). Progress and approval prompts go to stderr. Use `--auto-approve` to allow pending tool approvals automatically, `--no-wait` to return immediately with `{sessionId, messageId}`, and `--session <id>` to continue an existing session.
 
 ### Connector Health
 
@@ -460,6 +527,52 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `api-keys list` | GET | `/api/v1/organizations/{org}/api-keys` | no | org |
 | `api-keys create` | POST | `/api/v1/organizations/{org}/api-keys` | no | org |
 | `api-keys revoke` | DELETE | `/api/v1/organizations/{org}/api-keys/{key}` | yes | org, key |
+| `deals list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/deals` | no | org, workspace |
+| `deals get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}` | no | deal |
+| `deals create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/deals` | no | org, workspace |
+| `deals update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}` | no | deal |
+| `deals delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}` | yes | deal |
+| `deals move` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}/move` | no | deal |
+| `deals forecast` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/deal-forecast` | no | org, workspace |
+| `pipelines list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/pipelines` | no | org, workspace |
+| `pipelines get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/pipelines/{pipeline}` | no | pipeline |
+| `companies list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies` | no | org, workspace |
+| `companies get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | no | company |
+| `companies create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/companies` | no | org, workspace |
+| `companies update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | no | company |
+| `companies delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | yes | company |
+| `companies duplicates` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}/duplicates` | no | company |
+| `companies merge` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/merge` | yes | org, workspace |
+| `contacts overview` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/overview` | no | contact |
+| `contacts merge` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/merge` | yes | org, workspace |
+| `contact-fields list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-fields` | no | org, workspace |
+| `activities list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/activities` | no | org, workspace |
+| `activities log` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/activities` | no | org, workspace |
+| `inbox assign` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/assign` | no | thread |
+| `inbox bulk-read` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/bulk-read` | no | org, workspace |
+| `campaigns leads` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/leads` | no | campaign |
+| `learning overview` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/overview` | no | campaign |
+| `learning activity` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/activity` | no | campaign |
+| `learning outcomes` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/outcomes` | no | campaign |
+| `learning graph` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/graph` | no | campaign |
+| `learning auto-mode-state` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/auto-mode-state` | no | campaign |
+| `learning workspace-overview` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/learning/overview` | no | org, workspace |
+| `alerts list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/alerts` | no | org, workspace |
+| `alerts ack` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/alerts/{alert}/ack` | no | alert |
+| `alerts resolve` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/alerts/{alert}/resolve` | no | alert |
+| `warmup status` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/warmup` | no | connector |
+| `email-auth status` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/email-auth` | no | org, workspace |
+| `sequences list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library` | no | org, workspace |
+| `sequences create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library` | no | org, workspace |
+| `sequences update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library/{template}` | no | template |
+| `sequences delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library/{template}` | yes | template |
+| `teams members` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/teams/members` | no | org, workspace |
+| `usage get` | GET | `/api/v1/organizations/{org}/teams/api-usage` | no | org |
+| `dashboard get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/dashboard` | no | org, workspace |
+| `copilot sessions-list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions` | no | org, workspace |
+| `copilot sessions-get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions/{session}` | no | session |
+
+Platform commands not in the registry above: `copilot ask` (session-based, see [Copilot](#copilot-non-interactive)), `auth login|status|logout`, `api <METHOD> <path>`, `completion bash|zsh|fish`.
 
 ### Unsupported Surfaces
 
