@@ -27,3 +27,8 @@
 
 - Destructive commands still require `--confirm`.
 - `contacts merge` and `companies merge` print an undo hint (`mergeChangelogId`) to stderr after a successful merge.
+- `copilot ask` now routes HTTP errors through the same exit-code mapping as the rest of the CLI (401/403 → `3`, 404 → `4`, 429 → `5`); a poll timeout is `1` (runtime), not `4`.
+- `copilot ask --auto-approve` is best-effort: it audits and asks the server to decide, and exits `1` (instead of polling to timeout) if an approval is still pending after the audit.
+- Uncaught errors (network failures, bad `--data-file`, malformed JSON body) now print a clean one-line message and exit `1` instead of a raw stack trace. Pass `--debug` for the full stack.
+- `--all` pagination bounds 429 retries; repeated rate limiting now exits `5` instead of looping forever.
+- User-Agent header now reports the installed CLI version instead of a hardcoded `0.1.0`.

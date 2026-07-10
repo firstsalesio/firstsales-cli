@@ -376,7 +376,7 @@ firstsales copilot ask "Summarize this week's campaign performance" \
   --org org_123 --workspace ws_123 --json
 ```
 
-Posts a prompt, polls the session, and prints only the assistant's reply text on stdout (safe to pipe). Progress and approval prompts go to stderr. Use `--auto-approve` to allow pending tool approvals automatically, `--no-wait` to return immediately with `{sessionId, messageId}`, and `--session <id>` to continue an existing session.
+Posts a prompt, polls the session, and prints only the assistant's reply text on stdout (safe to pipe). Progress and approval prompts go to stderr. `--auto-approve` is best-effort only: the CLI logs an audit line and the server (not the CLI) makes the final approval decision; if the turn is still pending after that, the CLI exits `1` instead of polling to timeout. Use `--no-wait` to return immediately with `{sessionId, messageId}`, and `--session <id>` to continue an existing session.
 
 ### Connector Health
 

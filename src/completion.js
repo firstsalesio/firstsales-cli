@@ -2,7 +2,10 @@
 import { listCommands } from './commands.js';
 
 export function generateCompletion(shell) {
-  const commands = listCommands().map((command) => command.command);
+  // ponytail: shell completion tokens must be single words; multi-word
+  // command labels ("orgs list") get hyphenated ("orgs-list") for this
+  // purpose only — routing still uses the space-joined label.
+  const commands = listCommands().map((command) => command.command.replaceAll(' ', '-'));
   if (shell === 'bash') return bashCompletion(commands);
   if (shell === 'zsh') return zshCompletion(commands);
   if (shell === 'fish') return fishCompletion(commands);

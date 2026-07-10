@@ -2,7 +2,7 @@
 // assistant turn lands, print only the assistant text on stdout (pipeable).
 // Progress/approval/audit lines go to stderr. See phase-04 spec.
 import { fetchJson } from './http.js';
-import { EXIT } from './exit-codes.js';
+import { EXIT, exitCodeForStatus } from './exit-codes.js';
 
 const DEFAULT_TIMEOUT_MS = 120_000;
 const BACKOFF_START_MS = 1_000;
@@ -20,7 +20,7 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
     const created = await fetchJson(config, { method: 'POST', route: `${ws}/copilot/sessions`, body: {} });
     if (created.status >= 400) {
       err(created.body?.error ?? `Failed to create copilot session (status ${created.status}).`);
-      return EXIT.runtime;
+      return exitCodeForStatus(created.status);
     }
     sessionId = created.body.id;
   }
@@ -32,7 +32,7 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
   });
   if (posted.status >= 400) {
     err(posted.body?.error ?? `Failed to send message (status ${posted.status}).`);
-    return EXIT.runtime;
+    return exitCodeForStatus(posted.status);
   }
   const messageId = posted.body.messageId;
 
@@ -50,7 +50,7 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
     const session = await fetchJson(config, { method: 'GET', route: `${ws}/copilot/sessions/${enc(sessionId)}` });
     if (session.status >= 400) {
       err(session.body?.error ?? `Failed to fetch session (status ${session.status}).`);
-      return EXIT.runtime;
+      return exitCodeForStatus(session.status);
     }
 
     const message = findAssistantReply(session.body.messages ?? [], messageId);
@@ -65,16 +65,29 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
         return EXIT.runtime;
       }
       if (message.status === 'awaiting_approval') {
+        // ponytail: the public API has no approval-resolution endpoint — the CLI
+        // cannot actually grant approvals server-side, only audit and ask the
+        // server (or a human) to decide. Never imply the CLI resolved anything.
         for (const part of message.parts.filter((p) => p.type === 'approval')) {
           const key = `${part.approvalId ?? ''}:${part.toolName ?? ''}`;
-          if (auditedApprovals.has(key)) continue;
-          auditedApprovals.add(key);
-          if (flags.autoApprove) {
-            err(`[audit] auto-approving ${part.toolName ?? 'tool action'} (approval ${part.approvalId ?? 'unknown'})`);
-          } else {
+          if (!flags.autoApprove) {
+            if (!auditedApprovals.has(key)) auditedApprovals.add(key);
             err(`Pending approval required for ${part.toolName ?? 'a tool action'}. Re-run with --auto-approve to allow it.`);
             return EXIT.runtime;
           }
+          if (auditedApprovals.has(key)) {
+            // Already audited this approval once and it is still pending: the
+            // CLI cannot resolve it server-side, so stop polling and fail clearly
+            // instead of spinning to a timeout.
+            err(
+              `Approval ${part.approvalId ?? 'unknown'} for ${part.toolName ?? 'a tool action'} is still pending after --auto-approve audit. The CLI cannot grant approvals; the server (or a human reviewer) must resolve it.`
+            );
+            return EXIT.runtime;
+          }
+          auditedApprovals.add(key);
+          err(
+            `[audit] best-effort auto-approve request logged for ${part.toolName ?? 'tool action'} (approval ${part.approvalId ?? 'unknown'}); the server makes the final decision, not this CLI.`
+          );
         }
       } else {
         err(`Waiting on copilot (${message.status})…`);
@@ -84,8 +97,10 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
     }
 
     if (Date.now() + delay > deadline) {
+      // A poll timeout is a runtime condition, not a "not found" — the session
+      // exists, we just gave up waiting on it.
       err(`Timed out after ${timeoutMs / 1000}s waiting for copilot response.`);
-      return EXIT.notFound;
+      return EXIT.runtime;
     }
     await sleep(delay);
     delay = Math.min(delay + 1_000, BACKOFF_MAX_MS);
