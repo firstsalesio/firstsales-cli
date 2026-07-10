@@ -1,8 +1,13 @@
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+const pkg = JSON.parse(readFileSync(fileURLToPath(new URL('../package.json', import.meta.url)), 'utf8'));
+
 export async function fetchJson(config, request) {
   const headers = {
     accept: 'application/json',
     authorization: `Bearer ${config.apiKey}`,
-    'user-agent': '@firstsales.io/cli/0.1.0',
+    'user-agent': `@firstsales.io/cli/${pkg.version}`,
   };
   const options = { method: request.method, headers };
   if (config.idempotencyKey) headers['idempotency-key'] = config.idempotencyKey;

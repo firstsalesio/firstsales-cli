@@ -1,4 +1,14 @@
-const BOOLEAN_FLAGS = new Set(['json', 'pretty', 'dry-run', 'confirm', 'wait', 'help']);
+const BOOLEAN_FLAGS = new Set([
+  'json',
+  'pretty',
+  'dry-run',
+  'confirm',
+  'wait',
+  'help',
+  'all',
+  'no-wait',
+  'auto-approve',
+]);
 const VALUE_FLAGS = new Set([
   'api-key',
   'base-url',
@@ -20,6 +30,17 @@ const VALUE_FLAGS = new Set([
   'thread',
   'data',
   'data-file',
+  'output',
+  'page',
+  'limit',
+  'query',
+  'deal',
+  'pipeline',
+  'company',
+  'alert',
+  'template',
+  'session',
+  'timeout',
 ]);
 
 export function parseArgs(argv) {
@@ -55,7 +76,10 @@ export function helpText() {
     'Usage: firstsales <command> [options]',
     '',
     'Commands:',
-    '  whoami  Inspect the active Developer API Key context',
+    '  whoami                Inspect the active Developer API Key context',
+    '  api <METHOD> <path>   Call any /api/v1 route not yet wrapped by a command',
+    '  auth login|status|logout   Manage stored API key profiles',
+    '  completion bash|zsh|fish   Print a shell completion script',
     '',
     'Options:',
     '  --api-key <key>       Developer API key',
@@ -65,8 +89,13 @@ export function helpText() {
     '  --idempotency-key <k> Idempotency key for write commands',
     '  --dry-run            Print the request without sending it',
     '  --confirm            Required for destructive commands',
-    '  --json               Compact JSON output',
+    '  --output <fmt>       json|table|tsv (default: table on a TTY, json when piped)',
+    '  --json               Alias for --output json',
     '  --pretty             Pretty JSON output',
+    '  --page <n>           Page number for list commands',
+    '  --limit <n>          Page size for list commands',
+    '  --all                Auto-paginate a list command and concatenate all pages',
+    '  --query <k=v&...>    Extra query string for `api`',
   ].join('\n');
 }
 
