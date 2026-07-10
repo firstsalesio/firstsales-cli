@@ -3,14 +3,7 @@ import { helpText, parseArgs } from './args.js';
 import { buildRoute, listCommands, resolveCommand } from './commands.js';
 import { loadConfig } from './config.js';
 import { buildUrl, fetchJson } from './http.js';
-
-const EXIT = {
-  ok: 0,
-  usage: 2,
-  auth: 3,
-  api: 4,
-  network: 5,
-};
+import { EXIT, exitCodeForStatus } from './exit-codes.js';
 
 export async function main(argv, env) {
   const parsed = parseArgs(argv);
@@ -97,14 +90,10 @@ export async function main(argv, env) {
     });
     if (command.doctor) {
       writeJson(doctorResult(config, response), parsed.flags);
-      if (response.status === 401 || response.status === 403) return EXIT.auth;
-      if (response.status >= 400) return EXIT.api;
-      return EXIT.ok;
+      return exitCodeForStatus(response.status);
     }
     writeJson(response.body, parsed.flags);
-    if (response.status === 401 || response.status === 403) return EXIT.auth;
-    if (response.status >= 400) return EXIT.api;
-    return EXIT.ok;
+    return exitCodeForStatus(response.status);
   } catch (err) {
     writeJson(
       {
@@ -115,7 +104,7 @@ export async function main(argv, env) {
       },
       parsed.flags
     );
-    return EXIT.network;
+    return EXIT.runtime;
   }
 }
 
