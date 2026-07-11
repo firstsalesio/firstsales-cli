@@ -16,7 +16,8 @@ async function startCopilotApi({ sessionId = 'sess_1', messageId = 'msg_1', poll
 
     if (req.method === 'POST' && req.url.endsWith('/copilot/sessions')) {
       res.writeHead(200);
-      res.end(JSON.stringify({ id: sessionId }));
+      // Prod wraps the created session: { session: { id, ... } }.
+      res.end(JSON.stringify({ session: { id: sessionId } }));
       return;
     }
     if (req.method === 'POST' && req.url.endsWith('/messages')) {
