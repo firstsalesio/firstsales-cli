@@ -12,7 +12,7 @@ import { paginateAll } from './paginate.js';
 import { checkForUpdate } from './update-notice.js';
 import { runCopilotAsk } from './copilot.js';
 
-const CLI_VERSION = '0.1.1';
+const CLI_VERSION = '0.1.2';
 
 export async function main(argv, env) {
   const parsed = parseArgs(argv);

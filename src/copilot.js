@@ -22,7 +22,8 @@ export async function runCopilotAsk(prompt, flags, config, { log = console.log, 
       err(created.body?.error ?? `Failed to create copilot session (status ${created.status}).`);
       return exitCodeForStatus(created.status);
     }
-    sessionId = created.body.id;
+    // Create returns the session wrapped: { session: { id, ... } }.
+    sessionId = created.body.session?.id ?? created.body.id;
   }
 
   const posted = await fetchJson(config, {

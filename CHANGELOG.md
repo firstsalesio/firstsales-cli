@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Fixes
+
+- `copilot ask` now reads the session id from the wrapped create-session response (`{ session: { id } }`). Previously it read a flat `{ id }`, so the id was `undefined`, the follow-up message POSTed to `/sessions/undefined/messages`, and the CLI crashed on the 404 HTML with `Unexpected token '<'`. Non-interactive copilot prompts now work end to end.
+
 ## 0.1.1
 
 ### Highlights
