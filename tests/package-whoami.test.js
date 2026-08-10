@@ -180,3 +180,11 @@ test('doctor reports missing API key as a setup failure', async () => {
     ],
   });
 });
+
+test('whoami README stays aligned on the canonical effective production URL and bearer auth', async () => {
+  const readme = await readFile(path.join(cliDir, 'README.md'), 'utf8');
+
+  assert.match(readme, /https:\/\/api\.app\.firstsales\.io/);
+  assert.match(readme, /Authorization: Bearer/);
+  assert.match(readme, /firstsales whoami --json/);
+});

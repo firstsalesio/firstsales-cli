@@ -237,7 +237,135 @@ test('teams members, usage, dashboard route correctly', async () => {
     '/api/v1/organizations/org_123/workspaces/ws_123/teams/members'
   );
   await expectRoute(['usage', 'get', '--org', 'org_123'], 'GET', '/api/v1/organizations/org_123/teams/api-usage');
+  await expectRoute(
+    ['usage', 'get', '--org', 'org_123', '--days', '1'],
+    'GET',
+    '/api/v1/organizations/org_123/teams/api-usage?days=1'
+  );
+  await expectRoute(
+    ['usage', 'get', '--org', 'org_123', '--days', '90'],
+    'GET',
+    '/api/v1/organizations/org_123/teams/api-usage?days=90'
+  );
   await expectRoute(['dashboard', 'get', ...wsFlags], 'GET', '/api/v1/organizations/org_123/workspaces/ws_123/dashboard');
+});
+
+test('usage get requires org, sends no idempotency key, and returns structured json output', async () => {
+  const blockedApi = await startApi(async () => ({ status: 200, body: { ok: true } }));
+  try {
+    const missingOrg = await runCli(['usage', 'get', '--json'], env(blockedApi));
+    assert.equal(missingOrg.code, 2);
+    assert.equal(blockedApi.requests.length, 0);
+  } finally {
+    await blockedApi.close();
+  }
+
+  const api = await startApi(async () => ({
+    status: 200,
+    body: {
+      windowDays: 7,
+      totalRequests: 45,
+      errorRate: 0.2,
+      byKey: [
+        {
+          apiKeyId: 'key_a',
+          keyPrefix: 'fs-key-aaaaaaaa',
+          requests: 30,
+          errors: 6,
+        },
+      ],
+      byRoute: [
+        {
+          routePattern: '/api/v1/organizations/{orgId}/api-keys',
+          requests: 45,
+          errors: 9,
+        },
+      ],
+    },
+  }));
+
+  try {
+    const result = await runCli(
+      ['usage', 'get', '--json', '--org', 'org_123', '--days', '30'],
+      env(api)
+    );
+
+    assert.equal(result.code, 0);
+    assert.equal(result.stderr, '');
+    assert.equal(api.requests.length, 1);
+    assert.equal(api.requests[0].method, 'GET');
+    assert.equal(api.requests[0].url, '/api/v1/organizations/org_123/teams/api-usage?days=30');
+    assert.equal(api.requests[0].idempotencyKey, undefined);
+    assert.deepEqual(JSON.parse(result.stdout), {
+      windowDays: 7,
+      totalRequests: 45,
+      errorRate: 0.2,
+      byKey: [
+        {
+          apiKeyId: 'key_a',
+          keyPrefix: 'fs-key-aaaaaaaa',
+          requests: 30,
+          errors: 6,
+        },
+      ],
+      byRoute: [
+        {
+          routePattern: '/api/v1/organizations/{orgId}/api-keys',
+          requests: 45,
+          errors: 9,
+        },
+      ],
+    });
+  } finally {
+    await api.close();
+  }
+});
+
+test('usage get rejects invalid days and other commands reject the flag before the network', async () => {
+  const api = await startApi(async () => ({ status: 200, body: { ok: true } }));
+  try {
+    for (const days of ['0', '91', '1.5', '1e1', '-1', 'abc']) {
+      const result = await runCli(
+        ['usage', 'get', '--json', '--org', 'org_123', '--days', days],
+        env(api)
+      );
+      assert.equal(result.code, 2);
+      assert.deepEqual(JSON.parse(result.stdout), {
+        error: {
+          code: 'invalid_flag_value',
+          message: '--days must be an integer from 1 to 90 for usage get.',
+        },
+      });
+    }
+
+    const unsupported = await runCli(
+      ['campaigns', 'list', '--json', ...wsFlags, '--days', '7'],
+      env(api)
+    );
+    assert.equal(unsupported.code, 2);
+    assert.deepEqual(JSON.parse(unsupported.stdout), {
+      error: {
+        code: 'unsupported_flag_for_command',
+        message: '--days is only supported for usage get.',
+      },
+    });
+    for (const argv of [
+      ['commands', '--json', '--days', '7'],
+      ['api', 'GET', '/api/v1/whoami', '--json', '--days', '7'],
+    ]) {
+      const specialCommand = await runCli(argv, env(api));
+      assert.equal(specialCommand.code, 2);
+      assert.deepEqual(JSON.parse(specialCommand.stdout), {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message: '--days is only supported for usage get.',
+        },
+      });
+    }
+    assert.equal(api.requests.length, 0);
+  } finally {
+    await api.close();
+  }
 });
 
 test('commands registry exposes newly promoted routes with destructive flags', async () => {

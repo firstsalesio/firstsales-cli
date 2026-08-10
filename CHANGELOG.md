@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.3
+
+### Highlights
+
+- 128 commands covering the promoted Developer API, including connector updates,
+  Knowledge Base source ingestion, and Copilot session/message primitives.
+- Tenant context is required consistently for organization/workspace routes and
+  is rejected before network I/O when missing.
+- Release artifacts expose the complete command registry and publish contract for
+  docs and backend parity checks.
+
 ## 0.1.2
 
 ### Fixes

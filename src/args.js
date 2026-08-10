@@ -40,8 +40,13 @@ const VALUE_FLAGS = new Set([
   'alert',
   'template',
   'session',
+  'days',
   'timeout',
 ]);
+
+export function listCliFlags() {
+  return [...BOOLEAN_FLAGS, ...VALUE_FLAGS].map((flag) => `--${flag}`).sort();
+}
 
 export function parseArgs(argv) {
   const flags = {};
@@ -87,6 +92,7 @@ export function helpText() {
     '  --profile <name>      Profile from FIRSTSALES_CONFIG or ~/.firstsales/config.json',
     '  --data <json>         JSON request body for create/update commands',
     '  --idempotency-key <k> Idempotency key for write commands',
+    '                          Unsupported for api-keys create because raw keys are reveal-once',
     '  --dry-run            Print the request without sending it',
     '  --confirm            Required for destructive commands',
     '  --output <fmt>       json|table|tsv (default: table on a TTY, json when piped)',
@@ -94,6 +100,7 @@ export function helpText() {
     '  --pretty             Pretty JSON output',
     '  --page <n>           Page number for list commands',
     '  --limit <n>          Page size for list commands',
+    '  --days <1-90>       Usage window for usage get (default: 7)',
     '  --all                Auto-paginate a list command and concatenate all pages',
     '  --query <k=v&...>    Extra query string for `api`',
   ].join('\n');

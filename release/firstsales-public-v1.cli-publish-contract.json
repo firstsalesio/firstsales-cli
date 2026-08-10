@@ -1,0 +1,1387 @@
+{
+  "auth": {
+    "default_base_url": "https://api.app.firstsales.io",
+    "scheme": "bearer",
+    "whoami_path": "/api/v1/whoami"
+  },
+  "commands": [
+    {
+      "command": "activities list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/activities",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "activities log",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/activities",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "alerts ack",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/alerts/{alert}/ack",
+      "required": [
+        "org",
+        "workspace",
+        "alert"
+      ]
+    },
+    {
+      "command": "alerts list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/alerts",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "alerts resolve",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/alerts/{alert}/resolve",
+      "required": [
+        "org",
+        "workspace",
+        "alert"
+      ]
+    },
+    {
+      "command": "api-keys create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/api-keys",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "api-keys list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/api-keys",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "api-keys revoke",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/api-keys/{key}",
+      "required": [
+        "org",
+        "key"
+      ]
+    },
+    {
+      "command": "billing checkout",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/billing/checkout",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing credit-history",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing/credits/history",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing credits",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing/credits",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing overview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing payments",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing/payments",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing top-up",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/billing/top-up",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing top-ups",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing/top-ups",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "billing usage-summary",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/billing/credits/usage-summary",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "campaigns analytics",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/analytics",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "campaigns events",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/events",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns leads",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/leads",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "campaigns pause",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/pause",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns progress",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/progress",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns resume",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/resume",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns sources",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/sources",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "campaigns start",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/start",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns workflow",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns workflow-update",
+      "destructive": false,
+      "method": "PUT",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "companies create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "companies delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}",
+      "required": [
+        "org",
+        "workspace",
+        "company"
+      ]
+    },
+    {
+      "command": "companies duplicates",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}/duplicates",
+      "required": [
+        "org",
+        "workspace",
+        "company"
+      ]
+    },
+    {
+      "command": "companies get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}",
+      "required": [
+        "org",
+        "workspace",
+        "company"
+      ]
+    },
+    {
+      "command": "companies list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "companies merge",
+      "destructive": true,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/merge",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "companies update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}",
+      "required": [
+        "org",
+        "workspace",
+        "company"
+      ]
+    },
+    {
+      "command": "connectors delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "connectors list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "connectors test",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/test",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "connectors update-display-name",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/display-name",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "connectors update-sender-profile",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/sender-profile",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "connectors update-settings",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/settings",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "contact-exports list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-exports",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-fields list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-fields",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-imports create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-imports",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-lists create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-lists delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}",
+      "required": [
+        "org",
+        "workspace",
+        "list"
+      ]
+    },
+    {
+      "command": "contact-lists list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-lists update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}",
+      "required": [
+        "org",
+        "workspace",
+        "list"
+      ]
+    },
+    {
+      "command": "contact-tags delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-tags list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contact-tags rename",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags/rename",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contacts create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contacts delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "command": "contacts get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "command": "contacts list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contacts merge",
+      "destructive": true,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/merge",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "contacts overview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/overview",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "command": "contacts update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "command": "copilot create-session",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "copilot post-message",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions/{session}/messages",
+      "required": [
+        "org",
+        "workspace",
+        "session"
+      ]
+    },
+    {
+      "command": "copilot sessions-get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions/{session}",
+      "required": [
+        "org",
+        "workspace",
+        "session"
+      ]
+    },
+    {
+      "command": "copilot sessions-list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "dashboard get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/dashboard",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "deals create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "deals delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}",
+      "required": [
+        "org",
+        "workspace",
+        "deal"
+      ]
+    },
+    {
+      "command": "deals forecast",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deal-forecast",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "deals get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}",
+      "required": [
+        "org",
+        "workspace",
+        "deal"
+      ]
+    },
+    {
+      "command": "deals list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "deals move",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}/move",
+      "required": [
+        "org",
+        "workspace",
+        "deal"
+      ]
+    },
+    {
+      "command": "deals update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals/{deal}",
+      "required": [
+        "org",
+        "workspace",
+        "deal"
+      ]
+    },
+    {
+      "command": "doctor",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/whoami",
+      "required": []
+    },
+    {
+      "command": "domains add",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/domains",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "domains list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/domains",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "domains remove",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/domains/{domain}",
+      "required": [
+        "org",
+        "domain"
+      ]
+    },
+    {
+      "command": "email-auth status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/email-auth",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "groups create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/groups",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "groups delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/groups/{group}",
+      "required": [
+        "org",
+        "group"
+      ]
+    },
+    {
+      "command": "groups list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/groups",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "groups update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/groups/{group}",
+      "required": [
+        "org",
+        "group"
+      ]
+    },
+    {
+      "command": "inbox approve-draft",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/approve",
+      "required": [
+        "org",
+        "workspace",
+        "email"
+      ]
+    },
+    {
+      "command": "inbox assign",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/assign",
+      "required": [
+        "org",
+        "workspace",
+        "thread"
+      ]
+    },
+    {
+      "command": "inbox bulk-read",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/bulk-read",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "inbox read",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/read",
+      "required": [
+        "org",
+        "workspace",
+        "thread"
+      ]
+    },
+    {
+      "command": "inbox reject-draft",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/reject",
+      "required": [
+        "org",
+        "workspace",
+        "email"
+      ]
+    },
+    {
+      "command": "inbox reply",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/reply",
+      "required": [
+        "org",
+        "workspace",
+        "thread"
+      ]
+    },
+    {
+      "command": "inbox thread",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}",
+      "required": [
+        "org",
+        "workspace",
+        "thread"
+      ]
+    },
+    {
+      "command": "inbox threads",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "invitations cancel",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/invitations/{invitation}",
+      "required": [
+        "org",
+        "invitation"
+      ]
+    },
+    {
+      "command": "invitations create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/invitations",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "invitations list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/invitations",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "kb add-sources",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}/sources",
+      "required": [
+        "org",
+        "workspace",
+        "kb"
+      ]
+    },
+    {
+      "command": "kb create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "kb delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}",
+      "required": [
+        "org",
+        "workspace",
+        "kb"
+      ]
+    },
+    {
+      "command": "kb get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}",
+      "required": [
+        "org",
+        "workspace",
+        "kb"
+      ]
+    },
+    {
+      "command": "kb list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "kb query",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}/query",
+      "required": [
+        "org",
+        "workspace",
+        "kb"
+      ]
+    },
+    {
+      "command": "kb update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}",
+      "required": [
+        "org",
+        "workspace",
+        "kb"
+      ]
+    },
+    {
+      "command": "learning activity",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/activity",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "learning auto-mode-state",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/auto-mode-state",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "learning graph",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/graph",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "learning outcomes",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/outcomes",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "learning overview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/overview",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "learning workspace-overview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/learning/overview",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "members list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/members",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "offerings create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/offerings",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "offerings delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/offerings/{offering}",
+      "required": [
+        "org",
+        "workspace",
+        "offering"
+      ]
+    },
+    {
+      "command": "offerings get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/offerings/{offering}",
+      "required": [
+        "org",
+        "workspace",
+        "offering"
+      ]
+    },
+    {
+      "command": "offerings list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/offerings",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "offerings update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/offerings/{offering}",
+      "required": [
+        "org",
+        "workspace",
+        "offering"
+      ]
+    },
+    {
+      "command": "organizations list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations",
+      "required": []
+    },
+    {
+      "command": "orgs list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations",
+      "required": []
+    },
+    {
+      "command": "pipelines get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/pipelines/{pipeline}",
+      "required": [
+        "org",
+        "workspace",
+        "pipeline"
+      ]
+    },
+    {
+      "command": "pipelines list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/pipelines",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "sequences create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "sequences delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "command": "sequences list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "sequences update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "command": "teams members",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/teams/members",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "tracking-domains create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "tracking-domains delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}",
+      "required": [
+        "org",
+        "workspace",
+        "domain"
+      ]
+    },
+    {
+      "command": "tracking-domains list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "tracking-domains verify",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}/verify",
+      "required": [
+        "org",
+        "workspace",
+        "domain"
+      ]
+    },
+    {
+      "command": "usage get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/teams/api-usage",
+      "required": [
+        "org"
+      ]
+    },
+    {
+      "command": "warmup status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/warmup",
+      "required": [
+        "org",
+        "workspace",
+        "connector"
+      ]
+    },
+    {
+      "command": "whoami",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/whoami",
+      "required": []
+    },
+    {
+      "command": "workspaces list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces",
+      "required": [
+        "org"
+      ]
+    }
+  ],
+  "global_flags": [
+    "--alert",
+    "--all",
+    "--api-key",
+    "--auto-approve",
+    "--base-url",
+    "--campaign",
+    "--company",
+    "--confirm",
+    "--connector",
+    "--contact",
+    "--data",
+    "--data-file",
+    "--days",
+    "--deal",
+    "--domain",
+    "--dry-run",
+    "--email",
+    "--group",
+    "--help",
+    "--idempotency-key",
+    "--invitation",
+    "--json",
+    "--kb",
+    "--key",
+    "--limit",
+    "--list",
+    "--no-wait",
+    "--offering",
+    "--org",
+    "--output",
+    "--page",
+    "--pipeline",
+    "--pretty",
+    "--profile",
+    "--query",
+    "--session",
+    "--template",
+    "--thread",
+    "--timeout",
+    "--wait",
+    "--workspace"
+  ],
+  "output": {
+    "default": "table_tty_json_pipe",
+    "errors": "json_stdout",
+    "exit_codes": {
+      "auth": 3,
+      "notFound": 4,
+      "ok": 0,
+      "rateLimited": 5,
+      "runtime": 1,
+      "usage": 2
+    },
+    "json": "compact_json_stdout",
+    "pretty": "pretty_json_stdout"
+  },
+  "package": {
+    "bin": {
+      "firstsales": "bin/firstsales.js"
+    },
+    "engines": {
+      "node": ">=20"
+    },
+    "name": "@firstsales.io/cli",
+    "version": "0.1.3"
+  },
+  "schema_version": "1.0.1-bootstrap"
+}
