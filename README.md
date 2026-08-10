@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Version](https://img.shields.io/badge/version-0.1.1-blue.svg)](https://www.npmjs.com/package/@firstsales.io/cli)
+[![Version](https://img.shields.io/badge/version-0.1.3-blue.svg)](https://www.npmjs.com/package/@firstsales.io/cli)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 122 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 128 commands. No runtime dependencies. Built for agent-safe automation.**
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -36,7 +36,8 @@
         SAFE BY DEFAULT
  ┌───────────────────────────────────────────────────────────────────────┐
  │ JSON output · explicit scopes · idempotency keys · dry-run previews   │
- │ destructive --confirm · stable exit codes · no raw/hashed key output  │
+ │ destructive --confirm · stable exit codes · no secret output except   │
+ │ api-keys create reveal-once rawKey                                    │
  └───────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -79,8 +80,8 @@ COMMAND FLOW:
 | JSON-first | Output defaults to machine-readable JSON for agents and scripts. |
 | Read before write | Agents should use `whoami`, `list`, and `get` before mutations. |
 | Explicit destructive actions | `DELETE` commands require `--confirm`. |
-| Retry-safe writes | Use `--idempotency-key` for imports, approvals, lifecycle actions, and other retryable writes. |
-| No secret output | Raw API keys, hashed keys, provider tokens, SMTP passwords, and connector secrets are not printed. |
+| Retry-safe writes | Use `--idempotency-key` for supported retryable mutations; never for `api-keys create`. |
+| No secret output | Only `api-keys create` prints the reveal-once `rawKey` once; hashed keys, provider tokens, SMTP passwords, and connector secrets are never printed. |
 | Stable public contract | Only `/api/v1` endpoints are supported. App-private routes are intentionally ignored. |
 
 ---
@@ -227,7 +228,7 @@ Profiles are useful on a developer machine. Prefer env vars for CI and agents.
 | `--pretty` | all commands | Emit formatted JSON. |
 | `--data '<json>'` | mutating commands | Provide a JSON request body. |
 | `--data-file <path>` | mutating commands | Read a JSON request body from disk. |
-| `--idempotency-key <key>` | retryable mutations | Send an idempotency key. |
+| `--idempotency-key <key>` | retryable mutations | Send an idempotency key; unsupported for `api-keys create` because raw keys are reveal-once. |
 | `--dry-run` | API commands | Print method, URL, and body without sending the request. |
 | `--confirm` | destructive commands | Required for destructive commands. |
 | `--output <json\|table\|tsv>` | all commands | Choose output format. Defaults to `table` on a TTY, `json` when piped. |
@@ -309,7 +310,7 @@ FirstSales Developer API keys are scoped and access-level aware.
 | --- | --- |
 | Destructive guard | Commands marked destructive stop unless `--confirm` is passed. |
 | Dry run | `--dry-run` previews the HTTP request without auth or network calls. |
-| Idempotency | `--idempotency-key` sends retry protection for supported mutations. |
+| Idempotency | `--idempotency-key` protects supported retryable mutations; `api-keys create` is excluded because raw keys are reveal-once. |
 | Redaction | API errors and identity output do not print raw or hashed keys. |
 | Unsupported surfaces | Signals and webhooks return `unsupported_operation` until public API support exists. |
 | Stable errors | Non-zero exits return JSON errors that agents can parse. |
@@ -321,7 +322,7 @@ FirstSales Developer API keys are scoped and access-level aware.
 2. Read org/workspace/resource state.
 3. Plan the smallest mutation.
 4. Use --dry-run when useful.
-5. Use --idempotency-key for retryable writes.
+5. Use --idempotency-key only for supported retryable mutations; never for api-keys create.
 6. Use --confirm only for intentional destructive commands.
 7. Re-read state and verify the result.
 ```
@@ -335,12 +336,17 @@ FirstSales Developer API keys are scoped and access-level aware.
 ```bash
 firstsales campaigns list --org org_123 --workspace ws_123 --json
 firstsales campaigns get --org org_123 --workspace ws_123 --campaign camp_123 --json
+firstsales campaigns start --org org_123 --workspace ws_123 --campaign camp_123 --data-file launch.json --json
 firstsales campaigns pause --org org_123 --workspace ws_123 --campaign camp_123 --json
 firstsales campaigns resume --org org_123 --workspace ws_123 --campaign camp_123 --json
 firstsales campaigns analytics --org org_123 --workspace ws_123 --campaign camp_123 --json
 ```
 
-Use this for campaign audits, status checks, lifecycle changes, reporting, and agent-driven campaign monitoring.
+`campaigns start` requires a JSON body containing `savedVersionId`, `readinessVersion`,
+`idempotencyKey`, and `confirmation`. Use `--dry-run` with the same body to inspect the
+tenant-bound request before execution.
+
+Use these commands for campaign audits, status checks, lifecycle changes, reporting, and agent-driven campaign monitoring.
 
 ### Contact Import and Cleanup
 
@@ -640,6 +646,7 @@ firstsales api-keys revoke --org org_123 --key old_key_123 --confirm --json
 | `Workspace API keys cannot access organization management endpoints` | Use an organization-level key with explicit org scopes. |
 | `destructive_confirmation_required` | Add `--confirm` only if the delete/revoke/cancel action is intentional. |
 | `unsupported_operation` | The surface is not part of the public Developer API yet. |
+| `missing_required_body` | Pass `--data` or `--data-file` with the required campaign launch evidence. |
 | JSON parse error for `--data` | Validate the JSON string or use `--data-file`. |
 
 ---

@@ -1,0 +1,23 @@
+{
+  "manifest_version": "1.0.1-bootstrap",
+  "generated_at": "2026-08-09",
+  "capability_ids": [
+    "auth.developer_identity.read",
+    "campaign.create"
+  ],
+  "consumers": {
+    "docs": "required",
+    "published_cli": "required"
+  },
+  "hashes": {
+    "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
+    "openapi_semantic_subset": "sha256:b4778ae1ebd1d84341af91a9720e56d3fb46e60912bd6b7280556695868a3a40",
+    "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
+    "cli_publish_contract": "sha256:bb636c58197da09807eabdaa8dd352f4ef90a3015309fed7ec0dc49d4f7c329e",
+    "proof_matrix_subset": "sha256:b3a88736581e4fcbe60d4934b346dc413bd4b5a5ec9577b8df1dbced4a67ab53",
+    "mcp_catalog": "sha256:986b83f06e72d3075df865f4c186b92428fbe19ef7c64e61a1d19b882585f278",
+    "mcp_auth": "sha256:42d875361ebda74056576ac9d0dd6d301d51e6b68640d137ad7cadf27ff59b28",
+    "mcp_grants": "sha256:ce9c7e55a94282892b29fff048e510990b5e269831d2faf14d656564a07c7c75",
+    "mcp_transport": "sha256:67509ca85b466ff28e118180e08c1da4e7fa9ea71a6bdd2be3808008ca5ac07d"
+  }
+}

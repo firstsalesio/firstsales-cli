@@ -1,7 +1,7 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
-const DEFAULT_BASE_URL = 'https://api.app.firstsales.io';
+export const DEFAULT_BASE_URL = 'https://api.app.firstsales.io';
 
 export async function loadConfig(flags, env) {
   const { data } = await readConfigFile(env);

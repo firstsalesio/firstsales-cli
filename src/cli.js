@@ -14,10 +14,30 @@ import { runCopilotAsk } from './copilot.js';
 
 const CLI_VERSION = '0.1.2';
 
+export const CLI_OUTPUT_CONTRACT = Object.freeze({
+  default: 'table_tty_json_pipe',
+  json: 'compact_json_stdout',
+  pretty: 'pretty_json_stdout',
+  errors: 'json_stdout',
+  exit_codes: EXIT,
+});
+
 export async function main(argv, env) {
   const parsed = parseArgs(argv);
   if (parsed.error) {
     writeOutput({ error: parsed.error }, parsed.flags);
+    return EXIT.usage;
+  }
+  if (parsed.flags.days !== undefined && parsed.positionals.join(' ') !== 'usage get') {
+    writeOutput(
+      {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message: '--days is only supported for usage get.',
+        },
+      },
+      parsed.flags
+    );
     return EXIT.usage;
   }
   // Best-effort, non-blocking: never awaited, never affects the exit code.
@@ -62,6 +82,19 @@ export async function main(argv, env) {
     );
     return EXIT.usage;
   }
+  if (command.label === 'api-keys create' && parsed.flags.idempotencyKey) {
+    writeOutput(
+      {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message:
+            '--idempotency-key is not supported for api-keys create because the raw key is reveal-once.',
+        },
+      },
+      parsed.flags
+    );
+    return EXIT.usage;
+  }
 
   const config = await loadConfig(parsed.flags, env);
   if (command.destructive && !parsed.flags.confirm) {
@@ -84,6 +117,19 @@ export async function main(argv, env) {
   const body = await readBody(parsed.flags);
   if (body?.error) {
     writeOutput({ error: body.error }, parsed.flags);
+    return EXIT.usage;
+  }
+  if (command.bodyRequired && body.value === undefined) {
+    writeOutput(
+      {
+        error: {
+          code: 'missing_required_body',
+          message:
+            'campaigns start requires --data or --data-file with savedVersionId, readinessVersion, idempotencyKey, and confirmation.',
+        },
+      },
+      parsed.flags
+    );
     return EXIT.usage;
   }
   if (parsed.flags.dryRun) {

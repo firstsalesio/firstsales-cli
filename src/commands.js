@@ -9,8 +9,8 @@ const command = (tokens, method, path, options = {}) => ({
 });
 const workspace = (tokens, method, path, options = {}) =>
   command(tokens, method, `${ws}${path}`, {
-    required: ['org', 'workspace', ...(options.required ?? [])],
     ...options,
+    required: ['org', 'workspace', ...(options.required ?? [])],
   });
 
 const COMMANDS = [
@@ -23,7 +23,10 @@ const COMMANDS = [
   workspace(['campaigns', 'create'], 'POST', '/campaigns'),
   workspace(['campaigns', 'get'], 'GET', '/campaigns/{campaign}', { required: ['campaign'] }),
   workspace(['campaigns', 'update'], 'PATCH', '/campaigns/{campaign}', { required: ['campaign'] }),
-  workspace(['campaigns', 'start'], 'POST', '/campaigns/{campaign}/actions/start', { required: ['campaign'] }),
+  workspace(['campaigns', 'start'], 'POST', '/campaigns/{campaign}/actions/start', {
+    required: ['campaign'],
+    bodyRequired: true,
+  }),
   workspace(['campaigns', 'pause'], 'POST', '/campaigns/{campaign}/actions/pause', { required: ['campaign'] }),
   workspace(['campaigns', 'resume'], 'POST', '/campaigns/{campaign}/actions/resume', { required: ['campaign'] }),
   workspace(['campaigns', 'progress'], 'GET', '/campaigns/{campaign}/progress', { required: ['campaign'] }),
@@ -55,12 +58,16 @@ const COMMANDS = [
   workspace(['connectors', 'list'], 'GET', '/connectors'),
   workspace(['connectors', 'delete'], 'DELETE', '/connectors/{connector}', { required: ['connector'], destructive: true }),
   workspace(['connectors', 'test'], 'POST', '/connectors/{connector}/test', { required: ['connector'] }),
+  workspace(['connectors', 'update-display-name'], 'PATCH', '/connectors/{connector}/display-name', { required: ['connector'] }),
+  workspace(['connectors', 'update-sender-profile'], 'PATCH', '/connectors/{connector}/sender-profile', { required: ['connector'] }),
+  workspace(['connectors', 'update-settings'], 'PATCH', '/connectors/{connector}/settings', { required: ['connector'] }),
   workspace(['kb', 'list'], 'GET', '/knowledge-bases'),
   workspace(['kb', 'create'], 'POST', '/knowledge-bases'),
   workspace(['kb', 'get'], 'GET', '/knowledge-bases/{kb}', { required: ['kb'] }),
   workspace(['kb', 'update'], 'PATCH', '/knowledge-bases/{kb}', { required: ['kb'] }),
   workspace(['kb', 'delete'], 'DELETE', '/knowledge-bases/{kb}', { required: ['kb'], destructive: true }),
   workspace(['kb', 'query'], 'POST', '/knowledge-bases/{kb}/query', { required: ['kb'] }),
+  workspace(['kb', 'add-sources'], 'POST', '/knowledge-bases/{kb}/sources', { required: ['kb'] }),
   workspace(['offerings', 'list'], 'GET', '/offerings'),
   workspace(['offerings', 'create'], 'POST', '/offerings'),
   workspace(['offerings', 'get'], 'GET', '/offerings/{offering}', { required: ['offering'] }),
@@ -134,8 +141,10 @@ const COMMANDS = [
   workspace(['teams', 'members'], 'GET', '/teams/members'),
   command(['usage', 'get'], 'GET', `${org}/teams/api-usage`, { required: ['org'] }),
   workspace(['dashboard', 'get'], 'GET', '/dashboard'),
+  workspace(['copilot', 'create-session'], 'POST', '/copilot/sessions'),
   workspace(['copilot', 'sessions-list'], 'GET', '/copilot/sessions'),
   workspace(['copilot', 'sessions-get'], 'GET', '/copilot/sessions/{session}', { required: ['session'] }),
+  workspace(['copilot', 'post-message'], 'POST', '/copilot/sessions/{session}/messages', { required: ['session'] }),
 ];
 
 const DEFERRED = new Set(['signals list', 'webhooks list']);
@@ -162,6 +171,7 @@ export function listCommands() {
     path: command.path,
     destructive: Boolean(command.destructive),
     required: command.required ?? [],
+    ...(command.bodyRequired ? { bodyRequired: true } : {}),
   }));
 }
 
@@ -177,10 +187,34 @@ export function buildRoute(command, flags, config) {
       };
     }
   }
+  if (flags.days !== undefined && command.label !== 'usage get') {
+    return {
+      error: {
+        code: 'unsupported_flag_for_command',
+        message: '--days is only supported for usage get.',
+      },
+    };
+  }
+  if (
+    command.label === 'usage get' &&
+    flags.days !== undefined &&
+    (!/^\d+$/.test(flags.days) || Number(flags.days) < 1 || Number(flags.days) > 90)
+  ) {
+    return {
+      error: {
+        code: 'invalid_flag_value',
+        message: '--days must be an integer from 1 to 90 for usage get.',
+      },
+    };
+  }
+  const route = command.path.replaceAll(/\{([^}]+)\}/g, (_, name) =>
+    encodeURIComponent(values[name])
+  );
   return {
-    route: command.path.replaceAll(/\{([^}]+)\}/g, (_, name) =>
-      encodeURIComponent(values[name])
-    ),
+    route:
+      command.label === 'usage get' && flags.days !== undefined
+        ? `${route}?${new URLSearchParams({ days: String(Number(flags.days)) })}`
+        : route,
   };
 }
 
