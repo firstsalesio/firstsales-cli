@@ -1581,10 +1581,18 @@
     "bin": {
       "firstsales": "bin/firstsales.js"
     },
+    "bugs": {
+      "url": "https://github.com/firstsalesio/firstsales-cli/issues"
+    },
     "engines": {
       "node": ">=20"
     },
+    "homepage": "https://developer.firstsales.io/cli-reference/introduction",
     "name": "@firstsales.io/cli",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/firstsalesio/firstsales-cli"
+    },
     "version": "0.1.4"
   },
   "schema_version": "1.0.1-bootstrap"

@@ -21,6 +21,14 @@
   "engines": {
     "node": ">=20"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/firstsalesio/firstsales-cli"
+  },
+  "homepage": "https://developer.firstsales.io/cli-reference/introduction",
+  "bugs": {
+    "url": "https://github.com/firstsalesio/firstsales-cli/issues"
+  },
   "keywords": [
     "firstsales",
     "cli",

@@ -44,6 +44,14 @@ test('generated publish contract matches the complete live public CLI package', 
     version: '0.1.4',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
+    repository: {
+      type: 'git',
+      url: 'https://github.com/firstsalesio/firstsales-cli',
+    },
+    homepage: 'https://developer.firstsales.io/cli-reference/introduction',
+    bugs: {
+      url: 'https://github.com/firstsalesio/firstsales-cli/issues',
+    },
   });
   const expectedCommands = listCommands()
     .map(
