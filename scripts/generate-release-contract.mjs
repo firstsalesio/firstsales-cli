@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { listCliFlags } from '../src/args.js';
 import { CLI_OUTPUT_CONTRACT } from '../src/cli.js';
-import { listCommands } from '../src/commands.js';
+import { listCommands, validatePublishedCommands } from '../src/commands.js';
 import { DEFAULT_BASE_URL } from '../src/config.js';
 import { AUTH_SCHEME } from '../src/http.js';
 
@@ -22,15 +22,34 @@ function canonicalize(value) {
 
 export async function buildReleaseContractText() {
   const packageJson = JSON.parse(await readFile(path.join(ROOT, 'package.json'), 'utf8'));
-  const commands = listCommands()
-    .map(({ command, method, path: route, required = [], destructive = false, bodyRequired }) => ({
+  const commands = validatePublishedCommands(
+    listCommands()
+    .map(
+      ({
+        command,
+        method,
+        path: route,
+        required = [],
+        destructive = false,
+        bodyRequired,
+        query,
+        capabilityId,
+        capabilityVersion,
+        openapi,
+      }) => ({
       command,
       method,
       path: route,
       required,
       destructive,
       ...(bodyRequired ? { bodyRequired: true } : {}),
-    }))
+      ...(query ? { query } : {}),
+      ...(capabilityId ? { capabilityId } : {}),
+      ...(capabilityVersion ? { capabilityVersion } : {}),
+      ...(openapi ? { openapi } : {}),
+    })
+    )
+  )
     .sort((left, right) => left.command.localeCompare(right.command));
 
   return `${JSON.stringify(

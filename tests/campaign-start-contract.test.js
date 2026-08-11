@@ -123,5 +123,9 @@ test('campaigns start publishes its required-body contract in the command regist
     destructive: false,
     required: ['org', 'workspace', 'campaign'],
     bodyRequired: true,
+    openapi: {
+      operationId: 'runCampaignAction',
+      pathParameterConstants: { action: 'start' },
+    },
   });
 });

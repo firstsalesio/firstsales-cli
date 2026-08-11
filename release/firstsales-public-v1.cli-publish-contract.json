@@ -10,12 +10,20 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/activities",
+      "query": [
+        "companyId",
+        "contactId",
+        "limit",
+        "page",
+        "type"
+      ],
       "required": [
         "org",
         "workspace"
       ]
     },
     {
+      "bodyRequired": true,
       "command": "activities log",
       "destructive": false,
       "method": "POST",
@@ -41,6 +49,12 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/alerts",
+      "query": [
+        "category",
+        "limit",
+        "severity",
+        "skip"
+      ],
       "required": [
         "org",
         "workspace"
@@ -58,6 +72,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "api-keys create",
       "destructive": false,
       "method": "POST",
@@ -71,6 +86,10 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/api-keys",
+      "query": [
+        "page",
+        "limit"
+      ],
       "required": [
         "org"
       ]
@@ -86,6 +105,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "billing checkout",
       "destructive": false,
       "method": "POST",
@@ -99,6 +119,14 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/billing/credits/history",
+      "query": [
+        "action",
+        "campaignId",
+        "from",
+        "limit",
+        "offset",
+        "to"
+      ],
       "required": [
         "org"
       ]
@@ -126,11 +154,16 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/billing/payments",
+      "query": [
+        "limit",
+        "page"
+      ],
       "required": [
         "org"
       ]
     },
     {
+      "bodyRequired": true,
       "command": "billing top-up",
       "destructive": false,
       "method": "POST",
@@ -144,6 +177,10 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/billing/top-ups",
+      "query": [
+        "limit",
+        "offset"
+      ],
       "required": [
         "org"
       ]
@@ -153,6 +190,11 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/billing/credits/usage-summary",
+      "query": [
+        "days",
+        "from",
+        "to"
+      ],
       "required": [
         "org"
       ]
@@ -162,6 +204,9 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/analytics",
+      "query": [
+        "range"
+      ],
       "required": [
         "org",
         "workspace",
@@ -169,6 +214,9 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "capabilityId": "campaign.create",
+      "capabilityVersion": "0.1.0",
       "command": "campaigns create",
       "destructive": false,
       "method": "POST",
@@ -183,6 +231,15 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/events",
+      "query": [
+        "since",
+        "until",
+        "severity",
+        "category",
+        "search",
+        "cursor",
+        "limit"
+      ],
       "required": [
         "org",
         "workspace",
@@ -216,6 +273,11 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns",
+      "query": [
+        "page",
+        "limit",
+        "status"
+      ],
       "required": [
         "org",
         "workspace"
@@ -225,6 +287,12 @@
       "command": "campaigns pause",
       "destructive": false,
       "method": "POST",
+      "openapi": {
+        "operationId": "runCampaignAction",
+        "pathParameterConstants": {
+          "action": "pause"
+        }
+      },
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/pause",
       "required": [
         "org",
@@ -247,6 +315,12 @@
       "command": "campaigns resume",
       "destructive": false,
       "method": "POST",
+      "openapi": {
+        "operationId": "runCampaignAction",
+        "pathParameterConstants": {
+          "action": "resume"
+        }
+      },
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/resume",
       "required": [
         "org",
@@ -270,6 +344,12 @@
       "command": "campaigns start",
       "destructive": false,
       "method": "POST",
+      "openapi": {
+        "operationId": "runCampaignAction",
+        "pathParameterConstants": {
+          "action": "start"
+        }
+      },
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/start",
       "required": [
         "org",
@@ -311,6 +391,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "companies create",
       "destructive": false,
       "method": "POST",
@@ -358,6 +439,10 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies",
+      "query": [
+        "page",
+        "limit"
+      ],
       "required": [
         "org",
         "workspace"
@@ -374,6 +459,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "companies update",
       "destructive": false,
       "method": "PATCH",
@@ -417,6 +503,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "connectors update-display-name",
       "destructive": false,
       "method": "PATCH",
@@ -428,6 +515,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "connectors update-sender-profile",
       "destructive": false,
       "method": "PATCH",
@@ -439,6 +527,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "connectors update-settings",
       "destructive": false,
       "method": "PATCH",
@@ -470,6 +559,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "contact-imports create",
       "destructive": false,
       "method": "POST",
@@ -552,6 +642,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "contacts create",
       "destructive": false,
       "method": "POST",
@@ -588,6 +679,20 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts",
+      "query": [
+        "page",
+        "limit",
+        "sortBy",
+        "sortOrder",
+        "search",
+        "status",
+        "source",
+        "tags",
+        "company",
+        "listId",
+        "verificationStatus",
+        "mobileOnly"
+      ],
       "required": [
         "org",
         "workspace"
@@ -662,6 +767,11 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions",
+      "query": [
+        "page",
+        "limit",
+        "status"
+      ],
       "required": [
         "org",
         "workspace"
@@ -678,6 +788,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "deals create",
       "destructive": false,
       "method": "POST",
@@ -724,12 +835,21 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/deals",
+      "query": [
+        "page",
+        "limit",
+        "stage",
+        "pipeline",
+        "owner",
+        "q"
+      ],
       "required": [
         "org",
         "workspace"
       ]
     },
     {
+      "bodyRequired": true,
       "command": "deals move",
       "destructive": false,
       "method": "POST",
@@ -741,6 +861,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "deals update",
       "destructive": false,
       "method": "PATCH",
@@ -759,6 +880,7 @@
       "required": []
     },
     {
+      "bodyRequired": true,
       "command": "domains add",
       "destructive": false,
       "method": "POST",
@@ -797,6 +919,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "groups create",
       "destructive": false,
       "method": "POST",
@@ -825,6 +948,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "groups update",
       "destructive": false,
       "method": "PATCH",
@@ -835,6 +959,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "inbox approve-draft",
       "destructive": false,
       "method": "POST",
@@ -878,6 +1003,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "inbox reject-draft",
       "destructive": false,
       "method": "POST",
@@ -889,6 +1015,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "inbox reply",
       "destructive": false,
       "method": "POST",
@@ -915,6 +1042,17 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads",
+      "query": [
+        "tab",
+        "senderConnectorId",
+        "campaignId",
+        "category",
+        "from",
+        "to",
+        "sort",
+        "page",
+        "limit"
+      ],
       "required": [
         "org",
         "workspace"
@@ -931,6 +1069,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "invitations create",
       "destructive": false,
       "method": "POST",
@@ -944,11 +1083,15 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/invitations",
+      "query": [
+        "status"
+      ],
       "required": [
         "org"
       ]
     },
     {
+      "bodyRequired": true,
       "command": "kb add-sources",
       "destructive": false,
       "method": "POST",
@@ -960,6 +1103,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "kb create",
       "destructive": false,
       "method": "POST",
@@ -1002,6 +1146,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "kb query",
       "destructive": false,
       "method": "POST",
@@ -1013,6 +1158,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "kb update",
       "destructive": false,
       "method": "PATCH",
@@ -1028,6 +1174,10 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/activity",
+      "query": [
+        "cursor",
+        "limit"
+      ],
       "required": [
         "org",
         "workspace",
@@ -1050,6 +1200,9 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/graph",
+      "query": [
+        "topN"
+      ],
       "required": [
         "org",
         "workspace",
@@ -1072,6 +1225,9 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/learning/overview",
+      "query": [
+        "segmentKey"
+      ],
       "required": [
         "org",
         "workspace",
@@ -1083,6 +1239,9 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/learning/overview",
+      "query": [
+        "segmentKey"
+      ],
       "required": [
         "org",
         "workspace"
@@ -1093,11 +1252,17 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/members",
+      "query": [
+        "search",
+        "page",
+        "limit"
+      ],
       "required": [
         "org"
       ]
     },
     {
+      "bodyRequired": true,
       "command": "offerings create",
       "destructive": false,
       "method": "POST",
@@ -1140,6 +1305,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "offerings update",
       "destructive": false,
       "method": "PATCH",
@@ -1238,6 +1404,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "tracking-domains create",
       "destructive": false,
       "method": "POST",
@@ -1284,6 +1451,9 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/teams/api-usage",
+      "query": [
+        "days"
+      ],
       "required": [
         "org"
       ]
@@ -1300,6 +1470,8 @@
       ]
     },
     {
+      "capabilityId": "auth.developer_identity.read",
+      "capabilityVersion": "0.1.0",
       "command": "whoami",
       "destructive": false,
       "method": "GET",
@@ -1317,16 +1489,22 @@
     }
   ],
   "global_flags": [
+    "--action",
     "--alert",
     "--all",
     "--api-key",
     "--auto-approve",
     "--base-url",
     "--campaign",
+    "--campaign-id",
+    "--category",
     "--company",
+    "--company-id",
     "--confirm",
     "--connector",
     "--contact",
+    "--contact-id",
+    "--cursor",
     "--data",
     "--data-file",
     "--days",
@@ -1334,6 +1512,7 @@
     "--domain",
     "--dry-run",
     "--email",
+    "--from",
     "--group",
     "--help",
     "--idempotency-key",
@@ -1343,19 +1522,44 @@
     "--key",
     "--limit",
     "--list",
+    "--list-id",
+    "--mobile-only",
     "--no-wait",
     "--offering",
+    "--offset",
     "--org",
     "--output",
+    "--owner",
     "--page",
     "--pipeline",
     "--pretty",
     "--profile",
+    "--q",
     "--query",
+    "--range",
+    "--search",
+    "--segment-key",
+    "--sender-connector-id",
     "--session",
+    "--severity",
+    "--since",
+    "--skip",
+    "--sort",
+    "--sort-by",
+    "--sort-order",
+    "--source",
+    "--stage",
+    "--status",
+    "--tab",
+    "--tags",
     "--template",
     "--thread",
     "--timeout",
+    "--to",
+    "--top-n",
+    "--type",
+    "--until",
+    "--verification-status",
     "--wait",
     "--workspace"
   ],
@@ -1381,7 +1585,7 @@
       "node": ">=20"
     },
     "name": "@firstsales.io/cli",
-    "version": "0.1.3"
+    "version": "0.1.4"
   },
   "schema_version": "1.0.1-bootstrap"
 }

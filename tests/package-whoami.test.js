@@ -187,4 +187,10 @@ test('whoami README stays aligned on the canonical effective production URL and 
   assert.match(readme, /https:\/\/api\.app\.firstsales\.io/);
   assert.match(readme, /Authorization: Bearer/);
   assert.match(readme, /firstsales whoami --json/);
+  assert.match(readme, /@firstsales\.io\/cli@0\.1\.4/);
+  assert.match(readme, /release\/firstsales-public-v1\.cli-publish-contract\.json/);
+  assert.match(readme, /release\/firstsales-public-v1\.release-manifest\.json/);
+  assert.match(readme, /trusted publishing/i);
+  assert.doesNotMatch(readme, /0\.1\.3/);
+  assert.doesNotMatch(readme, /unreleased/i);
 });

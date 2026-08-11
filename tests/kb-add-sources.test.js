@@ -65,6 +65,7 @@ test('kb add-sources is published after the existing Knowledge Base commands', a
     path: '/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases/{kb}/sources',
     destructive: false,
     required: ['org', 'workspace', 'kb'],
+    bodyRequired: true,
   });
   assert.deepEqual(
     commands.filter((entry) => entry.command.startsWith('kb ')).map((entry) => entry.command),

@@ -5,14 +5,12 @@ import { helpText, parseArgs } from './args.js';
 import { generateCompletion } from './completion.js';
 import { buildRoute, listCommands, resolveCommand } from './commands.js';
 import { loadConfig } from './config.js';
-import { buildUrl, fetchJson } from './http.js';
+import { buildUrl, CLI_VERSION, fetchJson } from './http.js';
 import { EXIT, exitCodeForStatus } from './exit-codes.js';
 import { render, resolveFormat } from './output.js';
 import { paginateAll } from './paginate.js';
 import { checkForUpdate } from './update-notice.js';
 import { runCopilotAsk } from './copilot.js';
-
-const CLI_VERSION = '0.1.2';
 
 export const CLI_OUTPUT_CONTRACT = Object.freeze({
   default: 'table_tty_json_pipe',
@@ -22,13 +20,53 @@ export const CLI_OUTPUT_CONTRACT = Object.freeze({
   exit_codes: EXIT,
 });
 
+const QUERY_FLAG_NAMES = Object.freeze([
+  'page',
+  'limit',
+  'days',
+  'status',
+  'search',
+  'range',
+  'since',
+  'until',
+  'from',
+  'to',
+  'severity',
+  'category',
+  'skip',
+  'cursor',
+  'action',
+  'offset',
+  'sortBy',
+  'sortOrder',
+  'source',
+  'tags',
+  'company',
+  'listId',
+  'verificationStatus',
+  'mobileOnly',
+  'stage',
+  'pipeline',
+  'owner',
+  'q',
+  'tab',
+  'senderConnectorId',
+  'campaignId',
+  'sort',
+  'topN',
+  'segmentKey',
+  'companyId',
+  'contactId',
+  'type',
+]);
+
 export async function main(argv, env) {
   const parsed = parseArgs(argv);
   if (parsed.error) {
     writeOutput({ error: parsed.error }, parsed.flags);
     return EXIT.usage;
   }
-  if (parsed.flags.days !== undefined && parsed.positionals.join(' ') !== 'usage get') {
+  if (parsed.flags.days !== undefined && isDaysUnsupportedBuiltin(parsed)) {
     writeOutput(
       {
         error: {
@@ -95,6 +133,43 @@ export async function main(argv, env) {
     );
     return EXIT.usage;
   }
+  if (parsed.flags.days !== undefined && !(command.query ?? []).includes('days')) {
+    writeOutput(
+      {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message: '--days is only supported for usage get.',
+        },
+      },
+      parsed.flags
+    );
+    return EXIT.usage;
+  }
+  const unsupportedQueryFlag = findUnsupportedQueryFlag(command, parsed.flags);
+  if (unsupportedQueryFlag) {
+    writeOutput(
+      {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message: `--${toFlagName(unsupportedQueryFlag)} is not supported for ${command.label}.`,
+        },
+      },
+      parsed.flags
+    );
+    return EXIT.usage;
+  }
+  if (parsed.flags.all && !supportsPagination(command)) {
+    writeOutput(
+      {
+        error: {
+          code: 'unsupported_flag_for_command',
+          message: `--all is only supported for paginated list commands, not ${command.label}.`,
+        },
+      },
+      parsed.flags
+    );
+    return EXIT.usage;
+  }
 
   const config = await loadConfig(parsed.flags, env);
   if (command.destructive && !parsed.flags.confirm) {
@@ -124,8 +199,7 @@ export async function main(argv, env) {
       {
         error: {
           code: 'missing_required_body',
-          message:
-            'campaigns start requires --data or --data-file with savedVersionId, readinessVersion, idempotencyKey, and confirmation.',
+          message: command.bodyRequiredMessage ?? `${command.label} requires --data or --data-file.`,
         },
       },
       parsed.flags
@@ -332,4 +406,37 @@ function apiKeyFailure() {
     status: 'fail',
     message: 'Set FIRSTSALES_API_KEY, pass --api-key, or select a profile with an apiKey.',
   };
+}
+
+function findUnsupportedQueryFlag(command, flags) {
+  const supported = new Set(command.query ?? []);
+  const required = new Set(command.required ?? []);
+  for (const name of QUERY_FLAG_NAMES) {
+    if (flags[name] === undefined) continue;
+    if (required.has(name)) continue;
+    if (supported.has(name)) continue;
+    return name;
+  }
+  return null;
+}
+
+function supportsPagination(command) {
+  const supported = new Set(command.query ?? []);
+  return command.method === 'GET' && supported.has('page') && supported.has('limit');
+}
+
+function toFlagName(name) {
+  return name.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
+}
+
+function isDaysUnsupportedBuiltin(parsed) {
+  const label = parsed.positionals.join(' ');
+  return (
+    parsed.flags.help ||
+    label === 'help' ||
+    label === 'commands' ||
+    parsed.positionals[0] === 'auth' ||
+    parsed.positionals[0] === 'completion' ||
+    parsed.positionals[0] === 'api'
+  );
 }

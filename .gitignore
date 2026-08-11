@@ -1,3 +1,6 @@
 node_modules/
 *.log
 firstsales-cli-*.tgz
+.claude/
+.preprgate/
+baseline/
