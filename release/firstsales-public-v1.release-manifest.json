@@ -67,7 +67,7 @@
     "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
     "openapi_semantic_subset": "sha256:b4778ae1ebd1d84341af91a9720e56d3fb46e60912bd6b7280556695868a3a40",
     "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
-    "cli_publish_contract": "sha256:7b91536db7eb31c4da8cd4e5172a17b2c688979bc471f651c61600f522c5995a",
+    "cli_publish_contract": "sha256:6261a38ab19841d064e4c16ca0c9d9550c1018bdd78ad54147ec65a6d05c8b10",
     "proof_matrix_subset": "sha256:b5d7b50aa4d7976798ed8d482fb7f93211ae4b9a978efa64c95855c4b3e3515f",
     "product_mcp_ledger_subset": "sha256:2ebcb941ddc4d5ebc268261fcd26a05ecba2a522f278af897daf016599586a7d",
     "product_mcp_openapi_subset": "sha256:07b71332ea4f665a1765e3b16b9155c49e0f653de95f2968d577617b53f355d1",

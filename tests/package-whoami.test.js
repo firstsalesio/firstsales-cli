@@ -10,6 +10,14 @@ test('package metadata publishes @firstsales.io/cli without committed npm auth',
 
   assert.equal(pkg.name, '@firstsales.io/cli');
   assert.equal(pkg.bin.firstsales, 'bin/firstsales.js');
+  assert.deepEqual(pkg.repository, {
+    type: 'git',
+    url: 'https://github.com/firstsalesio/firstsales-cli',
+  });
+  assert.equal(pkg.homepage, 'https://developer.firstsales.io/cli-reference/introduction');
+  assert.deepEqual(pkg.bugs, {
+    url: 'https://github.com/firstsalesio/firstsales-cli/issues',
+  });
 
   await assert.rejects(stat(path.join(cliDir, '.npmrc')), { code: 'ENOENT' });
   assert.doesNotMatch(JSON.stringify(pkg), new RegExp('npm' + '_' + '[a-z0-9]', 'i'));
