@@ -109,6 +109,7 @@ test('copilot primitive commands expose stable tenant requirements and family or
       path: '/api/v1/organizations/{org}/workspaces/{workspace}/copilot/sessions',
       destructive: false,
       required: ['org', 'workspace'],
+      query: ['page', 'limit', 'status'],
     },
     {
       command: 'copilot sessions-get',

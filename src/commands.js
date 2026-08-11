@@ -13,22 +13,140 @@ const workspace = (tokens, method, path, options = {}) =>
     required: ['org', 'workspace', ...(options.required ?? [])],
   });
 
-const COMMANDS = [
-  command(['whoami'], 'GET', '/api/v1/whoami'),
+const RELEASED_CAPABILITY_METADATA = Object.freeze({
+  whoami: {
+    capabilityId: 'auth.developer_identity.read',
+    capabilityVersion: '0.1.0',
+  },
+  'campaigns create': {
+    capabilityId: 'campaign.create',
+    capabilityVersion: '0.1.0',
+  },
+});
+
+const SPECIALIZED_OPERATION_BINDINGS = Object.freeze({
+  'campaigns start': {
+    operationId: 'runCampaignAction',
+    pathParameterConstants: { action: 'start' },
+  },
+  'campaigns pause': {
+    operationId: 'runCampaignAction',
+    pathParameterConstants: { action: 'pause' },
+  },
+  'campaigns resume': {
+    operationId: 'runCampaignAction',
+    pathParameterConstants: { action: 'resume' },
+  },
+});
+
+const BODY_REQUIRED_MESSAGES = Object.freeze({
+  'campaigns start':
+    'campaigns start requires --data or --data-file with savedVersionId, readinessVersion, idempotencyKey, and confirmation.',
+});
+
+const BODY_REQUIRED_COMMANDS = new Set([
+  'activities log',
+  'api-keys create',
+  'billing checkout',
+  'billing top-up',
+  'campaigns create',
+  'campaigns start',
+  'companies create',
+  'companies update',
+  'connectors update-display-name',
+  'connectors update-sender-profile',
+  'connectors update-settings',
+  'contact-imports create',
+  'contacts create',
+  'deals create',
+  'deals move',
+  'deals update',
+  'domains add',
+  'groups create',
+  'groups update',
+  'inbox approve-draft',
+  'inbox reject-draft',
+  'inbox reply',
+  'invitations create',
+  'kb add-sources',
+  'kb create',
+  'kb query',
+  'kb update',
+  'offerings create',
+  'offerings update',
+  'tracking-domains create',
+]);
+
+const QUERY_FLAGS_BY_COMMAND = Object.freeze({
+  'activities list': ['companyId', 'contactId', 'limit', 'page', 'type'],
+  'alerts list': ['category', 'limit', 'severity', 'skip'],
+  'api-keys list': ['page', 'limit'],
+  'billing credit-history': ['action', 'campaignId', 'from', 'limit', 'offset', 'to'],
+  'billing payments': ['limit', 'page'],
+  'billing top-ups': ['limit', 'offset'],
+  'billing usage-summary': ['days', 'from', 'to'],
+  'campaigns analytics': ['range'],
+  'campaigns events': ['since', 'until', 'severity', 'category', 'search', 'cursor', 'limit'],
+  'campaigns list': ['page', 'limit', 'status'],
+  'companies list': ['page', 'limit'],
+  'contacts list': [
+    'page',
+    'limit',
+    'sortBy',
+    'sortOrder',
+    'search',
+    'status',
+    'source',
+    'tags',
+    'company',
+    'listId',
+    'verificationStatus',
+    'mobileOnly',
+  ],
+  'copilot sessions-list': ['page', 'limit', 'status'],
+  'deals list': ['page', 'limit', 'stage', 'pipeline', 'owner', 'q'],
+  'inbox threads': [
+    'tab',
+    'senderConnectorId',
+    'campaignId',
+    'category',
+    'from',
+    'to',
+    'sort',
+    'page',
+    'limit',
+  ],
+  'invitations list': ['status'],
+  'learning activity': ['cursor', 'limit'],
+  'learning graph': ['topN'],
+  'learning overview': ['segmentKey'],
+  'learning workspace-overview': ['segmentKey'],
+  'members list': ['search', 'page', 'limit'],
+  'usage get': ['days'],
+});
+
+const COMMANDS = withParityMetadata([
+  command(['whoami'], 'GET', '/api/v1/whoami', RELEASED_CAPABILITY_METADATA.whoami),
   command(['doctor'], 'GET', '/api/v1/whoami', { doctor: true }),
   command(['orgs', 'list'], 'GET', '/api/v1/organizations'),
   command(['organizations', 'list'], 'GET', '/api/v1/organizations'),
   command(['workspaces', 'list'], 'GET', `${org}/workspaces`, { required: ['org'] }),
   workspace(['campaigns', 'list'], 'GET', '/campaigns'),
-  workspace(['campaigns', 'create'], 'POST', '/campaigns'),
+  workspace(['campaigns', 'create'], 'POST', '/campaigns', RELEASED_CAPABILITY_METADATA['campaigns create']),
   workspace(['campaigns', 'get'], 'GET', '/campaigns/{campaign}', { required: ['campaign'] }),
   workspace(['campaigns', 'update'], 'PATCH', '/campaigns/{campaign}', { required: ['campaign'] }),
   workspace(['campaigns', 'start'], 'POST', '/campaigns/{campaign}/actions/start', {
     required: ['campaign'],
-    bodyRequired: true,
+    openapi: SPECIALIZED_OPERATION_BINDINGS['campaigns start'],
   }),
-  workspace(['campaigns', 'pause'], 'POST', '/campaigns/{campaign}/actions/pause', { required: ['campaign'] }),
-  workspace(['campaigns', 'resume'], 'POST', '/campaigns/{campaign}/actions/resume', { required: ['campaign'] }),
+  workspace(['campaigns', 'pause'], 'POST', '/campaigns/{campaign}/actions/pause', {
+    required: ['campaign'],
+    openapi: SPECIALIZED_OPERATION_BINDINGS['campaigns pause'],
+  }),
+  workspace(['campaigns', 'resume'], 'POST', '/campaigns/{campaign}/actions/resume', {
+    required: ['campaign'],
+    openapi: SPECIALIZED_OPERATION_BINDINGS['campaigns resume'],
+  }),
   workspace(['campaigns', 'progress'], 'GET', '/campaigns/{campaign}/progress', { required: ['campaign'] }),
   workspace(['campaigns', 'analytics'], 'GET', '/campaigns/{campaign}/analytics', { required: ['campaign'] }),
   workspace(['campaigns', 'events'], 'GET', '/campaigns/{campaign}/events', { required: ['campaign'] }),
@@ -145,7 +263,7 @@ const COMMANDS = [
   workspace(['copilot', 'sessions-list'], 'GET', '/copilot/sessions'),
   workspace(['copilot', 'sessions-get'], 'GET', '/copilot/sessions/{session}', { required: ['session'] }),
   workspace(['copilot', 'post-message'], 'POST', '/copilot/sessions/{session}/messages', { required: ['session'] }),
-];
+]);
 
 const DEFERRED = new Set(['signals list', 'webhooks list']);
 
@@ -165,14 +283,112 @@ export function resolveCommand(positionals) {
 }
 
 export function listCommands() {
-  return COMMANDS.map((command) => ({
+  return validatePublishedCommands(
+    COMMANDS.map((command) => ({
     command: command.label,
     method: command.method,
     path: command.path,
     destructive: Boolean(command.destructive),
     required: command.required ?? [],
     ...(command.bodyRequired ? { bodyRequired: true } : {}),
-  }));
+    ...(command.query ? { query: command.query } : {}),
+    ...(command.capabilityId ? { capabilityId: command.capabilityId } : {}),
+    ...(command.capabilityVersion ? { capabilityVersion: command.capabilityVersion } : {}),
+    ...(command.openapi ? { openapi: command.openapi } : {}),
+  }))
+  );
+}
+
+export function validatePublishedCommands(commands) {
+  for (const command of commands) {
+    validateCapabilityMetadata(command);
+    validateQueryMetadata(command);
+    validateOpenApiMetadata(command);
+    validateSpecializedOperationBinding(command);
+  }
+  return commands;
+}
+
+function validateQueryMetadata(command) {
+  if (!command.query) return;
+  if (!Array.isArray(command.query) || command.query.length === 0) {
+    throw new Error(`${command.command} must publish a non-empty query parameter list`);
+  }
+
+  for (const name of command.query) {
+    if (typeof name !== 'string' || name.length === 0) {
+      throw new Error(`${command.command} has an invalid query parameter binding`);
+    }
+  }
+}
+
+function validateCapabilityMetadata(command) {
+  const hasCapabilityId = typeof command.capabilityId === 'string' && command.capabilityId.length > 0;
+  const hasCapabilityVersion =
+    typeof command.capabilityVersion === 'string' && command.capabilityVersion.length > 0;
+
+  if (hasCapabilityId !== hasCapabilityVersion) {
+    throw new Error(
+      `${command.command} must publish capabilityId and capabilityVersion together`
+    );
+  }
+}
+
+function validateOpenApiMetadata(command) {
+  if (!command.openapi) return;
+  if (typeof command.openapi.operationId !== 'string' || command.openapi.operationId.length === 0) {
+    throw new Error(`${command.command} must publish a non-empty openapi.operationId`);
+  }
+
+  const constants = command.openapi.pathParameterConstants;
+  if (constants === undefined) return;
+  if (!constants || Array.isArray(constants) || Object.keys(constants).length === 0) {
+    throw new Error(`${command.command} must publish constant path parameter bindings`);
+  }
+
+  for (const [name, value] of Object.entries(constants)) {
+    if (!name || typeof value !== 'string' || value.length === 0) {
+      throw new Error(`${command.command} has an invalid constant path parameter binding`);
+    }
+  }
+}
+
+function validateSpecializedOperationBinding(command) {
+  const expected = SPECIALIZED_OPERATION_BINDINGS[command.command];
+  if (!expected) return;
+
+  if (!command.openapi?.pathParameterConstants) {
+    throw new Error(`${command.command} must publish constant path parameter bindings`);
+  }
+  if (command.openapi.operationId !== expected.operationId) {
+    throw new Error(
+      `${command.command} must publish openapi.operationId ${expected.operationId}`
+    );
+  }
+
+  const actualKeys = Object.keys(command.openapi.pathParameterConstants).sort();
+  const expectedKeys = Object.keys(expected.pathParameterConstants).sort();
+  if (actualKeys.length !== expectedKeys.length || actualKeys.some((key, index) => key !== expectedKeys[index])) {
+    throw new Error(
+      `${command.command} must publish exactly the expected constant path parameter bindings`
+    );
+  }
+
+  for (const [name, value] of Object.entries(expected.pathParameterConstants)) {
+    if (command.openapi.pathParameterConstants[name] !== value) {
+      throw new Error(
+        `${command.command} must bind openapi path parameter ${name} to "${value}"`
+      );
+    }
+    if (command.path.includes(`{${name}}`)) {
+      throw new Error(`${command.command} must keep ${name} concrete in the command path`);
+    }
+    if (!command.path.includes(`/${value}`)) {
+      throw new Error(
+        `${command.command} must keep the concrete path segment "${value}" in the command path`
+      );
+    }
+  }
 }
 
 export function buildRoute(command, flags, config) {
@@ -187,7 +403,7 @@ export function buildRoute(command, flags, config) {
       };
     }
   }
-  if (flags.days !== undefined && command.label !== 'usage get') {
+  if (flags.days !== undefined && !(command.query ?? []).includes('days')) {
     return {
       error: {
         code: 'unsupported_flag_for_command',
@@ -207,15 +423,34 @@ export function buildRoute(command, flags, config) {
       },
     };
   }
-  const route = command.path.replaceAll(/\{([^}]+)\}/g, (_, name) =>
-    encodeURIComponent(values[name])
-  );
+  const route = command.path.replaceAll(/\{([^}]+)\}/g, (_, name) => encodeURIComponent(values[name]));
+  const query = new URLSearchParams();
+  const paginated = (command.query ?? []).includes('page') && (command.query ?? []).includes('limit');
+
+  for (const name of command.query ?? []) {
+    if (name === 'page') continue;
+    if (name === 'limit' && paginated) continue;
+    const value = flags[name];
+    if (value === undefined) continue;
+    if (name === 'days') {
+      query.set('days', String(Number(value)));
+      continue;
+    }
+    query.set(name, value);
+  }
+
   return {
-    route:
-      command.label === 'usage get' && flags.days !== undefined
-        ? `${route}?${new URLSearchParams({ days: String(Number(flags.days)) })}`
-        : route,
+    route: query.size ? `${route}?${query.toString()}` : route,
   };
+}
+
+function withParityMetadata(commands) {
+  return commands.map((entry) => ({
+    ...entry,
+    ...(BODY_REQUIRED_COMMANDS.has(entry.label) ? { bodyRequired: true } : {}),
+    ...(BODY_REQUIRED_MESSAGES[entry.label] ? { bodyRequiredMessage: BODY_REQUIRED_MESSAGES[entry.label] } : {}),
+    ...(QUERY_FLAGS_BY_COMMAND[entry.label] ? { query: QUERY_FLAGS_BY_COMMAND[entry.label] } : {}),
+  }));
 }
 
 function matches(tokens, positionals) {

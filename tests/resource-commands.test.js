@@ -302,6 +302,7 @@ test('commands registry exposes the three connector update operations with exact
     path: '/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/display-name',
     destructive: false,
     required: ['org', 'workspace', 'connector'],
+    bodyRequired: true,
   });
   assert.deepEqual(senderProfile, {
     command: 'connectors update-sender-profile',
@@ -309,6 +310,7 @@ test('commands registry exposes the three connector update operations with exact
     path: '/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/sender-profile',
     destructive: false,
     required: ['org', 'workspace', 'connector'],
+    bodyRequired: true,
   });
   assert.deepEqual(settings, {
     command: 'connectors update-settings',
@@ -316,6 +318,7 @@ test('commands registry exposes the three connector update operations with exact
     path: '/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/settings',
     destructive: false,
     required: ['org', 'workspace', 'connector'],
+    bodyRequired: true,
   });
 });
 

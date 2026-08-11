@@ -1,23 +1,81 @@
 {
-  "manifest_version": "1.0.1-bootstrap",
+  "schema_version": "2.0.0",
+  "bundle_id": "sha256:5925d6eb5be152ced553fb9de9782df3e9c77f5d7885eaffb35e2334e646d363",
+  "authorization_catalog_epoch": "sha256:d8ad7894c7cd5c2c302c3e36b19ca74b53ff91662c0a1ae12c7a0af92e2ae65f",
   "generated_at": "2026-08-09",
+  "release_ready": true,
   "capability_ids": [
+    "activity.list.inspect",
     "auth.developer_identity.read",
-    "campaign.create"
+    "billing.credit.balance",
+    "billing.credit.history.inspect",
+    "billing.usage.inspect",
+    "campaign.analytics.inspect",
+    "campaign.create",
+    "campaign.event.inspect",
+    "campaign.get",
+    "campaign.list",
+    "campaign.progress.inspect",
+    "campaign.workflow.inspect",
+    "company.get",
+    "company.list",
+    "connector.warmup.inspect",
+    "deal.get",
+    "deal.list",
+    "pipeline.get",
+    "team.member.inspect"
   ],
   "consumers": {
-    "docs": "required",
-    "published_cli": "required"
+    "docs": {
+      "required": true,
+      "capability_ids": [
+        "auth.developer_identity.read",
+        "campaign.create"
+      ]
+    },
+    "published_cli": {
+      "required": true,
+      "capability_ids": [
+        "auth.developer_identity.read",
+        "campaign.create"
+      ]
+    },
+    "product_mcp": {
+      "required": true,
+      "capability_ids": [
+        "activity.list.inspect",
+        "billing.credit.balance",
+        "billing.credit.history.inspect",
+        "billing.usage.inspect",
+        "campaign.analytics.inspect",
+        "campaign.event.inspect",
+        "campaign.get",
+        "campaign.list",
+        "campaign.progress.inspect",
+        "campaign.workflow.inspect",
+        "company.get",
+        "company.list",
+        "connector.warmup.inspect",
+        "deal.get",
+        "deal.list",
+        "pipeline.get",
+        "team.member.inspect"
+      ]
+    }
   },
   "hashes": {
     "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
     "openapi_semantic_subset": "sha256:b4778ae1ebd1d84341af91a9720e56d3fb46e60912bd6b7280556695868a3a40",
     "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
-    "cli_publish_contract": "sha256:bb636c58197da09807eabdaa8dd352f4ef90a3015309fed7ec0dc49d4f7c329e",
-    "proof_matrix_subset": "sha256:b3a88736581e4fcbe60d4934b346dc413bd4b5a5ec9577b8df1dbced4a67ab53",
-    "mcp_catalog": "sha256:986b83f06e72d3075df865f4c186b92428fbe19ef7c64e61a1d19b882585f278",
-    "mcp_auth": "sha256:42d875361ebda74056576ac9d0dd6d301d51e6b68640d137ad7cadf27ff59b28",
-    "mcp_grants": "sha256:ce9c7e55a94282892b29fff048e510990b5e269831d2faf14d656564a07c7c75",
-    "mcp_transport": "sha256:67509ca85b466ff28e118180e08c1da4e7fa9ea71a6bdd2be3808008ca5ac07d"
+    "cli_publish_contract": "sha256:7b91536db7eb31c4da8cd4e5172a17b2c688979bc471f651c61600f522c5995a",
+    "proof_matrix_subset": "sha256:b5d7b50aa4d7976798ed8d482fb7f93211ae4b9a978efa64c95855c4b3e3515f",
+    "product_mcp_ledger_subset": "sha256:2ebcb941ddc4d5ebc268261fcd26a05ecba2a522f278af897daf016599586a7d",
+    "product_mcp_openapi_subset": "sha256:07b71332ea4f665a1765e3b16b9155c49e0f653de95f2968d577617b53f355d1",
+    "product_mcp_proof_subset": "sha256:f82c8243e3d7b45176e21e377c1c41117b46bb5d42aac0610ba4a6ae7108b642",
+    "parity_report": "sha256:cc22bc572966d452eee9113ef3e1c37ff5d9f733f452c4d367a7f93707942774",
+    "mcp_catalog": "sha256:d710380a40d8d99247a58ea04d2d557180cd98a1c4cefbd74ed296d405ec538a",
+    "mcp_auth": "sha256:90453fcb0b20db5e6af9cb3e1a38e384a08924efb7e764afbed86bcdd954df97",
+    "mcp_grant_contract": "sha256:f184db38fd6b5a1f56e330bbcea4045ed4bee7e670c9c330658262f26f8b2457",
+    "mcp_transport": "sha256:1b1dd8999f1fa80d0cad4858729a924df0208d136ef48096c11f54917a713878"
   }
 }

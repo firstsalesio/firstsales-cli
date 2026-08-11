@@ -24,14 +24,18 @@ test('deals list/get/create/update/move/forecast route correctly', async () => {
     'GET',
     '/api/v1/organizations/org_123/workspaces/ws_123/deals/deal_1'
   );
-  await expectRoute(['deals', 'create', ...wsFlags], 'POST', '/api/v1/organizations/org_123/workspaces/ws_123/deals');
   await expectRoute(
-    ['deals', 'update', ...wsFlags, '--deal', 'deal_1'],
+    ['deals', 'create', ...wsFlags, '--data', '{"name":"Expansion"}'],
+    'POST',
+    '/api/v1/organizations/org_123/workspaces/ws_123/deals'
+  );
+  await expectRoute(
+    ['deals', 'update', ...wsFlags, '--deal', 'deal_1', '--data', '{"name":"Expansion"}'],
     'PATCH',
     '/api/v1/organizations/org_123/workspaces/ws_123/deals/deal_1'
   );
   await expectRoute(
-    ['deals', 'move', ...wsFlags, '--deal', 'deal_1'],
+    ['deals', 'move', ...wsFlags, '--deal', 'deal_1', '--data', '{"pipelineId":"pipeline_123","stageId":"stage_123"}'],
     'POST',
     '/api/v1/organizations/org_123/workspaces/ws_123/deals/deal_1/move'
   );
@@ -119,7 +123,11 @@ test('contact-fields list routes correctly', async () => {
 
 test('activities list/log route correctly', async () => {
   await expectRoute(['activities', 'list', ...wsFlags], 'GET', '/api/v1/organizations/org_123/workspaces/ws_123/activities');
-  await expectRoute(['activities', 'log', ...wsFlags], 'POST', '/api/v1/organizations/org_123/workspaces/ws_123/activities');
+  await expectRoute(
+    ['activities', 'log', ...wsFlags, '--data', '{"type":"note","description":"Followed up"}'],
+    'POST',
+    '/api/v1/organizations/org_123/workspaces/ws_123/activities'
+  );
 });
 
 test('inbox assign and bulk-read route correctly', async () => {

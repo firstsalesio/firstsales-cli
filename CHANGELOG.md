@@ -1,5 +1,12 @@
 # Changelog
 
+## [Unreleased] — 0.1.4 target
+
+### Fixes
+
+- Runtime update notices and HTTP User-Agent headers now read one version exported from package metadata, preventing installed-version drift.
+- The generated publish contract now carries the complete query, request-body, capability, and OpenAPI specialization metadata used for Product MCP parity.
+
 ## 0.1.3
 
 ### Highlights

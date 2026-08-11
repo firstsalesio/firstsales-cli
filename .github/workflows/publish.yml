@@ -1,0 +1,150 @@
+name: Publish npm package
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: npm-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out the tagged release
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up exact Node.js runtime
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22.23.1
+          registry-url: https://registry.npmjs.org
+
+      - name: Pin npm with trusted-publishing support
+        run: |
+          npm install --global npm@11.6.4 --ignore-scripts
+          test "$(npm --version)" = "11.6.4"
+
+      - name: Verify immutable release inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REQUIRE_SIGNED_RELEASE_TAGS: ${{ vars.REQUIRE_SIGNED_RELEASE_TAGS }}
+        run: |
+          set -euo pipefail
+          test "$GITHUB_REF_TYPE" = "tag"
+          PACKAGE_NAME="$(node -p "require('./package.json').name")"
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          TAG="v$PACKAGE_VERSION"
+          test "$GITHUB_REF_NAME" = "$TAG"
+          test "$(git cat-file -t "refs/tags/$TAG")" = "tag"
+          if [ "${REQUIRE_SIGNED_RELEASE_TAGS:-false}" = "true" ]; then
+            TAG_OBJECT="$(git rev-parse "refs/tags/$TAG^{tag}")"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/git/tags/$TAG_OBJECT" --jq '.verification.verified')" = "true"
+          fi
+          TAG_HEAD="$(git rev-parse "refs/tags/$TAG^{commit}")"
+          CURRENT_HEAD="$(git rev-parse HEAD)"
+          test "$TAG_HEAD" = "$CURRENT_HEAD"
+          test "$(git rev-parse "$GITHUB_SHA^{commit}")" = "$CURRENT_HEAD"
+          test -z "$(git status --porcelain)"
+
+          npm run release-contract:check
+          npm test
+
+          node --input-type=module <<'NODE'
+          import { createHash } from 'node:crypto';
+          import { readFileSync } from 'node:fs';
+
+          const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+          const contractText = readFileSync(
+            'release/firstsales-public-v1.cli-publish-contract.json',
+            'utf8'
+          );
+          const contract = JSON.parse(contractText);
+          const manifest = JSON.parse(
+            readFileSync('release/firstsales-public-v1.release-manifest.json', 'utf8')
+          );
+          const contractHash = `sha256:${createHash('sha256').update(contractText).digest('hex')}`;
+
+          if (packageJson.version !== contract.package?.version) {
+            throw new Error('Package and CLI publish contract versions differ.');
+          }
+          if (packageJson.name !== contract.package?.name) {
+            throw new Error('Package and CLI publish contract names differ.');
+          }
+          if (manifest.schema_version !== '2.0.0') {
+            throw new Error('Release manifest schema_version must be 2.0.0.');
+          }
+          if (typeof manifest.release_ready !== 'boolean') {
+            throw new Error('Release manifest must declare release_ready.');
+          }
+          if (manifest.hashes?.cli_publish_contract !== contractHash) {
+            throw new Error('Release manifest does not bind the exact CLI publish contract.');
+          }
+          if (manifest.consumers?.published_cli?.required !== true) {
+            throw new Error('Release manifest must require the published CLI consumer.');
+          }
+          NODE
+
+          REMOTE_VERSIONS="$(npm view "$PACKAGE_NAME" versions --json)"
+          node --input-type=module - "$PACKAGE_NAME" "$PACKAGE_VERSION" "$REMOTE_VERSIONS" <<'NODE'
+          const [, , packageName, packageVersion, remoteVersions] = process.argv;
+          const versions = JSON.parse(remoteVersions);
+          if (!Array.isArray(versions)) throw new Error('npm returned an invalid version list.');
+          if (versions.includes(packageVersion)) {
+            throw new Error(`${packageName}@${packageVersion} is already immutable on npm.`);
+          }
+          NODE
+
+          test -z "$(git status --porcelain)"
+
+      - name: Pack the exact tested package
+        id: pack
+        run: |
+          set -euo pipefail
+          PACK_RESULT="$RUNNER_TEMP/npm-pack.json"
+          npm pack --ignore-scripts --json > "$PACK_RESULT"
+          TARBALL="$(node --input-type=module - "$PACK_RESULT" <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const packageJson = JSON.parse(readFileSync('package.json', 'utf8'));
+          const result = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+          if (!Array.isArray(result) || result.length !== 1) {
+            throw new Error('npm pack must produce exactly one tarball.');
+          }
+          if (result[0].name !== packageJson.name || result[0].version !== packageJson.version) {
+            throw new Error('Packed package identity differs from package.json.');
+          }
+          process.stdout.write(result[0].filename);
+          NODE
+          )"
+          test -f "$TARBALL"
+          printf 'tarball=%s\n' "$TARBALL" >> "$GITHUB_OUTPUT"
+
+      - name: Publish the verified tarball
+        env:
+          NPM_CONFIG_LOGLEVEL: warn
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          TRUSTED_PUBLISHING: ${{ vars.NPM_TRUSTED_PUBLISHING }}
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        run: |
+          set -euo pipefail
+          if [ "${TRUSTED_PUBLISHING:-false}" = "true" ]; then
+            unset NODE_AUTH_TOKEN NPM_TOKEN
+          else
+            if [ -z "${NPM_TOKEN:-}" ]; then
+              echo "::error::npm authentication secret is required when trusted publishing is not enabled."
+              exit 1
+            fi
+            export NODE_AUTH_TOKEN="$NPM_TOKEN"
+            unset NPM_TOKEN
+          fi
+          npm publish "$TARBALL" --provenance --access public --ignore-scripts
