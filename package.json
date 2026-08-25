@@ -11,7 +11,11 @@
     "release",
     "scripts",
     "src",
-    "README.md"
+    "README.md",
+    "AGENTS.md",
+    "plugin.json",
+    "mcp.json",
+    "skills"
   ],
   "scripts": {
     "release-contract:check": "node scripts/generate-release-contract.mjs --check",
