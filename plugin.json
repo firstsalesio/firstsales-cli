@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "firstsales-public-assets",
+  "version": "0.1.4",
+  "description": "Public agent assets for the FirstSales CLI, Developer API, and Product MCP.",
+  "author": {
+    "name": "FirstSales",
+    "url": "https://firstsales.io"
+  },
+  "homepage": "https://developer.firstsales.io/agents/introduction",
+  "repository": "https://github.com/firstsalesio/firstsales-cli",
+  "license": "UNLICENSED",
+  "keywords": [
+    "firstsales",
+    "cli",
+    "developer-api",
+    "mcp",
+    "agent-skills"
+  ]
+}

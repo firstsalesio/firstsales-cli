@@ -626,6 +626,17 @@ The CLI intentionally returns `unsupported_operation` for public surfaces that a
 
 ## Examples for AI Agents
 
+Public agent assets for this package live in:
+
+- [`plugin.json`](plugin.json)
+- [`mcp.json`](mcp.json)
+- [`AGENTS.md`](AGENTS.md)
+- [`skills/firstsales-cli/SKILL.md`](skills/firstsales-cli/SKILL.md)
+- [`skills/firstsales-developer-api/SKILL.md`](skills/firstsales-developer-api/SKILL.md)
+- [`skills/firstsales-product-mcp/SKILL.md`](skills/firstsales-product-mcp/SKILL.md)
+
+The bundled MCP configuration points at the canonical Product MCP endpoint `https://api.app.firstsales.io/mcp` and keeps skill guidance aligned with the public CLI, Developer API, and MCP docs shipped on `developer.firstsales.io`.
+
 ### Inspect Campaign Health
 
 ```bash
