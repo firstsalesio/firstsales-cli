@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { runCli, startApi } from './helpers.js';
+import { CLI_VERSION } from '../src/http.js';
 
 test('commands --json exposes the command registry for docs', async () => {
   const result = await runCli(['commands', '--json']);
@@ -441,9 +442,39 @@ test('--dry-run previews a request without requiring auth or calling the API', a
       dryRun: {
         method: 'DELETE',
         url: `${api.url}/api/v1/organizations/org_123/workspaces/ws_123/contacts/contact_123`,
+        headers: {
+          accept: 'application/json',
+          authorization: 'Bearer [missing]',
+          'user-agent': `@firstsales.io/cli/${CLI_VERSION}`,
+        },
       },
     });
     assert.equal(api.requests.length, 0);
+  } finally {
+    await api.close();
+  }
+});
+
+test('named command --dry-run prints redacted headers and sends no request', async () => {
+  const api = await startApi(async () => ({ status: 200, body: { ok: true } }));
+  const key = `fs-key-${'b'.repeat(8)}${'s'.repeat(40)}`;
+  try {
+    const result = await runCli(
+      [
+        'contacts', 'create', '--json', '--dry-run',
+        '--base-url', api.url, '--org', 'org_123', '--workspace', 'ws_123',
+        '--data', '{"email":"a@example.com"}',
+      ],
+      { FIRSTSALES_API_KEY: key }
+    );
+    assert.equal(result.code, 0, result.stderr);
+    assert.equal(api.requests.length, 0);
+    assert.ok(!result.stdout.includes(key), 'full key leaked');
+    const { dryRun } = JSON.parse(result.stdout);
+    assert.equal(dryRun.method, 'POST');
+    assert.deepEqual(dryRun.body, { email: 'a@example.com' });
+    assert.equal(dryRun.headers.authorization, 'Bearer fs-key-bbbbbbbb…[redacted]');
+    assert.equal(dryRun.headers['content-type'], 'application/json');
   } finally {
     await api.close();
   }

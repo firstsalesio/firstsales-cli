@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.4-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.5-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 128 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** this checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.4`. npm publication is a separate step: it happens only after a signed `v0.1.4` tag runs the publish workflow.
+**Release status:** `0.1.4` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.5`, which is published only after a signed `v0.1.5` tag runs the publish workflow.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -96,10 +96,10 @@ COMMAND FLOW:
 npm install -g @firstsales.io/cli
 ```
 
-Upgrade to the exact `0.1.4` package after the publish workflow has completed:
+Upgrade to the exact `0.1.5` package after the publish workflow has completed:
 
 ```bash
-npm install -g @firstsales.io/cli@0.1.4
+npm install -g @firstsales.io/cli@0.1.5
 ```
 
 Package page:
@@ -249,7 +249,7 @@ Profiles are useful on a developer machine. Prefer env vars for CI and agents.
 | `--data '<json>'` | mutating commands | Provide a JSON request body. |
 | `--data-file <path>` | mutating commands | Read a JSON request body from disk. |
 | `--idempotency-key <key>` | retryable mutations | Send an idempotency key; unsupported for `api-keys create` because raw keys are reveal-once. |
-| `--dry-run` | API commands | Print method, URL, and body without sending the request. |
+| `--dry-run` | API commands and `api` | Print method, URL, redacted headers, and body without sending the request. |
 | `--confirm` | destructive commands | Required for destructive commands. |
 | `--output <json\|table\|tsv>` | all commands | Choose output format. Defaults to `table` on a TTY, `json` when piped. |
 | `--page <n>` / `--limit <n>` | paginated list commands | Page through results manually when the underlying public API exposes pagination. |
@@ -730,8 +730,8 @@ Developer docs are hosted from `firstsalesio/docs` and are prepared for `develop
 
 ## Release and Verification
 
-Publishing is not implied by the version number alone. The `0.1.4` source contract
-becomes an npm release only after a signed `v0.1.4` tag triggers
+Publishing is not implied by the version number alone. The `0.1.5` source contract
+becomes an npm release only after a signed `v0.1.5` tag triggers
 `.github/workflows/publish.yml`.
 
 That workflow verifies that the tag matches `package.json`, reruns

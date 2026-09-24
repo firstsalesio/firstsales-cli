@@ -1,6 +1,13 @@
 # Changelog
 
-## [Unreleased] — 0.1.4 target
+## 0.1.5
+
+### Fixes
+
+- `firstsales api <METHOD> <path> --dry-run` no longer sends the request. It prints the method, URL, headers and body and exits without any network call.
+- Dry-run output for every command now includes the request headers. The API key is redacted to its public `fs-key-` prefix (or `[redacted]` / `[missing]`), so the full key never prints.
+
+## 0.1.4
 
 ### Fixes
 

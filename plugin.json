@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "firstsales-public-assets",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Public agent assets for the FirstSales CLI, Developer API, and Product MCP.",
   "author": {
     "name": "FirstSales",
