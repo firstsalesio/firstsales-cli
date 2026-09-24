@@ -41,7 +41,7 @@ test('generated publish contract matches the complete live public CLI package', 
   assert.equal(actual, expected);
   assert.deepEqual(contract.package, {
     name: '@firstsales.io/cli',
-    version: '0.1.4',
+    version: '0.1.5',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
     repository: {

@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { listCommands } from '../src/commands.js';
+import { CLI_VERSION } from '../src/http.js';
 import { runCli, startApi } from './helpers.js';
 
 const launchBody = {
@@ -68,6 +69,12 @@ test('campaigns start dry-run preserves tenant context and the complete launch b
     dryRun: {
       method: 'POST',
       url: 'https://api.app.firstsales.io/api/v1/organizations/org_123/workspaces/ws_123/campaigns/campaign_123/actions/start',
+      headers: {
+        accept: 'application/json',
+        authorization: 'Bearer [missing]',
+        'user-agent': `@firstsales.io/cli/${CLI_VERSION}`,
+        'content-type': 'application/json',
+      },
       body: launchBody,
     },
   });

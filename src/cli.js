@@ -1,11 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { authLogin, authLogout, authStatus } from './auth.js';
-import { runApiPassthrough } from './api-passthrough.js';
+import { parseApiArgs, runApiPassthrough } from './api-passthrough.js';
 import { helpText, parseArgs } from './args.js';
 import { generateCompletion } from './completion.js';
 import { buildRoute, listCommands, resolveCommand } from './commands.js';
 import { loadConfig } from './config.js';
-import { buildUrl, CLI_VERSION, fetchJson } from './http.js';
+import { buildRequestHeaders, buildUrl, CLI_VERSION, fetchJson, redactHeaders } from './http.js';
 import { EXIT, exitCodeForStatus } from './exit-codes.js';
 import { render, resolveFormat } from './output.js';
 import { paginateAll } from './paginate.js';
@@ -207,16 +207,7 @@ export async function main(argv, env) {
     return EXIT.usage;
   }
   if (parsed.flags.dryRun) {
-    writeOutput(
-      {
-        dryRun: {
-          method: command.method,
-          url: buildUrl(config.baseUrl, route.route),
-          ...(body.value !== undefined ? { body: body.value } : {}),
-        },
-      },
-      parsed.flags
-    );
+    writeOutput(dryRunPreview(config, command.method, route.route, body.value), parsed.flags);
     return EXIT.ok;
   }
   if (!config.apiKey) {
@@ -316,15 +307,36 @@ async function runAuth(positionals, flags, env) {
   return EXIT.ok;
 }
 
+// Dry-run never touches the network: same shape for named commands and `api`.
+function dryRunPreview(config, method, route, body) {
+  return {
+    dryRun: {
+      method,
+      url: buildUrl(config.baseUrl, route),
+      headers: redactHeaders(buildRequestHeaders(config, { body })),
+      ...(body !== undefined ? { body } : {}),
+    },
+  };
+}
+
 async function runApi(positionals, flags, env) {
   const config = await loadConfig(flags, env);
-  if (!config.apiKey) {
-    writeOutput(missingApiKey(), flags);
-    return EXIT.usage;
-  }
   const body = await readBody(flags);
   if (body?.error) {
     writeOutput({ error: body.error }, flags);
+    return EXIT.usage;
+  }
+  if (flags.dryRun) {
+    const parsed = parseApiArgs(positionals, flags);
+    if (parsed.error) {
+      writeOutput({ error: parsed.error }, flags);
+      return EXIT.usage;
+    }
+    writeOutput(dryRunPreview(config, parsed.method, parsed.route, body.value), flags);
+    return EXIT.ok;
+  }
+  if (!config.apiKey) {
+    writeOutput(missingApiKey(), flags);
     return EXIT.usage;
   }
   const result = await runApiPassthrough(config, positionals, flags, body.value);
