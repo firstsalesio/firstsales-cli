@@ -6,11 +6,9 @@ export const CLI_VERSION = pkg.version;
 export const AUTH_SCHEME = 'Bearer';
 
 export function buildRequestHeaders(config, request) {
-  const headers = {
-    accept: 'application/json',
-    authorization: `${AUTH_SCHEME} ${config.apiKey}`,
-    'user-agent': `@firstsales.io/cli/${CLI_VERSION}`,
-  };
+  const headers = { accept: 'application/json' };
+  if (config.apiKey) headers.authorization = `${AUTH_SCHEME} ${config.apiKey}`;
+  headers['user-agent'] = `@firstsales.io/cli/${CLI_VERSION}`;
   if (config.idempotencyKey) headers['idempotency-key'] = config.idempotencyKey;
   if (request.body !== undefined) headers['content-type'] = 'application/json';
   return headers;
@@ -21,9 +19,9 @@ export function buildRequestHeaders(config, request) {
 const PUBLIC_KEY_PREFIX = /^fs-key-[A-Za-z0-9_-]{8}/;
 
 export function redactHeaders(headers) {
-  const key = headers.authorization.slice(AUTH_SCHEME.length + 1);
+  const key = headers.authorization?.slice(AUTH_SCHEME.length + 1);
   let masked = '[redacted]';
-  if (!key || key === 'undefined') masked = '[missing]';
+  if (!key) masked = '[missing]';
   else if (key.length > 23 && PUBLIC_KEY_PREFIX.test(key)) masked = `${key.slice(0, 15)}…[redacted]`;
   return { ...headers, authorization: `${AUTH_SCHEME} ${masked}` };
 }
