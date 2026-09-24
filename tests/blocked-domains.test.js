@@ -135,3 +135,15 @@ test('unexpected extra positionals are rejected', async () => {
     assert.equal(api.requests.length, 0);
   });
 });
+
+test('a dot-segment domain is rejected instead of changing the route', async () => {
+  await withApi({ status: 200, body: {} }, async (api) => {
+    for (const domain of ['.', '..']) {
+      const result = await runCli(['blocked-domains', 'remove', domain, ...SCOPE, '--campaign', 'camp_1'], envFor(api));
+
+      assert.equal(result.code, 2);
+      assert.equal(JSON.parse(result.stdout).error.code, 'invalid_flag_value');
+    }
+    assert.equal(api.requests.length, 0);
+  });
+});

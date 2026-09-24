@@ -8,6 +8,10 @@
 - `campaigns workflow update <campaign> --include-list <id> --sender <id>` sets a campaign's include lists and sender Email Connectors with one PATCH. Both flags repeat. `--dry-run` previews the request.
 - `blocked-domains list|add|remove` manages workspace Blocked Domains. Add `--campaign <id>` to manage one campaign's Blocked Domains. `add` takes domains as arguments or a `{ "domains": [...] }` body through `--data`/`--data-file`, and passes `--idempotency-key` through unchanged.
 
+### Fixes
+
+- A path value of `.` or `..` (for example `--domain ..`) is now rejected. URL parsing used to collapse it and send the request to a different route.
+
 ## 0.1.5
 
 ### Fixes

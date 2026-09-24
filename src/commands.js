@@ -491,6 +491,19 @@ export function buildRoute(command, flags, config) {
       },
     };
   }
+  // URL parsing collapses `.`/`..` path segments (even percent-encoded), which
+  // would send the request to a different route.
+  const dotSegment = (command.path.match(/\{([^}]+)\}/g) ?? [])
+    .map((param) => param.slice(1, -1))
+    .find((name) => values[name] === '.' || values[name] === '..');
+  if (dotSegment) {
+    return {
+      error: {
+        code: 'invalid_flag_value',
+        message: `--${dash(dotSegment)} cannot be "${values[dotSegment]}".`,
+      },
+    };
+  }
   const route = command.path.replaceAll(/\{([^}]+)\}/g, (_, name) => encodeURIComponent(values[name]));
   const query = new URLSearchParams();
   const paginated = (command.query ?? []).includes('page') && (command.query ?? []).includes('limit');
