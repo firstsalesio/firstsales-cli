@@ -3,7 +3,7 @@ import { authLogin, authLogout, authStatus } from './auth.js';
 import { parseApiArgs, runApiPassthrough } from './api-passthrough.js';
 import { helpText, parseArgs } from './args.js';
 import { generateCompletion } from './completion.js';
-import { buildRoute, listCommands, resolveCommand } from './commands.js';
+import { buildRoute, commandInput, listCommands, resolveCommand } from './commands.js';
 import { loadConfig } from './config.js';
 import { buildRequestHeaders, buildUrl, CLI_VERSION, fetchJson, redactHeaders } from './http.js';
 import { EXIT, exitCodeForStatus } from './exit-codes.js';
@@ -103,7 +103,7 @@ export async function main(argv, env) {
     return runCopilotAsk(parsed.positionals[2] ?? '', parsed.flags, config);
   }
 
-  const command = resolveCommand(parsed.positionals);
+  const command = resolveCommand(parsed.positionals, parsed.flags);
   if (command?.deferred) {
     writeOutput({ error: command.error }, parsed.flags);
     return EXIT.usage;
@@ -120,6 +120,12 @@ export async function main(argv, env) {
     );
     return EXIT.usage;
   }
+  const input = commandInput(command, parsed.positionals, parsed.flags);
+  if (input.error) {
+    writeOutput({ error: input.error }, parsed.flags);
+    return EXIT.usage;
+  }
+  parsed.flags = input.flags;
   if (command.label === 'api-keys create' && parsed.flags.idempotencyKey) {
     writeOutput(
       {
@@ -193,6 +199,16 @@ export async function main(argv, env) {
   if (body?.error) {
     writeOutput({ error: body.error }, parsed.flags);
     return EXIT.usage;
+  }
+  if (input.body !== undefined) {
+    if (body.value !== undefined) {
+      writeOutput(
+        { error: { code: 'ambiguous_body', message: 'Give the body as arguments/flags or --data/--data-file, not both.' } },
+        parsed.flags
+      );
+      return EXIT.usage;
+    }
+    body.value = input.body;
   }
   if (command.bodyRequired && body.value === undefined) {
     writeOutput(

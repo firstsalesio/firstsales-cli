@@ -10,7 +10,8 @@ const AUTHORITY_URL = new URL(
   '../../../../worktrees/firstsales-outreach-backend-product-mcp-parity/openapi/firstsales-public-v1.json',
   import.meta.url
 );
-const AUTHORITY_PATH = fileURLToPath(AUTHORITY_URL);
+// FIRSTSALES_OPENAPI_AUTHORITY points the parity check at a newer backend spec.
+const AUTHORITY_PATH = process.env.FIRSTSALES_OPENAPI_AUTHORITY ?? fileURLToPath(AUTHORITY_URL);
 
 const QUERY_SAMPLE_VALUES = Object.freeze({
   page: '2',
@@ -143,8 +144,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 124);
-    assert.equal(commands.length, 128);
+    assert.equal(operations.length, 131);
+    assert.equal(commands.length, 136);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     const commandGroups = new Map();
@@ -168,6 +169,10 @@ test(
 
     assert.deepEqual(intentionalNonOneToOne, {
       'GET /api/v1/organizations': ['organizations list', 'orgs list'],
+      'GET /api/v1/organizations/{}/workspaces/{}/campaigns/{}/workflow': [
+        'campaigns workflow',
+        'campaigns workflow get',
+      ],
       'GET /api/v1/whoami': ['doctor', 'whoami'],
       'operation:runCampaignAction': ['campaigns pause', 'campaigns resume', 'campaigns start'],
     });

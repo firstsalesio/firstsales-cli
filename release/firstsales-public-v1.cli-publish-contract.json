@@ -200,6 +200,73 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "blocked-domains add",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "blocked-domains add",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/blocked-domains",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "blocked-domains list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "blocked-domains list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/blocked-domains",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "blocked-domains remove",
+      "destructive": false,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains/{domain}",
+      "required": [
+        "org",
+        "workspace",
+        "domain"
+      ]
+    },
+    {
+      "command": "blocked-domains remove",
+      "destructive": false,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/blocked-domains/{domain}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "domain"
+      ]
+    },
+    {
       "command": "campaigns analytics",
       "destructive": false,
       "method": "GET",
@@ -372,6 +439,29 @@
       "command": "campaigns workflow",
       "destructive": false,
       "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns workflow get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "campaigns workflow update",
+      "destructive": false,
+      "method": "PATCH",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow",
       "required": [
         "org",
@@ -1516,6 +1606,7 @@
     "--group",
     "--help",
     "--idempotency-key",
+    "--include-list",
     "--invitation",
     "--json",
     "--kb",
@@ -1539,6 +1630,7 @@
     "--range",
     "--search",
     "--segment-key",
+    "--sender",
     "--sender-connector-id",
     "--session",
     "--severity",
@@ -1593,7 +1685,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.5"
+    "version": "0.1.6"
   },
   "schema_version": "1.0.1-bootstrap"
 }

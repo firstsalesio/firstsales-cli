@@ -5,7 +5,8 @@ export function generateCompletion(shell) {
   // ponytail: shell completion tokens must be single words; multi-word
   // command labels ("orgs list") get hyphenated ("orgs-list") for this
   // purpose only — routing still uses the space-joined label.
-  const commands = listCommands().map((command) => command.command.replaceAll(' ', '-'));
+  // Scoped variants (blocked-domains with --campaign) share a label: list once.
+  const commands = [...new Set(listCommands().map((command) => command.command.replaceAll(' ', '-')))];
   if (shell === 'bash') return bashCompletion(commands);
   if (shell === 'zsh') return zshCompletion(commands);
   if (shell === 'fish') return fishCompletion(commands);
