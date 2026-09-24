@@ -9,6 +9,8 @@ const BOOLEAN_FLAGS = new Set([
   'no-wait',
   'auto-approve',
 ]);
+// Repeatable: each use appends, so the flag's value is always an array.
+const REPEATABLE_FLAGS = new Set(['include-list', 'sender']);
 const VALUE_FLAGS = new Set([
   'api-key',
   'base-url',
@@ -77,7 +79,7 @@ const VALUE_FLAGS = new Set([
 ]);
 
 export function listCliFlags() {
-  return [...BOOLEAN_FLAGS, ...VALUE_FLAGS].map((flag) => `--${flag}`).sort();
+  return [...BOOLEAN_FLAGS, ...VALUE_FLAGS, ...REPEATABLE_FLAGS].map((flag) => `--${flag}`).sort();
 }
 
 export function parseArgs(argv) {
@@ -94,12 +96,13 @@ export function parseArgs(argv) {
       flags[toCamel(name)] = true;
       continue;
     }
-    if (VALUE_FLAGS.has(name)) {
+    if (VALUE_FLAGS.has(name) || REPEATABLE_FLAGS.has(name)) {
       const value = argv[i + 1];
       if (!value || value.startsWith('--')) {
         return { flags, error: { code: 'missing_flag_value', message: `Missing value for --${name}.` } };
       }
-      flags[toCamel(name)] = value;
+      const key = toCamel(name);
+      flags[key] = REPEATABLE_FLAGS.has(name) ? [...(flags[key] ?? []), value] : value;
       i += 1;
       continue;
     }
@@ -123,6 +126,9 @@ export function helpText() {
     '  --base-url <url>      FirstSales API base URL',
     '  --profile <name>      Profile from FIRSTSALES_CONFIG or ~/.firstsales/config.json',
     '  --data <json>         JSON request body for create/update commands',
+    '  --include-list <id>   Include list for campaigns workflow update (repeatable)',
+    '  --sender <id>         Sender Email Connector for campaigns workflow update (repeatable)',
+    '  --campaign <id>       Campaign id; scopes blocked-domains to one campaign',
     '  --idempotency-key <k> Idempotency key for write commands',
     '                          Unsupported for api-keys create because raw keys are reveal-once',
     '  --dry-run            Print the request without sending it',

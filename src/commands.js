@@ -13,6 +13,19 @@ const workspace = (tokens, method, path, options = {}) =>
     required: ['org', 'workspace', ...(options.required ?? [])],
   });
 
+// Workspace Blocked Domains, or one campaign's when `--campaign` is given
+// (resolveCommand picks the variant from that flag).
+function blockedDomainCommands(prefix, required = []) {
+  return [
+    workspace(['blocked-domains', 'list'], 'GET', `${prefix}/blocked-domains`, { required }),
+    workspace(['blocked-domains', 'add'], 'POST', `${prefix}/blocked-domains`, { required, args: 'domains' }),
+    workspace(['blocked-domains', 'remove'], 'DELETE', `${prefix}/blocked-domains/{domain}`, {
+      required: [...required, 'domain'],
+      args: 'domain',
+    }),
+  ];
+}
+
 const RELEASED_CAPABILITY_METADATA = Object.freeze({
   whoami: {
     capabilityId: 'auth.developer_identity.read',
@@ -40,6 +53,9 @@ const SPECIALIZED_OPERATION_BINDINGS = Object.freeze({
 });
 
 const BODY_REQUIRED_MESSAGES = Object.freeze({
+  'blocked-domains add': 'blocked-domains add requires one or more domains, --data, or --data-file.',
+  'campaigns workflow update':
+    'campaigns workflow update requires --include-list, --sender, --data, or --data-file.',
   'campaigns start':
     'campaigns start requires --data or --data-file with savedVersionId, readinessVersion, idempotencyKey, and confirmation.',
 });
@@ -49,8 +65,10 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'api-keys create',
   'billing checkout',
   'billing top-up',
+  'blocked-domains add',
   'campaigns create',
   'campaigns start',
+  'campaigns workflow update',
   'companies create',
   'companies update',
   'connectors update-display-name',
@@ -153,6 +171,17 @@ const COMMANDS = withParityMetadata([
   workspace(['campaigns', 'sources'], 'GET', '/campaigns/{campaign}/sources', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow'], 'GET', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow-update'], 'PUT', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
+  workspace(['campaigns', 'workflow', 'get'], 'GET', '/campaigns/{campaign}/workflow', {
+    required: ['campaign'],
+    args: 'campaign',
+  }),
+  workspace(['campaigns', 'workflow', 'update'], 'PATCH', '/campaigns/{campaign}/workflow', {
+    required: ['campaign'],
+    args: 'campaign',
+    bodyFlags: { includeList: 'includeListIds', sender: 'senderConnectorIds' },
+  }),
+  ...blockedDomainCommands(''),
+  ...blockedDomainCommands('/campaigns/{campaign}', ['campaign']),
   workspace(['contacts', 'list'], 'GET', '/contacts'),
   workspace(['contacts', 'create'], 'POST', '/contacts'),
   workspace(['contacts', 'get'], 'GET', '/contacts/{contact}', { required: ['contact'] }),
@@ -267,7 +296,7 @@ const COMMANDS = withParityMetadata([
 
 const DEFERRED = new Set(['signals list', 'webhooks list']);
 
-export function resolveCommand(positionals) {
+export function resolveCommand(positionals, flags = {}) {
   const label = positionals.join(' ');
   if (DEFERRED.has(label)) {
     return {
@@ -279,7 +308,46 @@ export function resolveCommand(positionals) {
       },
     };
   }
-  return COMMANDS.find((command) => matches(command.tokens, positionals));
+  const found = COMMANDS.filter((command) => matches(command, positionals));
+  return (
+    found.find((command) => (command.required ?? []).includes('campaign') === Boolean(flags.campaign)) ??
+    found[0]
+  );
+}
+
+// Trailing positionals after the command tokens: `args: 'domains'` makes them
+// the `{ domains }` body; any other `args` name fills that one flag. `bodyFlags`
+// maps repeatable flags to body fields.
+export function commandInput(command, positionals, flags) {
+  const extra = positionals.slice(command.tokens.length);
+  // Only repeatable flags are arrays; they are body fields, so reject them where unused.
+  const stray = Object.keys(flags).find((flag) => Array.isArray(flags[flag]) && !command.bodyFlags?.[flag]);
+  if (stray) {
+    return {
+      error: {
+        code: 'unsupported_flag_for_command',
+        message: `--${dash(stray)} is not supported for ${command.label}.`,
+      },
+    };
+  }
+  const nextFlags = { ...flags };
+  let body;
+  if (command.args === 'domains') {
+    if (extra.length) body = { domains: extra };
+  } else if (extra.length) {
+    if (extra.length > 1 || flags[command.args] !== undefined) {
+      return {
+        error: {
+          code: 'unexpected_argument',
+          message: `${command.label} takes one ${command.args} (as an argument or --${command.args}, not both).`,
+        },
+      };
+    }
+    nextFlags[command.args] = extra[0];
+  }
+  const fields = Object.entries(command.bodyFlags ?? {}).filter(([flag]) => flags[flag] !== undefined);
+  if (fields.length) body = Object.fromEntries(fields.map(([flag, field]) => [field, flags[flag]]));
+  return { flags: nextFlags, body };
 }
 
 export function listCommands() {
@@ -423,6 +491,19 @@ export function buildRoute(command, flags, config) {
       },
     };
   }
+  // URL parsing collapses `.`/`..` path segments (even percent-encoded), which
+  // would send the request to a different route.
+  const dotSegment = (command.path.match(/\{([^}]+)\}/g) ?? [])
+    .map((param) => param.slice(1, -1))
+    .find((name) => values[name] === '.' || values[name] === '..');
+  if (dotSegment) {
+    return {
+      error: {
+        code: 'invalid_flag_value',
+        message: `--${dash(dotSegment)} cannot be "${values[dotSegment]}".`,
+      },
+    };
+  }
   const route = command.path.replaceAll(/\{([^}]+)\}/g, (_, name) => encodeURIComponent(values[name]));
   const query = new URLSearchParams();
   const paginated = (command.query ?? []).includes('page') && (command.query ?? []).includes('limit');
@@ -453,8 +534,10 @@ function withParityMetadata(commands) {
   }));
 }
 
-function matches(tokens, positionals) {
-  return tokens.length === positionals.length && tokens.every((token, index) => token === positionals[index]);
+function matches(command, positionals) {
+  const { tokens } = command;
+  if (command.args ? positionals.length < tokens.length : positionals.length !== tokens.length) return false;
+  return tokens.every((token, index) => token === positionals[index]);
 }
 
 function dash(value) {

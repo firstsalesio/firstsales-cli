@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { listCommands } from '../src/commands.js';
 import { runCli, startApi } from './helpers.js';
+import { CLI_VERSION } from '../src/http.js';
 
 const tenantArgs = ['--org', 'org_123', '--workspace', 'ws_123'];
 const baseEnv = (api) => ({
@@ -44,6 +45,7 @@ test('copilot create-session sends the public session body to the tenant route',
         url: '/api/v1/organizations/org_123/workspaces/ws_123/copilot/sessions',
         authorization: 'Bearer fs-test-env',
         contentType: 'application/json',
+        userAgent: `@firstsales.io/cli/${CLI_VERSION}`,
         idempotencyKey: undefined,
         body: JSON.stringify({
           title: 'Pipeline review',
@@ -83,6 +85,7 @@ test('copilot post-message submits one turn without polling or approving it', as
         url: '/api/v1/organizations/org_123/workspaces/ws_123/copilot/sessions/sess_123/messages',
         authorization: 'Bearer fs-test-env',
         contentType: 'application/json',
+        userAgent: `@firstsales.io/cli/${CLI_VERSION}`,
         idempotencyKey: undefined,
         body: JSON.stringify({ text: 'Summarize the pipeline', fileIds: ['file_123'] }),
       },

@@ -41,6 +41,7 @@ export async function startApi(handler) {
       authorization: req.headers.authorization,
       contentType: req.headers['content-type'],
       idempotencyKey: req.headers['idempotency-key'],
+      userAgent: req.headers['user-agent'],
       body,
     });
     const response = await handler(req);

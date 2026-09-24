@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.5-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.6-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 128 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 136 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.4` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.5`, which is published only after a signed `v0.1.5` tag runs the publish workflow.
+**Release status:** `0.1.5` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.6`, which is published only after a signed `v0.1.6` tag runs the publish workflow.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -96,10 +96,10 @@ COMMAND FLOW:
 npm install -g @firstsales.io/cli
 ```
 
-Upgrade to the exact `0.1.5` package after the publish workflow has completed:
+Upgrade to the exact `0.1.6` package after the publish workflow has completed:
 
 ```bash
-npm install -g @firstsales.io/cli@0.1.5
+npm install -g @firstsales.io/cli@0.1.6
 ```
 
 Package page:
@@ -122,7 +122,7 @@ release/firstsales-public-v1.release-manifest.json
 scripts/generate-release-contract.mjs
 ```
 
-The publish contract is the 128-command authority for the packaged CLI. The release
+The publish contract is the 136-command authority for the packaged CLI. The release
 manifest binds that package contract to the broader release bundle through exact
 hashes and consumer requirements.
 
@@ -323,7 +323,7 @@ firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --
 
 Product MCP is a separate OAuth-protected surface at
 `https://api.app.firstsales.io/mcp`. The CLI signs full `/api/v1` Developer API
-requests with a Developer API key and exposes the packaged 128-command contract,
+requests with a Developer API key and exposes the packaged 136-command contract,
 while Product MCP is a release-gated subset bound in the release manifest as a
 different consumer (`product_mcp`, not `published_cli`). Use the CLI when you need
 deterministic shell automation or the full public command surface.
@@ -441,6 +441,27 @@ firstsales offerings list --org org_123 --workspace ws_123 --json
 
 Use this to keep sales context current and to let agents retrieve approved positioning before writing or replying.
 
+### Campaign Workflow Targets
+
+```bash
+firstsales campaigns workflow get camp_123 --org org_123 --workspace ws_123 --json
+firstsales campaigns workflow update camp_123 --org org_123 --workspace ws_123 \
+  --include-list list_a --include-list list_b --sender conn_123 --dry-run
+```
+
+`update` sends one PATCH with only the ids you give (`includeListIds`, `senderConnectorIds`); repeat either flag for several ids. The campaign id can also be passed as `--campaign`.
+
+### Blocked Domains
+
+```bash
+firstsales blocked-domains list --org org_123 --workspace ws_123 --json
+firstsales blocked-domains add competitor.com rival.io --org org_123 --workspace ws_123 --idempotency-key block-001
+firstsales blocked-domains add --data-file domains.json --org org_123 --workspace ws_123 --idempotency-key block-002
+firstsales blocked-domains remove competitor.com --org org_123 --workspace ws_123
+```
+
+A Blocked Domain also blocks its subdomains. Add `--campaign <id>` to any of these to manage that campaign's own Blocked Domains; a campaign cannot lift a workspace block. `add` requires `--idempotency-key` (the API rejects the call without it; the CLI never makes one up).
+
 ### Tracking Domains
 
 ```bash
@@ -511,6 +532,12 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `campaigns sources` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/sources` | no | campaign |
 | `campaigns workflow` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow` | no | campaign |
 | `campaigns workflow-update` | PUT | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow` | no | campaign |
+| `campaigns workflow get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow` | no | campaign (argument or flag) |
+| `campaigns workflow update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/workflow` | no | campaign (argument or flag); `--include-list` and/or `--sender` |
+| `blocked-domains list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains` | no | org, workspace |
+| `blocked-domains add` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains` | no | domains (arguments) or body |
+| `blocked-domains remove` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/blocked-domains/{domain}` | no | domain (argument or flag) |
+| `blocked-domains list\|add\|remove --campaign` | same | `/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/blocked-domains[/{domain}]` | no | campaign |
 | `contacts list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts` | no | org, workspace |
 | `contacts create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts` | no | org, workspace |
 | `contacts get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}` | no | contact |
@@ -730,8 +757,8 @@ Developer docs are hosted from `firstsalesio/docs` and are prepared for `develop
 
 ## Release and Verification
 
-Publishing is not implied by the version number alone. The `0.1.5` source contract
-becomes an npm release only after a signed `v0.1.5` tag triggers
+Publishing is not implied by the version number alone. The `0.1.6` source contract
+becomes an npm release only after a signed `v0.1.6` tag triggers
 `.github/workflows/publish.yml`.
 
 That workflow verifies that the tag matches `package.json`, reruns
