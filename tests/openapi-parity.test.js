@@ -144,8 +144,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 131);
-    assert.equal(commands.length, 136);
+    assert.equal(operations.length, 136);
+    assert.equal(commands.length, 141);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     const commandGroups = new Map();

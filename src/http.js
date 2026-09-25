@@ -26,6 +26,12 @@ export function redactHeaders(headers) {
   return { ...headers, authorization: `${AUTH_SCHEME} ${masked}` };
 }
 
+// Request bodies can carry third-party secrets (Cal.com `apiKey`); previews mask them.
+export function redactBody(body) {
+  if (!body || typeof body !== 'object' || !('apiKey' in body)) return body;
+  return { ...body, apiKey: '[REDACTED]' };
+}
+
 export async function fetchJson(config, request) {
   const headers = buildRequestHeaders(config, request);
   const options = { method: request.method, headers };
