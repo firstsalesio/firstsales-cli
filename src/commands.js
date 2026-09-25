@@ -367,6 +367,8 @@ export function resolveCommand(positionals, flags = {}) {
 const LIST_ARGS = new Set(['domains', 'values']);
 const INTEGER_FLAGS = new Set(['eventType']);
 const FLAG_VALUES = { eventType: Number, html: () => 'html', at: (value) => new Date(value).toISOString() };
+// --at must carry an explicit offset so the send time never depends on the caller's local zone.
+const AT_ZONE = /(Z|[+-]\d\d:?\d\d)$/i;
 const SECRET_FLAG_MESSAGE =
   'Do not pass the Cal.com key as a flag; pass the key through FIRSTSALES_CAL_COM_API_KEY so it never lands in shell history.';
 
@@ -410,7 +412,7 @@ export function commandInput(command, positionals, flags, env = {}) {
       error: { code: 'invalid_flag_value', message: `--${dash(badInteger[0])} must be a positive integer.` },
     };
   }
-  if (fields.some(([flag]) => flag === 'at') && !(Date.parse(flags.at) > Date.now())) {
+  if (fields.some(([flag]) => flag === 'at') && !(AT_ZONE.test(flags.at) && Date.parse(flags.at) > Date.now())) {
     return {
       error: {
         code: 'invalid_flag_value',

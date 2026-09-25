@@ -86,9 +86,9 @@ test('emails schedule sends mode schedule with scheduledAt in ISO UTC', async ()
   });
 });
 
-test('emails schedule with a past or invalid --at exits 2 without a request', async () => {
+test('emails schedule with a past, zoneless or invalid --at exits 2 without a request', async () => {
   await withApi({ status: 201, body: {} }, async (api) => {
-    for (const at of ['2020-01-01T00:00:00Z', 'tomorrow']) {
+    for (const at of ['2020-01-01T00:00:00Z', '2099-10-01T10:00:00', 'tomorrow']) {
       const result = await runCli(['emails', 'schedule', ...SCOPE, ...CONTENT, '--at', at], envFor(api));
 
       assert.equal(result.code, 2, result.stdout);
