@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.9
+
+### Features
+
+- `contact-lists members <listId> --add <contactId> --remove <contactId>` adds or removes up to 500 contacts in one call. Both flags repeat. `--acknowledge-campaign-enrollment` confirms a change that enrolls contacts into a running campaign; without it the API answers 409 and names the campaigns. `--data-file` sends the body unchanged.
+- `inbox draft-content <emailId>` reads the subject and body of one drafted email.
+
 ## 0.1.8
 
 ### Features

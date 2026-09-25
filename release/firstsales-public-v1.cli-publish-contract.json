@@ -713,6 +713,18 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "contact-lists members",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}/members",
+      "required": [
+        "org",
+        "workspace",
+        "list"
+      ]
+    },
+    {
       "command": "contact-lists update",
       "destructive": false,
       "method": "PATCH",
@@ -1196,6 +1208,17 @@
       "required": [
         "org",
         "workspace"
+      ]
+    },
+    {
+      "command": "inbox draft-content",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/content",
+      "required": [
+        "org",
+        "workspace",
+        "email"
       ]
     },
     {
@@ -1718,7 +1741,9 @@
     }
   ],
   "global_flags": [
+    "--acknowledge-campaign-enrollment",
     "--action",
+    "--add",
     "--alert",
     "--all",
     "--allow-during-sequence",
@@ -1777,6 +1802,7 @@
     "--q",
     "--query",
     "--range",
+    "--remove",
     "--search",
     "--segment-key",
     "--sender",
@@ -1835,7 +1861,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.8"
+    "version": "0.1.9"
   },
   "schema_version": "1.0.1-bootstrap"
 }

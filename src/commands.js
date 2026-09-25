@@ -75,6 +75,7 @@ const SPECIALIZED_OPERATION_BINDINGS = Object.freeze({
 
 const BODY_REQUIRED_MESSAGES = Object.freeze({
   'blocked-domains add': 'blocked-domains add requires one or more domains, --data, or --data-file.',
+  'contact-lists members': 'contact-lists members requires --add, --remove, --data, or --data-file.',
   'suppression check': 'suppression check requires one or more addresses or domains, --data, or --data-file.',
   'companies import': 'companies import requires --data-file with a { "companies": [...] } body.',
   'connectors create cal-com':
@@ -102,6 +103,7 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'connectors update-sender-profile',
   'connectors update-settings',
   'contact-imports create',
+  'contact-lists members',
   'contacts create',
   'deals create',
   'deals move',
@@ -230,6 +232,11 @@ const COMMANDS = withParityMetadata([
   workspace(['contact-lists', 'create'], 'POST', '/contact-lists'),
   workspace(['contact-lists', 'update'], 'PATCH', '/contact-lists/{list}', { required: ['list'] }),
   workspace(['contact-lists', 'delete'], 'DELETE', '/contact-lists/{list}', { required: ['list'], destructive: true }),
+  workspace(['contact-lists', 'members'], 'POST', '/contact-lists/{list}/members', {
+    required: ['list'],
+    args: 'list',
+    bodyFlags: { add: 'add', remove: 'remove', acknowledgeCampaignEnrollment: 'acknowledgeCampaignEnrollment' },
+  }),
   workspace(['contact-tags', 'list'], 'GET', '/contact-tags'),
   workspace(['contact-tags', 'rename'], 'PATCH', '/contact-tags/rename'),
   workspace(['contact-tags', 'delete'], 'DELETE', '/contact-tags', { destructive: true }),
@@ -241,6 +248,7 @@ const COMMANDS = withParityMetadata([
   workspace(['inbox', 'read'], 'POST', '/inbox/threads/{thread}/read', { required: ['thread'] }),
   workspace(['inbox', 'approve-draft'], 'POST', '/inbox/drafts/{email}/approve', { required: ['email'] }),
   workspace(['inbox', 'reject-draft'], 'POST', '/inbox/drafts/{email}/reject', { required: ['email'] }),
+  workspace(['inbox', 'draft-content'], 'GET', '/inbox/drafts/{email}/content', { required: ['email'], args: 'email' }),
   workspace(['connectors', 'list'], 'GET', '/connectors'),
   workspace(['connectors', 'create', 'cal-com'], 'POST', '/connectors/cal-com', {
     bodyFlags: { eventType: 'eventTypeId', bookingUrl: 'bookingUrl' },

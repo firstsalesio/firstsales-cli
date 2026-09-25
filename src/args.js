@@ -10,9 +10,10 @@ const BOOLEAN_FLAGS = new Set([
   'auto-approve',
   'html',
   'allow-during-sequence',
+  'acknowledge-campaign-enrollment',
 ]);
 // Repeatable: each use appends, so the flag's value is always an array.
-const REPEATABLE_FLAGS = new Set(['include-list', 'sender', 'cc', 'bcc']);
+const REPEATABLE_FLAGS = new Set(['include-list', 'sender', 'cc', 'bcc', 'add', 'remove']);
 const VALUE_FLAGS = new Set([
   'api-key',
   'base-url',
@@ -152,6 +153,8 @@ export function helpText() {
     '  --bcc <addr>          BCC address (repeatable)',
     '  --at <date-time>      Future send time for emails schedule|update, with a timezone',
     '  --allow-during-sequence   Send even though the contact is in an active sequence',
+    '  --add, --remove           Contact id to add to or remove from a list (repeatable)',
+    '  --acknowledge-campaign-enrollment  Allow a list change that enrolls contacts into running campaigns',
     '  --idempotency-key <k> Idempotency key for write commands',
     '                          Unsupported for api-keys create because raw keys are reveal-once',
     '  --dry-run            Print the request without sending it',

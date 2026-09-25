@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.8-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.9-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 148 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.8`, which is published only after a signed `v0.1.8` tag runs the publish workflow.
+**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.9`, which is published only after a signed `v0.1.9` tag runs the publish workflow.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -96,10 +96,10 @@ COMMAND FLOW:
 npm install -g @firstsales.io/cli
 ```
 
-Upgrade to the exact `0.1.8` package after the publish workflow has completed:
+Upgrade to the exact `0.1.9` package after the publish workflow has completed:
 
 ```bash
-npm install -g @firstsales.io/cli@0.1.8
+npm install -g @firstsales.io/cli@0.1.9
 ```
 
 Package page:
@@ -606,6 +606,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `contact-lists create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists` | no | org, workspace |
 | `contact-lists update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}` | no | list |
 | `contact-lists delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}` | yes | list |
+| `contact-lists members` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-lists/{list}/members` | no | list |
 | `contact-tags list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags` | no | org, workspace |
 | `contact-tags rename` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags/rename` | no | org, workspace |
 | `contact-tags delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-tags` | yes | org, workspace |
@@ -617,6 +618,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `inbox read` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/read` | no | thread |
 | `inbox approve-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/approve` | no | email |
 | `inbox reject-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/reject` | no | email |
+| `inbox draft-content` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/content` | no | email |
 | `connectors list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors` | no | org, workspace |
 | `connectors create cal-com` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/cal-com` | no | `--event-type` or `--booking-url`; key from `FIRSTSALES_CAL_COM_API_KEY` |
 | `connectors delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}` | yes | connector |
@@ -828,8 +830,8 @@ Developer docs are hosted from `firstsalesio/docs` and are prepared for `develop
 
 ## Release and Verification
 
-Publishing is not implied by the version number alone. The `0.1.8` source contract
-becomes an npm release only after a signed `v0.1.8` tag triggers
+Publishing is not implied by the version number alone. The `0.1.9` source contract
+becomes an npm release only after a signed `v0.1.9` tag triggers
 `.github/workflows/publish.yml`.
 
 That workflow verifies that the tag matches `package.json`, reruns
