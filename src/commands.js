@@ -26,6 +26,27 @@ function blockedDomainCommands(prefix, required = []) {
   ];
 }
 
+// Direct Email: draft, send and schedule share one route and differ only by
+// the body's `mode`, which is added to flag and --data-file bodies alike.
+const EMAIL_CONTENT_FLAGS = { subject: 'subject', body: 'body', html: 'bodyFormat', cc: 'cc', bcc: 'bcc' };
+const directEmail = (mode, extraFlags = {}) =>
+  workspace(['emails', mode], 'POST', '/contacts/{contact}/emails', {
+    required: ['contact'],
+    bodyConstants: { mode },
+    bodyFlags: {
+      connector: 'connectorId',
+      ...EMAIL_CONTENT_FLAGS,
+      allowDuringSequence: 'allowDuringSequence',
+      ...extraFlags,
+    },
+  });
+const oneEmail = (verb, method, suffix = '', options = {}) =>
+  workspace(['emails', verb], method, `/contacts/{contact}/emails/{email}${suffix}`, {
+    required: ['contact', 'email'],
+    args: 'email',
+    ...options,
+  });
+
 const RELEASED_CAPABILITY_METADATA = Object.freeze({
   whoami: {
     capabilityId: 'auth.developer_identity.read',
@@ -86,6 +107,10 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'deals move',
   'deals update',
   'domains add',
+  'emails draft',
+  'emails schedule',
+  'emails send',
+  'emails update',
   'groups create',
   'groups update',
   'inbox approve-draft',
@@ -194,6 +219,13 @@ const COMMANDS = withParityMetadata([
   workspace(['contacts', 'get'], 'GET', '/contacts/{contact}', { required: ['contact'] }),
   workspace(['contacts', 'update'], 'PATCH', '/contacts/{contact}', { required: ['contact'] }),
   workspace(['contacts', 'delete'], 'DELETE', '/contacts/{contact}', { required: ['contact'], destructive: true }),
+  directEmail('draft'),
+  directEmail('send'),
+  directEmail('schedule', { at: 'scheduledAt' }),
+  oneEmail('get', 'GET'),
+  oneEmail('update', 'PATCH', '', { bodyFlags: { ...EMAIL_CONTENT_FLAGS, at: 'scheduledAt' } }),
+  oneEmail('cancel', 'POST', '/cancel'),
+  oneEmail('approve', 'POST', '/approve'),
   workspace(['contact-lists', 'list'], 'GET', '/contact-lists'),
   workspace(['contact-lists', 'create'], 'POST', '/contact-lists'),
   workspace(['contact-lists', 'update'], 'PATCH', '/contact-lists/{list}', { required: ['list'] }),
@@ -334,6 +366,9 @@ export function resolveCommand(positionals, flags = {}) {
 
 const LIST_ARGS = new Set(['domains', 'values']);
 const INTEGER_FLAGS = new Set(['eventType']);
+const FLAG_VALUES = { eventType: Number, html: () => 'html', at: (value) => new Date(value).toISOString() };
+// --at must carry an explicit offset so the send time never depends on the caller's local zone.
+const AT_ZONE = /(Z|[+-]\d\d:?\d\d)$/i;
 const SECRET_FLAG_MESSAGE =
   'Do not pass the Cal.com key as a flag; pass the key through FIRSTSALES_CAL_COM_API_KEY so it never lands in shell history.';
 
@@ -377,10 +412,19 @@ export function commandInput(command, positionals, flags, env = {}) {
       error: { code: 'invalid_flag_value', message: `--${dash(badInteger[0])} must be a positive integer.` },
     };
   }
+  if (fields.some(([flag]) => flag === 'at') && !(AT_ZONE.test(flags.at) && Date.parse(flags.at) > Date.now())) {
+    return {
+      error: {
+        code: 'invalid_flag_value',
+        message: '--at must be a future date-time with a timezone, e.g. 2026-10-01T10:00:00+05:30.',
+      },
+    };
+  }
   if (fields.length) {
-    body = Object.fromEntries(
-      fields.map(([flag, field]) => [field, INTEGER_FLAGS.has(flag) ? Number(flags[flag]) : flags[flag]])
-    );
+    body = {
+      ...command.bodyConstants,
+      ...Object.fromEntries(fields.map(([flag, field]) => [field, FLAG_VALUES[flag] ? FLAG_VALUES[flag](flags[flag]) : flags[flag]])),
+    };
     for (const [field, name] of Object.entries(command.bodyEnv ?? {})) {
       if (!env[name]) {
         return { error: { code: 'missing_env', message: `Set ${name} for ${command.label}.` } };

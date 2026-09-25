@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.7-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.8-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 141 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 148 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.7`, which is published only after a signed `v0.1.7` tag runs the publish workflow.
+**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.8`, which is published only after a signed `v0.1.8` tag runs the publish workflow.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -96,10 +96,10 @@ COMMAND FLOW:
 npm install -g @firstsales.io/cli
 ```
 
-Upgrade to the exact `0.1.7` package after the publish workflow has completed:
+Upgrade to the exact `0.1.8` package after the publish workflow has completed:
 
 ```bash
-npm install -g @firstsales.io/cli@0.1.7
+npm install -g @firstsales.io/cli@0.1.8
 ```
 
 Package page:
@@ -122,7 +122,7 @@ release/firstsales-public-v1.release-manifest.json
 scripts/generate-release-contract.mjs
 ```
 
-The publish contract is the 141-command authority for the packaged CLI. The release
+The publish contract is the 148-command authority for the packaged CLI. The release
 manifest binds that package contract to the broader release bundle through exact
 hashes and consumer requirements.
 
@@ -324,7 +324,7 @@ firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --
 
 Product MCP is a separate OAuth-protected surface at
 `https://api.app.firstsales.io/mcp`. The CLI signs full `/api/v1` Developer API
-requests with a Developer API key and exposes the packaged 141-command contract,
+requests with a Developer API key and exposes the packaged 148-command contract,
 while Product MCP is a release-gated subset bound in the release manifest as a
 different consumer (`product_mcp`, not `published_cli`). Use the CLI when you need
 deterministic shell automation or the full public command surface.
@@ -496,6 +496,23 @@ jq -R -s '{companies: (split("\n") | .[1:] | map(select(length > 0) | split(",")
 
 The response gives `created`, `duplicates` and `errors` counts and lists only the rows that were not created (`index`, `reason`). Without `--idempotency-key` the API uses a content hash of the rows; the CLI never makes a key up.
 
+### Direct Email
+
+```bash
+firstsales emails send --contact contact_123 --connector conn_123 --subject "Quick question" --body "<p>Hi Jane</p>" --html --cc ops@acme.com --org org_123 --workspace ws_123 --idempotency-key send-001
+firstsales emails send --contact contact_123 --data-file email.json --org org_123 --workspace ws_123 --idempotency-key send-002
+firstsales emails schedule --contact contact_123 --connector conn_123 --subject "Follow-up" --body "Hi Jane" --at 2026-10-01T10:00:00+05:30 --org org_123 --workspace ws_123 --idempotency-key sched-001
+firstsales emails draft --contact contact_123 --connector conn_123 --subject "Draft" --body "Hi" --org org_123 --workspace ws_123 --idempotency-key draft-001
+firstsales emails get email_123 --contact contact_123 --org org_123 --workspace ws_123 --json
+firstsales emails update email_123 --contact contact_123 --subject "New subject" --org org_123 --workspace ws_123
+firstsales emails cancel email_123 --contact contact_123 --org org_123 --workspace ws_123
+firstsales emails approve email_123 --contact contact_123 --org org_123 --workspace ws_123
+```
+
+`draft`, `send` and `schedule` post to one route and set the body's `mode`; a `--data-file` body gets the same `mode` added. The body is plain text unless `--html` is given. `--cc` and `--bcc` repeat. `--at` must be a future date-time with a timezone; it is sent as `scheduledAt` in UTC, and a past or unreadable value exits 2 without a request. `--allow-during-sequence` sends to a contact in an active sequence (otherwise the API returns `409 active_sequence`).
+
+Create calls need `--idempotency-key`; the API returns `400 idempotency_key_required` without one and the CLI never makes one up. An email sent by an API key waits for Send Approval: the CLI prints `Email <id> is awaiting approval` on stderr. Only a different key granted `direct_email:approve` explicitly can approve it (a `*` key cannot, and the creating key gets `403 self_approval_forbidden`). `cancel` works until the sender claims the email; after that it returns `409 already_sending`.
+
 ### Email Auth Verify
 
 ```bash
@@ -660,6 +677,13 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `companies duplicates` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}/duplicates` | no | company |
 | `companies merge` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/merge` | yes | org, workspace |
 | `contacts overview` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/overview` | no | contact |
+| `emails draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails` | no | contact, body |
+| `emails send` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails` | no | contact, body |
+| `emails schedule` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails` | no | contact, body, `--at` |
+| `emails get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}` | no | contact, email (argument or flag) |
+| `emails update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}` | no | contact, email, body |
+| `emails cancel` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}/cancel` | no | contact, email |
+| `emails approve` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}/approve` | no | contact, email |
 | `contacts merge` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/contacts/merge` | yes | org, workspace |
 | `contact-fields list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/contact-fields` | no | org, workspace |
 | `activities list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/activities` | no | org, workspace |
@@ -804,8 +828,8 @@ Developer docs are hosted from `firstsalesio/docs` and are prepared for `develop
 
 ## Release and Verification
 
-Publishing is not implied by the version number alone. The `0.1.7` source contract
-becomes an npm release only after a signed `v0.1.7` tag triggers
+Publishing is not implied by the version number alone. The `0.1.8` source contract
+becomes an npm release only after a signed `v0.1.8` tag triggers
 `.github/workflows/publish.yml`.
 
 That workflow verifies that the tag matches `package.json`, reruns

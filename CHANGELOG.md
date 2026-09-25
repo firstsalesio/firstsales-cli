@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.8
+
+### Features
+
+- `emails draft|send|schedule --contact <id>` create a Direct Email from `--connector`, `--subject`, `--body` (`--html` for HTML), repeatable `--cc`/`--bcc` and `--allow-during-sequence`, or from `--data-file`; the command sets the body's `mode`. `schedule --at <date-time>` sends `scheduledAt` in UTC and refuses a past time with exit 2 before any request.
+- `emails get|update|cancel|approve <emailId> --contact <id>` read, edit, cancel or approve one Direct Email. API errors such as `already_sending` and `self_approval_forbidden` are printed as returned.
+- A `202` response for an email awaiting Send Approval prints `Email <id> is awaiting approval` on stderr.
+- `--idempotency-key` is passed through; the CLI never invents one.
+
 ## 0.1.7
 
 ### Features
