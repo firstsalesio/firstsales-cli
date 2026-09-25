@@ -8,9 +8,11 @@ const BOOLEAN_FLAGS = new Set([
   'all',
   'no-wait',
   'auto-approve',
+  'html',
+  'allow-during-sequence',
 ]);
 // Repeatable: each use appends, so the flag's value is always an array.
-const REPEATABLE_FLAGS = new Set(['include-list', 'sender']);
+const REPEATABLE_FLAGS = new Set(['include-list', 'sender', 'cc', 'bcc']);
 const VALUE_FLAGS = new Set([
   'api-key',
   'base-url',
@@ -79,6 +81,9 @@ const VALUE_FLAGS = new Set([
   'dkim-selector',
   'event-type',
   'booking-url',
+  'subject',
+  'body',
+  'at',
   // Accepted only so it can be refused with guidance (secrets stay out of shell history).
   'cal-com-api-key',
 ]);
@@ -138,6 +143,15 @@ export function helpText() {
     '  --event-type <id>     Cal.com event type id for connectors create cal-com',
     '  --booking-url <url>   Cal.com booking URL for connectors create cal-com',
     '                          The Cal.com key comes only from FIRSTSALES_CAL_COM_API_KEY',
+    '  --contact <id>        Contact id; with --email <id> it names one Direct Email',
+    '  --connector <id>      Sender Email Connector for emails draft|send|schedule',
+    '  --subject <s>         Email subject for emails draft|send|schedule|update',
+    '  --body <text>         Email body (use --data-file for long bodies)',
+    '  --html                Send the body as HTML (default: plain text)',
+    '  --cc <addr>           CC address (repeatable)',
+    '  --bcc <addr>          BCC address (repeatable)',
+    '  --at <date-time>      Future send time for emails schedule|update, with a timezone',
+    '  --allow-during-sequence   Send even though the contact is in an active sequence',
     '  --idempotency-key <k> Idempotency key for write commands',
     '                          Unsupported for api-keys create because raw keys are reveal-once',
     '  --dry-run            Print the request without sending it',

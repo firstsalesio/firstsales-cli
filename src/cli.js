@@ -209,6 +209,8 @@ export async function main(argv, env) {
       return EXIT.usage;
     }
     body.value = input.body;
+  } else if (command.bodyConstants && body.value !== undefined) {
+    body.value = { ...body.value, ...command.bodyConstants };
   }
   if (command.bodyRequired && body.value === undefined) {
     writeOutput(
@@ -252,6 +254,7 @@ export async function main(argv, env) {
     printImportSummary(command, response, parsed.flags);
     writeOutput(response.body, parsed.flags);
     printMergeUndoHint(command, response);
+    printAwaitingApproval(response);
     return exitCodeForStatus(response.status);
   } catch (err) {
     writeOutput(
@@ -427,6 +430,12 @@ function printMergeUndoHint(command, response) {
   console.error(
     `Merged. To undo, contact support with mergeChangelogId=${mergeChangelogId} (undo is not yet self-service).`
   );
+}
+
+function printAwaitingApproval(response) {
+  const email = response.body?.email;
+  if (response.status !== 202 || email?.status !== 'awaiting_approval') return;
+  console.error(`Email ${email.id} is awaiting approval; another key granted direct_email:approve must approve it.`);
 }
 
 // The table view shows only the not-created rows, so print the counts above it.

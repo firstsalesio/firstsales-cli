@@ -1041,6 +1041,91 @@
       ]
     },
     {
+      "command": "emails approve",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}/approve",
+      "required": [
+        "org",
+        "workspace",
+        "contact",
+        "email"
+      ]
+    },
+    {
+      "command": "emails cancel",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}/cancel",
+      "required": [
+        "org",
+        "workspace",
+        "contact",
+        "email"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "emails draft",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "command": "emails get",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}",
+      "required": [
+        "org",
+        "workspace",
+        "contact",
+        "email"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "emails schedule",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "emails send",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails",
+      "required": [
+        "org",
+        "workspace",
+        "contact"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "emails update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/contacts/{contact}/emails/{email}",
+      "required": [
+        "org",
+        "workspace",
+        "contact",
+        "email"
+      ]
+    },
+    {
       "bodyRequired": true,
       "command": "groups create",
       "destructive": false,
@@ -1636,14 +1721,19 @@
     "--action",
     "--alert",
     "--all",
+    "--allow-during-sequence",
     "--api-key",
+    "--at",
     "--auto-approve",
     "--base-url",
+    "--bcc",
+    "--body",
     "--booking-url",
     "--cal-com-api-key",
     "--campaign",
     "--campaign-id",
     "--category",
+    "--cc",
     "--company",
     "--company-id",
     "--confirm",
@@ -1663,6 +1753,7 @@
     "--from",
     "--group",
     "--help",
+    "--html",
     "--idempotency-key",
     "--include-list",
     "--invitation",
@@ -1700,6 +1791,7 @@
     "--source",
     "--stage",
     "--status",
+    "--subject",
     "--tab",
     "--tags",
     "--template",
@@ -1743,7 +1835,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.7"
+    "version": "0.1.8"
   },
   "schema_version": "1.0.1-bootstrap"
 }

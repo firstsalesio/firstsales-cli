@@ -144,8 +144,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 136);
-    assert.equal(commands.length, 141);
+    assert.equal(operations.length, 141);
+    assert.equal(commands.length, 148);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     const commandGroups = new Map();
@@ -174,6 +174,11 @@ test(
         'campaigns workflow get',
       ],
       'GET /api/v1/whoami': ['doctor', 'whoami'],
+      'POST /api/v1/organizations/{}/workspaces/{}/contacts/{}/emails': [
+        'emails draft',
+        'emails schedule',
+        'emails send',
+      ],
       'operation:runCampaignAction': ['campaigns pause', 'campaigns resume', 'campaigns start'],
     });
 
