@@ -76,6 +76,11 @@ const VALUE_FLAGS = new Set([
   'company-id',
   'contact-id',
   'type',
+  'dkim-selector',
+  'event-type',
+  'booking-url',
+  // Accepted only so it can be refused with guidance (secrets stay out of shell history).
+  'cal-com-api-key',
 ]);
 
 export function listCliFlags() {
@@ -129,6 +134,10 @@ export function helpText() {
     '  --include-list <id>   Include list for campaigns workflow update (repeatable)',
     '  --sender <id>         Sender Email Connector for campaigns workflow update (repeatable)',
     '  --campaign <id>       Campaign id; scopes blocked-domains to one campaign',
+    '  --dkim-selector <s>   DKIM selector for email-auth verify (with --domain)',
+    '  --event-type <id>     Cal.com event type id for connectors create cal-com',
+    '  --booking-url <url>   Cal.com booking URL for connectors create cal-com',
+    '                          The Cal.com key comes only from FIRSTSALES_CAL_COM_API_KEY',
     '  --idempotency-key <k> Idempotency key for write commands',
     '                          Unsupported for api-keys create because raw keys are reveal-once',
     '  --dry-run            Print the request without sending it',

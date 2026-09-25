@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.6-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.7-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 136 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 141 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.5` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.6`, which is published only after a signed `v0.1.6` tag runs the publish workflow.
+**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.7`, which is published only after a signed `v0.1.7` tag runs the publish workflow.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -96,10 +96,10 @@ COMMAND FLOW:
 npm install -g @firstsales.io/cli
 ```
 
-Upgrade to the exact `0.1.6` package after the publish workflow has completed:
+Upgrade to the exact `0.1.7` package after the publish workflow has completed:
 
 ```bash
-npm install -g @firstsales.io/cli@0.1.6
+npm install -g @firstsales.io/cli@0.1.7
 ```
 
 Package page:
@@ -122,7 +122,7 @@ release/firstsales-public-v1.release-manifest.json
 scripts/generate-release-contract.mjs
 ```
 
-The publish contract is the 136-command authority for the packaged CLI. The release
+The publish contract is the 141-command authority for the packaged CLI. The release
 manifest binds that package contract to the broader release bundle through exact
 hashes and consumer requirements.
 
@@ -198,6 +198,7 @@ firstsales contacts delete \
 | --- | --- |
 | `FIRSTSALES_API_KEY` | Developer API key used for bearer auth. |
 | `FIRSTSALES_BASE_URL` | API base URL. Defaults to `https://api.app.firstsales.io`. |
+| `FIRSTSALES_CAL_COM_API_KEY` | Cal.com API key for `connectors create cal-com`. Never accepted as a flag. |
 | `FIRSTSALES_PROFILE` | Profile name to load from the local profile config. |
 
 ### Profile File
@@ -323,7 +324,7 @@ firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --
 
 Product MCP is a separate OAuth-protected surface at
 `https://api.app.firstsales.io/mcp`. The CLI signs full `/api/v1` Developer API
-requests with a Developer API key and exposes the packaged 136-command contract,
+requests with a Developer API key and exposes the packaged 141-command contract,
 while Product MCP is a release-gated subset bound in the release manifest as a
 different consumer (`product_mcp`, not `published_cli`). Use the CLI when you need
 deterministic shell automation or the full public command surface.
@@ -467,7 +468,48 @@ A Blocked Domain also blocks its subdomains. Add `--campaign <id>` to any of the
 ```bash
 firstsales tracking-domains list --org org_123 --workspace ws_123 --json
 firstsales tracking-domains verify --org org_123 --workspace ws_123 --domain domain_123 --json
+firstsales tracking-domains get domain_123 --org org_123 --workspace ws_123 --json
 ```
+
+`get` returns one tracking domain with its `certificateEligibility` reason (for example `lookup_failed` with its cause and next retry).
+
+### Suppression Check
+
+```bash
+firstsales suppression check jane@acme.com acme.com --org org_123 --workspace ws_123
+firstsales suppression check --data-file values.json --org org_123 --workspace ws_123 --json
+```
+
+Checks up to 100 named addresses or domains (`{ "values": [...] }`) and shows `value`, `suppressed` and `reason` for each. There is no list or export.
+
+### Company Import
+
+```bash
+firstsales companies import --data-file companies.json --org org_123 --workspace ws_123 --idempotency-key import-001
+```
+
+The file is a `{ "companies": [{ "name": "...", "domain": "..." }] }` body (1 to 10,000 rows; the API enforces the limit). Turn a CSV with `name,domain` columns into that file with:
+
+```bash
+jq -R -s '{companies: (split("\n") | .[1:] | map(select(length > 0) | split(",") | {name: .[0], domain: .[1]}))}' companies.csv > companies.json
+```
+
+The response gives `created`, `duplicates` and `errors` counts and lists only the rows that were not created (`index`, `reason`). Without `--idempotency-key` the API uses a content hash of the rows; the CLI never makes a key up.
+
+### Email Auth Verify
+
+```bash
+firstsales email-auth verify --domain acme.com --dkim-selector s1 --org org_123 --workspace ws_123 --json
+```
+
+### Cal.com Connector
+
+```bash
+FIRSTSALES_CAL_COM_API_KEY=cal_live_... firstsales connectors create cal-com --event-type 123 \
+  --org org_123 --workspace ws_123 --idempotency-key calcom-001
+```
+
+The Cal.com key is read only from `FIRSTSALES_CAL_COM_API_KEY`, so it never lands in shell history; passing it as a flag is refused (exit 2). `--dry-run` shows it as `[REDACTED]`. Use `--booking-url <url>` instead of `--event-type` if you prefer.
 
 Use this for deliverability setup and domain verification checks.
 
@@ -559,6 +601,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `inbox approve-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/approve` | no | email |
 | `inbox reject-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/reject` | no | email |
 | `connectors list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors` | no | org, workspace |
+| `connectors create cal-com` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/cal-com` | no | `--event-type` or `--booking-url`; key from `FIRSTSALES_CAL_COM_API_KEY` |
 | `connectors delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}` | yes | connector |
 | `connectors test` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/test` | no | connector |
 | `kb list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/knowledge-bases` | no | org, workspace |
@@ -575,6 +618,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `tracking-domains list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains` | no | org, workspace |
 | `tracking-domains create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains` | no | org, workspace |
 | `tracking-domains delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}` | yes | domain |
+| `tracking-domains get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}` | no | domain (argument or flag) |
 | `tracking-domains verify` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}/verify` | no | domain |
 | `billing overview` | GET | `/api/v1/organizations/{org}/billing` | no | org |
 | `billing credits` | GET | `/api/v1/organizations/{org}/billing/credits` | no | org |
@@ -610,6 +654,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `companies list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies` | no | org, workspace |
 | `companies get` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | no | company |
 | `companies create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/companies` | no | org, workspace |
+| `companies import` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/imports` | no | `--data-file` body |
 | `companies update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | no | company |
 | `companies delete` | DELETE | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}` | yes | company |
 | `companies duplicates` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/companies/{company}/duplicates` | no | company |
@@ -633,6 +678,8 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `alerts resolve` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/alerts/{alert}/resolve` | no | alert |
 | `warmup status` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors/{connector}/warmup` | no | connector |
 | `email-auth status` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/email-auth` | no | org, workspace |
+| `email-auth verify` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/email-auth/verify` | no | `--domain`, optional `--dkim-selector` |
+| `suppression check` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/suppression/check` | no | values (arguments) or body |
 | `sequences list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library` | no | org, workspace |
 | `sequences create` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library` | no | org, workspace |
 | `sequences update` | PATCH | `/api/v1/organizations/{org}/workspaces/{workspace}/sequence-library/{template}` | no | template |
@@ -757,8 +804,8 @@ Developer docs are hosted from `firstsalesio/docs` and are prepared for `develop
 
 ## Release and Verification
 
-Publishing is not implied by the version number alone. The `0.1.6` source contract
-becomes an npm release only after a signed `v0.1.6` tag triggers
+Publishing is not implied by the version number alone. The `0.1.7` source contract
+becomes an npm release only after a signed `v0.1.7` tag triggers
 `.github/workflows/publish.yml`.
 
 That workflow verifies that the tag matches `package.json`, reruns

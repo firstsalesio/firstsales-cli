@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.7
+
+### Features
+
+- `tracking-domains get <id>` reads one tracking domain, including its certificate eligibility reason.
+- `suppression check <value>...` checks named addresses or domains and shows value, suppressed and reason. `--data-file` sends a `{ "values": [...] }` body unchanged.
+- `companies import --data-file <file>` imports a `{ "companies": [...] }` body and reports created, duplicate and error counts plus the rows not created. `--idempotency-key` is passed through; none is invented.
+- `email-auth verify --domain <d> [--dkim-selector <s>]` runs the email-auth verification.
+- `connectors create cal-com --event-type <id> | --booking-url <url>` creates a Cal.com connector with the key from `FIRSTSALES_CAL_COM_API_KEY`. A key passed as a flag is refused, and `--dry-run` shows `apiKey` as `[REDACTED]`.
+
 ## 0.1.6
 
 ### Features

@@ -31,7 +31,7 @@ test('plugin manifest uses the canonical Agent Plugins schema and public FirstSa
     'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json'
   );
   assert.equal(plugin.name, 'firstsales-public-assets');
-  assert.equal(plugin.version, '0.1.6');
+  assert.equal(plugin.version, '0.1.7');
   assert.equal(plugin.repository, 'https://github.com/firstsalesio/firstsales-cli');
   assert.equal(plugin.extensions, undefined);
 

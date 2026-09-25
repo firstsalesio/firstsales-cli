@@ -54,6 +54,10 @@ const SPECIALIZED_OPERATION_BINDINGS = Object.freeze({
 
 const BODY_REQUIRED_MESSAGES = Object.freeze({
   'blocked-domains add': 'blocked-domains add requires one or more domains, --data, or --data-file.',
+  'suppression check': 'suppression check requires one or more addresses or domains, --data, or --data-file.',
+  'companies import': 'companies import requires --data-file with a { "companies": [...] } body.',
+  'connectors create cal-com':
+    'connectors create cal-com requires --event-type or --booking-url, with the key in FIRSTSALES_CAL_COM_API_KEY.',
   'campaigns workflow update':
     'campaigns workflow update requires --include-list, --sender, --data, or --data-file.',
   'campaigns start':
@@ -70,7 +74,9 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'campaigns start',
   'campaigns workflow update',
   'companies create',
+  'companies import',
   'companies update',
+  'connectors create cal-com',
   'connectors update-display-name',
   'connectors update-sender-profile',
   'connectors update-settings',
@@ -92,6 +98,7 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'kb update',
   'offerings create',
   'offerings update',
+  'suppression check',
   'tracking-domains create',
 ]);
 
@@ -203,6 +210,10 @@ const COMMANDS = withParityMetadata([
   workspace(['inbox', 'approve-draft'], 'POST', '/inbox/drafts/{email}/approve', { required: ['email'] }),
   workspace(['inbox', 'reject-draft'], 'POST', '/inbox/drafts/{email}/reject', { required: ['email'] }),
   workspace(['connectors', 'list'], 'GET', '/connectors'),
+  workspace(['connectors', 'create', 'cal-com'], 'POST', '/connectors/cal-com', {
+    bodyFlags: { eventType: 'eventTypeId', bookingUrl: 'bookingUrl' },
+    bodyEnv: { apiKey: 'FIRSTSALES_CAL_COM_API_KEY' },
+  }),
   workspace(['connectors', 'delete'], 'DELETE', '/connectors/{connector}', { required: ['connector'], destructive: true }),
   workspace(['connectors', 'test'], 'POST', '/connectors/{connector}/test', { required: ['connector'] }),
   workspace(['connectors', 'update-display-name'], 'PATCH', '/connectors/{connector}/display-name', { required: ['connector'] }),
@@ -221,6 +232,7 @@ const COMMANDS = withParityMetadata([
   workspace(['offerings', 'update'], 'PATCH', '/offerings/{offering}', { required: ['offering'] }),
   workspace(['offerings', 'delete'], 'DELETE', '/offerings/{offering}', { required: ['offering'], destructive: true }),
   workspace(['tracking-domains', 'list'], 'GET', '/tracking-domains'),
+  workspace(['tracking-domains', 'get'], 'GET', '/tracking-domains/{domain}', { required: ['domain'], args: 'domain' }),
   workspace(['tracking-domains', 'create'], 'POST', '/tracking-domains'),
   workspace(['tracking-domains', 'delete'], 'DELETE', '/tracking-domains/{domain}', { required: ['domain'], destructive: true }),
   workspace(['tracking-domains', 'verify'], 'POST', '/tracking-domains/{domain}/verify', { required: ['domain'] }),
@@ -258,6 +270,7 @@ const COMMANDS = withParityMetadata([
   workspace(['companies', 'list'], 'GET', '/companies'),
   workspace(['companies', 'get'], 'GET', '/companies/{company}', { required: ['company'] }),
   workspace(['companies', 'create'], 'POST', '/companies'),
+  workspace(['companies', 'import'], 'POST', '/companies/imports'),
   workspace(['companies', 'update'], 'PATCH', '/companies/{company}', { required: ['company'] }),
   workspace(['companies', 'delete'], 'DELETE', '/companies/{company}', { required: ['company'], destructive: true }),
   workspace(['companies', 'duplicates'], 'GET', '/companies/{company}/duplicates', { required: ['company'] }),
@@ -281,6 +294,10 @@ const COMMANDS = withParityMetadata([
   workspace(['alerts', 'resolve'], 'POST', '/alerts/{alert}/resolve', { required: ['alert'] }),
   workspace(['warmup', 'status'], 'GET', '/connectors/{connector}/warmup', { required: ['connector'] }),
   workspace(['email-auth', 'status'], 'GET', '/email-auth'),
+  workspace(['email-auth', 'verify'], 'POST', '/email-auth/verify', {
+    bodyFlags: { domain: 'domain', dkimSelector: 'dkimSelector' },
+  }),
+  workspace(['suppression', 'check'], 'POST', '/suppression/check', { args: 'values' }),
   workspace(['sequences', 'list'], 'GET', '/sequence-library'),
   workspace(['sequences', 'create'], 'POST', '/sequence-library'),
   workspace(['sequences', 'update'], 'PATCH', '/sequence-library/{template}', { required: ['template'] }),
@@ -315,10 +332,18 @@ export function resolveCommand(positionals, flags = {}) {
   );
 }
 
-// Trailing positionals after the command tokens: `args: 'domains'` makes them
-// the `{ domains }` body; any other `args` name fills that one flag. `bodyFlags`
-// maps repeatable flags to body fields.
-export function commandInput(command, positionals, flags) {
+const LIST_ARGS = new Set(['domains', 'values']);
+const INTEGER_FLAGS = new Set(['eventType']);
+const SECRET_FLAG_MESSAGE =
+  'Do not pass the Cal.com key as a flag; pass the key through FIRSTSALES_CAL_COM_API_KEY so it never lands in shell history.';
+
+// Trailing positionals after the command tokens: `args: 'domains'|'values'` makes
+// them that body list; any other `args` name fills that one flag. `bodyFlags`
+// maps flags to body fields; `bodyEnv` maps environment variables to body fields.
+export function commandInput(command, positionals, flags, env = {}) {
+  if (flags.calComApiKey !== undefined || (command.bodyEnv && flags.apiKey?.startsWith('cal_'))) {
+    return { error: { code: 'secret_flag_refused', message: SECRET_FLAG_MESSAGE } };
+  }
   const extra = positionals.slice(command.tokens.length);
   // Only repeatable flags are arrays; they are body fields, so reject them where unused.
   const stray = Object.keys(flags).find((flag) => Array.isArray(flags[flag]) && !command.bodyFlags?.[flag]);
@@ -332,8 +357,8 @@ export function commandInput(command, positionals, flags) {
   }
   const nextFlags = { ...flags };
   let body;
-  if (command.args === 'domains') {
-    if (extra.length) body = { domains: extra };
+  if (LIST_ARGS.has(command.args)) {
+    if (extra.length) body = { [command.args]: extra };
   } else if (extra.length) {
     if (extra.length > 1 || flags[command.args] !== undefined) {
       return {
@@ -346,7 +371,23 @@ export function commandInput(command, positionals, flags) {
     nextFlags[command.args] = extra[0];
   }
   const fields = Object.entries(command.bodyFlags ?? {}).filter(([flag]) => flags[flag] !== undefined);
-  if (fields.length) body = Object.fromEntries(fields.map(([flag, field]) => [field, flags[flag]]));
+  const badInteger = fields.find(([flag]) => INTEGER_FLAGS.has(flag) && !/^[1-9]\d*$/.test(flags[flag]));
+  if (badInteger) {
+    return {
+      error: { code: 'invalid_flag_value', message: `--${dash(badInteger[0])} must be a positive integer.` },
+    };
+  }
+  if (fields.length) {
+    body = Object.fromEntries(
+      fields.map(([flag, field]) => [field, INTEGER_FLAGS.has(flag) ? Number(flags[flag]) : flags[flag]])
+    );
+    for (const [field, name] of Object.entries(command.bodyEnv ?? {})) {
+      if (!env[name]) {
+        return { error: { code: 'missing_env', message: `Set ${name} for ${command.label}.` } };
+      }
+      body[field] = env[name];
+    }
+  }
   return { flags: nextFlags, body };
 }
 

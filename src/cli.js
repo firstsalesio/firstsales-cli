@@ -5,7 +5,7 @@ import { helpText, parseArgs } from './args.js';
 import { generateCompletion } from './completion.js';
 import { buildRoute, commandInput, listCommands, resolveCommand } from './commands.js';
 import { loadConfig } from './config.js';
-import { buildRequestHeaders, buildUrl, CLI_VERSION, fetchJson, redactHeaders } from './http.js';
+import { buildRequestHeaders, buildUrl, CLI_VERSION, fetchJson, redactBody, redactHeaders } from './http.js';
 import { EXIT, exitCodeForStatus } from './exit-codes.js';
 import { render, resolveFormat } from './output.js';
 import { paginateAll } from './paginate.js';
@@ -120,7 +120,7 @@ export async function main(argv, env) {
     );
     return EXIT.usage;
   }
-  const input = commandInput(command, parsed.positionals, parsed.flags);
+  const input = commandInput(command, parsed.positionals, parsed.flags, env);
   if (input.error) {
     writeOutput({ error: input.error }, parsed.flags);
     return EXIT.usage;
@@ -249,6 +249,7 @@ export async function main(argv, env) {
       writeOutput(doctorResult(config, response), parsed.flags);
       return exitCodeForStatus(response.status);
     }
+    printImportSummary(command, response, parsed.flags);
     writeOutput(response.body, parsed.flags);
     printMergeUndoHint(command, response);
     return exitCodeForStatus(response.status);
@@ -330,7 +331,7 @@ function dryRunPreview(config, method, route, body) {
       method,
       url: buildUrl(config.baseUrl, route),
       headers: redactHeaders(buildRequestHeaders(config, { body })),
-      ...(body !== undefined ? { body } : {}),
+      ...(body !== undefined ? { body: redactBody(body) } : {}),
     },
   };
 }
@@ -426,6 +427,14 @@ function printMergeUndoHint(command, response) {
   console.error(
     `Merged. To undo, contact support with mergeChangelogId=${mergeChangelogId} (undo is not yet self-service).`
   );
+}
+
+// The table view shows only the not-created rows, so print the counts above it.
+function printImportSummary(command, response, flags) {
+  if (command.label !== 'companies import' || response.status >= 400) return;
+  if (resolveFormat(flags) !== 'table') return;
+  const { created, duplicates, errors } = response.body;
+  console.log(`created ${created}, duplicates ${duplicates}, errors ${errors}`);
 }
 
 function apiKeyFailure() {

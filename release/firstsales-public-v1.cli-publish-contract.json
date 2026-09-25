@@ -525,6 +525,17 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "companies import",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/companies/imports",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "companies list",
       "destructive": false,
       "method": "GET",
@@ -558,6 +569,17 @@
         "org",
         "workspace",
         "company"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "connectors create cal-com",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/connectors/cal-com",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -1003,6 +1025,16 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/email-auth",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "email-auth verify",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/email-auth/verify",
       "required": [
         "org",
         "workspace"
@@ -1484,6 +1516,17 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "suppression check",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/suppression/check",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "teams members",
       "destructive": false,
       "method": "GET",
@@ -1508,6 +1551,17 @@
       "command": "tracking-domains delete",
       "destructive": true,
       "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}",
+      "required": [
+        "org",
+        "workspace",
+        "domain"
+      ]
+    },
+    {
+      "command": "tracking-domains get",
+      "destructive": false,
+      "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/tracking-domains/{domain}",
       "required": [
         "org",
@@ -1585,6 +1639,8 @@
     "--api-key",
     "--auto-approve",
     "--base-url",
+    "--booking-url",
+    "--cal-com-api-key",
     "--campaign",
     "--campaign-id",
     "--category",
@@ -1599,9 +1655,11 @@
     "--data-file",
     "--days",
     "--deal",
+    "--dkim-selector",
     "--domain",
     "--dry-run",
     "--email",
+    "--event-type",
     "--from",
     "--group",
     "--help",
@@ -1685,7 +1743,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.6"
+    "version": "0.1.7"
   },
   "schema_version": "1.0.1-bootstrap"
 }
