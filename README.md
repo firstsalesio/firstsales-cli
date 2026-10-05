@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.10-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.11-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 154 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.9` is published on npm. This checkout and its generated release artifacts target `0.1.10`. Publish only the verified merged release; the new campaign activation commands require the accompanying backend routes to be deployed.
+**Release status:** `0.1.10` is published on npm. This checkout and its generated release artifacts target `0.1.11`. Publish only the verified merged release; the new campaign activation commands require the accompanying backend routes to be deployed.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -866,3 +866,9 @@ npm pack --dry-run --json
 ```
 
 The command registry is the source for CLI docs sync. When public API routes change, update the registry, tests, docs, and OpenAPI contract together.
+
+### Testimonial and inbox assistance commands
+
+Use `firstsales testimonials list`, `testimonials add`, or `testimonials update` with `--campaign`; updates also require `--testimonial`. Mutations accept `--data` or `--data-file`.
+
+Use `firstsales inbox score` and `inbox ai-draft` with `--data` or `--data-file` for the deployed public inbox assistance routes. These commands request scoring or a draft; they do not send an email. All five commands require the organization, workspace, and existing Developer API credential.
