@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 154 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 159 commands. No runtime dependencies. Built for agent-safe automation.**
 
 **Release status:** `0.1.10` is published on npm. This checkout and its generated release artifacts target `0.1.11`. Publish only the verified merged release; the new campaign activation commands require the accompanying backend routes to be deployed.
 
