@@ -1920,7 +1920,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.9"
+    "version": "0.1.10"
   },
   "schema_version": "1.0.1-bootstrap"
 }

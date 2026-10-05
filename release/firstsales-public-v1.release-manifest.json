@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0.0",
-  "bundle_id": "sha256:a556d8115ae056a8a1a226f2aa44d57969f2957e0bc873a4a3033215eee0e858",
+  "bundle_id": "sha256:791f45a24a65528d135e683027da2dc8198cfef9ac21396003c72ef387ef7c8d",
   "authorization_catalog_epoch": "sha256:581da1a8df48632179747ffbcb4b42b84c0b779572f1f066e0ef1dd9f4bfe478",
   "generated_at": "2026-08-09",
   "release_ready": true,
@@ -97,7 +97,7 @@
     "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
     "openapi_semantic_subset": "sha256:303117069f4c29d015061ae0d34243af3a4238e5cc0d17c16e99770bece0f83a",
     "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
-    "cli_publish_contract": "sha256:4094fadc1f4ba280927f79d1cac9416de31f39a254b285b0edeaf8a8bd062e23",
+    "cli_publish_contract": "sha256:891d3d835fde08593a372c5c4fbb0c340ed732ec1ef72535941f41ee822da666",
     "proof_matrix_subset": "sha256:9f404c9af67e56dec79c1749bdf29b393bc68436cce4490307497d65f57feb5c",
     "product_mcp_ledger_subset": "sha256:eb27bdefd18d25cd87a00fd027b3f185cc23660844d860f846ebe1485da9fd98",
     "product_mcp_openapi_subset": "sha256:e69cdec5463e5b9e1dc8543fe83c010dd6620c30a6fb62bdda732a385eefbe54",
