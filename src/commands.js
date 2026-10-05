@@ -186,6 +186,18 @@ const COMMANDS = withParityMetadata([
   workspace(['campaigns', 'list'], 'GET', '/campaigns'),
   workspace(['campaigns', 'create'], 'POST', '/campaigns', RELEASED_CAPABILITY_METADATA['campaigns create']),
   workspace(['campaigns', 'get'], 'GET', '/campaigns/{campaign}', { required: ['campaign'] }),
+  workspace(['campaigns', 'readiness'], 'GET', '/campaigns/{campaign}/readiness', {
+    required: ['campaign'], openapi: { operationId: 'getCampaignReadiness' },
+  }),
+  workspace(['campaigns', 'prepare-launch'], 'POST', '/campaigns/{campaign}/launch/prepare', {
+    required: ['campaign'], bodyRequired: true, openapi: { operationId: 'prepareCampaignLaunch' },
+  }),
+  workspace(['campaigns', 'prepare-test-email'], 'POST', '/campaigns/{campaign}/test-email/prepare', {
+    required: ['campaign'], bodyRequired: true, openapi: { operationId: 'prepareCampaignTestEmail' },
+  }),
+  workspace(['campaigns', 'send-test-email'], 'POST', '/campaigns/{campaign}/test-email', {
+    required: ['campaign'], bodyRequired: true, openapi: { operationId: 'sendCampaignTestEmail' },
+  }),
   workspace(['campaigns', 'update'], 'PATCH', '/campaigns/{campaign}', { required: ['campaign'] }),
   workspace(['campaigns', 'start'], 'POST', '/campaigns/{campaign}/actions/start', {
     required: ['campaign'],

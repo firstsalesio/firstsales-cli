@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.9-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.10-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 148 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 154 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.9`, which is published only after a signed `v0.1.9` tag runs the publish workflow.
+**Release status:** `0.1.9` is published on npm. This checkout and its generated release artifacts target `0.1.10`. Publish only the verified merged release; the new campaign activation commands require the accompanying backend routes to be deployed.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -91,6 +91,10 @@ COMMAND FLOW:
 ## Quick Start
 
 ### Install
+
+After installation, run `firstsales --help` to see the dotted FirstSales welcome logo
+and command list. The logo appears only on an interactive terminal; JSON output,
+CI, and redirected output remain free of decorative text.
 
 ```bash
 npm install -g @firstsales.io/cli
