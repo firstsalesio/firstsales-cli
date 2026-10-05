@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { authLogin, authLogout, authStatus } from './auth.js';
+import { printWelcomeBanner } from './banner.js';
 import { parseApiArgs, runApiPassthrough } from './api-passthrough.js';
 import { helpText, parseArgs } from './args.js';
 import { generateCompletion } from './completion.js';
@@ -82,6 +83,7 @@ export async function main(argv, env) {
   checkForUpdate(env, CLI_VERSION).catch(() => {});
 
   if (parsed.positionals[0] === 'help' || parsed.flags.help) {
+    printWelcomeBanner(process.stderr, parsed.flags, env);
     console.log(helpText());
     return EXIT.ok;
   }

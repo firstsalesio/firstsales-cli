@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 148 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 154 commands. No runtime dependencies. Built for agent-safe automation.**
 
 **Release status:** `0.1.6` is published on npm. This checkout, its generated CLI publish contract, and its release manifest are pinned to `0.1.9`, which is published only after a signed `v0.1.9` tag runs the publish workflow.
 
@@ -91,6 +91,10 @@ COMMAND FLOW:
 ## Quick Start
 
 ### Install
+
+After installation, run `firstsales --help` to see the dotted FirstSales welcome logo
+and command list. The logo appears only on an interactive terminal; JSON output,
+CI, and redirected output remain free of decorative text.
 
 ```bash
 npm install -g @firstsales.io/cli

@@ -368,10 +368,54 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "campaigns prepare-launch",
+      "destructive": false,
+      "method": "POST",
+      "openapi": {
+        "operationId": "prepareCampaignLaunch"
+      },
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/launch/prepare",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "campaigns prepare-test-email",
+      "destructive": false,
+      "method": "POST",
+      "openapi": {
+        "operationId": "prepareCampaignTestEmail"
+      },
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/test-email/prepare",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
       "command": "campaigns progress",
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/progress",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "campaigns readiness",
+      "destructive": false,
+      "method": "GET",
+      "openapi": {
+        "operationId": "getCampaignReadiness"
+      },
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/readiness",
       "required": [
         "org",
         "workspace",
@@ -389,6 +433,21 @@
         }
       },
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/actions/resume",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "campaigns send-test-email",
+      "destructive": false,
+      "method": "POST",
+      "openapi": {
+        "operationId": "sendCampaignTestEmail"
+      },
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/test-email",
       "required": [
         "org",
         "workspace",
