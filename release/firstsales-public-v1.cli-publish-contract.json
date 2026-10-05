@@ -1238,6 +1238,17 @@
     },
     {
       "bodyRequired": true,
+      "command": "inbox ai-draft",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/ai-draft",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "inbox approve-draft",
       "destructive": false,
       "method": "POST",
@@ -1313,6 +1324,17 @@
         "org",
         "workspace",
         "thread"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "inbox score",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/score",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -1705,6 +1727,42 @@
     },
     {
       "bodyRequired": true,
+      "command": "testimonials add",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/testimonials",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "command": "testimonials list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/testimonials",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "testimonials update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/testimonials/{testimonial}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "testimonial"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "tracking-domains create",
       "destructive": false,
       "method": "POST",
@@ -1880,6 +1938,7 @@
     "--tab",
     "--tags",
     "--template",
+    "--testimonial",
     "--thread",
     "--timeout",
     "--to",
@@ -1920,7 +1979,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.10"
+    "version": "0.1.11"
   },
   "schema_version": "1.0.1-bootstrap"
 }

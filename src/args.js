@@ -22,6 +22,7 @@ const VALUE_FLAGS = new Set([
   'workspace',
   'idempotency-key',
   'campaign',
+  'testimonial',
   'contact',
   'connector',
   'domain',

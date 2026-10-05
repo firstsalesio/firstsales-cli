@@ -87,6 +87,10 @@ const BODY_REQUIRED_MESSAGES = Object.freeze({
 });
 
 const BODY_REQUIRED_COMMANDS = new Set([
+  'testimonials add',
+  'testimonials update',
+  'inbox score',
+  'inbox ai-draft',
   'activities log',
   'api-keys create',
   'billing checkout',
@@ -214,6 +218,9 @@ const COMMANDS = withParityMetadata([
   workspace(['campaigns', 'progress'], 'GET', '/campaigns/{campaign}/progress', { required: ['campaign'] }),
   workspace(['campaigns', 'analytics'], 'GET', '/campaigns/{campaign}/analytics', { required: ['campaign'] }),
   workspace(['campaigns', 'events'], 'GET', '/campaigns/{campaign}/events', { required: ['campaign'] }),
+  workspace(['testimonials', 'list'], 'GET', '/campaigns/{campaign}/testimonials', { required: ['campaign'] }),
+  workspace(['testimonials', 'add'], 'POST', '/campaigns/{campaign}/testimonials', { required: ['campaign'] }),
+  workspace(['testimonials', 'update'], 'PATCH', '/campaigns/{campaign}/testimonials/{testimonial}', { required: ['campaign', 'testimonial'] }),
   workspace(['campaigns', 'sources'], 'GET', '/campaigns/{campaign}/sources', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow'], 'GET', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow-update'], 'PUT', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
@@ -254,6 +261,8 @@ const COMMANDS = withParityMetadata([
   workspace(['contact-tags', 'delete'], 'DELETE', '/contact-tags', { destructive: true }),
   workspace(['contact-imports', 'create'], 'POST', '/contact-imports'),
   workspace(['contact-exports', 'list'], 'GET', '/contact-exports'),
+  workspace(['inbox', 'score'], 'POST', '/inbox/score'),
+  workspace(['inbox', 'ai-draft'], 'POST', '/inbox/ai-draft'),
   workspace(['inbox', 'threads'], 'GET', '/inbox/threads'),
   workspace(['inbox', 'thread'], 'GET', '/inbox/threads/{thread}', { required: ['thread'] }),
   workspace(['inbox', 'reply'], 'POST', '/inbox/threads/{thread}/reply', { required: ['thread'] }),

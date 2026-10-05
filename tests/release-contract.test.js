@@ -41,7 +41,7 @@ test('generated publish contract matches the complete live public CLI package', 
   assert.equal(actual, expected);
   assert.deepEqual(contract.package, {
     name: '@firstsales.io/cli',
-    version: '0.1.10',
+    version: '0.1.11',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
     repository: {
@@ -81,8 +81,8 @@ test('generated publish contract matches the complete live public CLI package', 
     )
     .sort((left, right) => left.command.localeCompare(right.command));
   assert.deepEqual(contract.commands, expectedCommands);
-  assert.equal(contract.commands.length, 154);
-  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 44);
+  assert.equal(contract.commands.length, 159);
+  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 48);
   assert.deepEqual(
     contract.commands.find((command) => command.command === 'contacts list')?.query,
     [
