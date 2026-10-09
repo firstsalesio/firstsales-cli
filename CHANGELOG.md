@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.12
+
+### Features
+
+- `signals list|create|update|delete|run|analytics` manage LinkedIn Signals. Name one with `--signal <id>`. `delete` needs `--confirm`. `analytics --range <range>` picks the period.
+- `signals leads` lists Signal leads and `signals export` downloads them. Filters: `--signal-id`, `--target`, `--engagement`, `--min-score`, `--q`, `--from`, `--to` and `--sort`. `leads` also takes `--limit`, `--offset` and `--before`.
+- `changelog whats-new [--all]` shows product updates. `changelog read` marks them read. `changelog react|feedback --slug <slug>` reacts to or comments on one entry.
+- `inbox snooze --thread <id>` snoozes a thread. `inbox templates|template-create|template-update|template-delete` manage reply templates. Name one with `--template <id>`. `template-delete` needs `--confirm`.
+- `emails compose` creates a new email from a `--data` or `--data-file` body (`POST /emails`).
+- `alerts list` takes `--category`, `--severity`, `--status`, `--limit` and `--skip` filters.
+
 ## 0.1.9
 
 ### Features

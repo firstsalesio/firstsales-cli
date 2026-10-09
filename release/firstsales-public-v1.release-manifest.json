@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
-  "bundle_id": "sha256:f6331d22fc592ac6b6021329d829b7334a5d84605b6a2f41659f5bb9ef8d34e6",
-  "authorization_catalog_epoch": "sha256:581da1a8df48632179747ffbcb4b42b84c0b779572f1f066e0ef1dd9f4bfe478",
+  "bundle_id": "sha256:4e21e2e4baa2eb28a841b5d3559a8f95ae0f936f2f71613010fcb868205543fc",
+  "authorization_catalog_epoch": "sha256:50ae2263b25bbee2166812e4b606b18f8a938cef9a47eeacb1627378a28580cc",
   "generated_at": "2026-08-09",
   "release_ready": true,
   "capability_ids": [
@@ -23,6 +23,10 @@
     "campaign.progress.inspect",
     "campaign.workflow.inspect",
     "campaign.workflow.update_targets",
+    "changelog.feedback_create",
+    "changelog.mark_read",
+    "changelog.react",
+    "changelog.whats_new",
     "company.get",
     "company.list",
     "connector.cal_com.create",
@@ -38,6 +42,9 @@
     "email_auth.verify",
     "learning.outcomes.inspect",
     "pipeline.get",
+    "signal_lead.list",
+    "signal.analytics",
+    "signal.list",
     "team.member.inspect"
   ],
   "consumers": {
@@ -74,6 +81,10 @@
         "campaign.progress.inspect",
         "campaign.workflow.inspect",
         "campaign.workflow.update_targets",
+        "changelog.feedback_create",
+        "changelog.mark_read",
+        "changelog.react",
+        "changelog.whats_new",
         "company.get",
         "company.list",
         "connector.cal_com.create",
@@ -89,23 +100,26 @@
         "email_auth.verify",
         "learning.outcomes.inspect",
         "pipeline.get",
+        "signal_lead.list",
+        "signal.analytics",
+        "signal.list",
         "team.member.inspect"
       ]
     }
   },
   "hashes": {
     "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
-    "openapi_semantic_subset": "sha256:303117069f4c29d015061ae0d34243af3a4238e5cc0d17c16e99770bece0f83a",
+    "openapi_semantic_subset": "sha256:26466da946f662b75e5bb096060b3a0ba411b1275f100b94050addaa22141c6e",
     "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
-    "cli_publish_contract": "sha256:9d571655c11bd566b2848a8bc9fb8180808390aecb067d38dcca082978de3150",
-    "proof_matrix_subset": "sha256:062d2b52f26305ddb5b1d41ead50c6d884aeb6d59f83cd17d5564f72b7991b45",
-    "product_mcp_ledger_subset": "sha256:eb27bdefd18d25cd87a00fd027b3f185cc23660844d860f846ebe1485da9fd98",
-    "product_mcp_openapi_subset": "sha256:e69cdec5463e5b9e1dc8543fe83c010dd6620c30a6fb62bdda732a385eefbe54",
-    "product_mcp_proof_subset": "sha256:7016fdd73734f4a2db8d2594573492ba47260adc610f27a8e1a99be78b1f888f",
-    "parity_report": "sha256:d6d4b2b8273ed5351ecb7eb03b2c173904e1d2b69c23725408abce979ab9bea2",
-    "mcp_catalog": "sha256:f190403d353546eb7ee573cfe7e7632667b1bd1c2d03aaf9baa9904e3ff2fbce",
+    "cli_publish_contract": "sha256:0e81ccbb2c1361e1a1ff2ca61051500178da467fcf5b300a9d18cb0fc6e666cb",
+    "proof_matrix_subset": "sha256:dd4db22966516181f8104dffec63d3cbf9b0b1374a6d3955ac8c126246cf1b7e",
+    "product_mcp_ledger_subset": "sha256:0f40f0422dda1f242a432f23db897de575a94a7d6c70122e9d443a67d33441f8",
+    "product_mcp_openapi_subset": "sha256:6f1c2fe7a5f511184a352cd4e5d82aab72b61afe8030dc26f006c6cc1da24ec0",
+    "product_mcp_proof_subset": "sha256:164c151b09260f939760403ff4d62eff5faa8fd14d630b8238abe5c49ac6e2e6",
+    "parity_report": "sha256:b4eed921b3c3d66fcfcc8454f46ae1eedb81395d6975d5fef596caf9c0d44744",
+    "mcp_catalog": "sha256:168e10779cababb27412057657e865206f7eb683bbb4e1dcbe1aad317bce96a8",
     "mcp_auth": "sha256:90453fcb0b20db5e6af9cb3e1a38e384a08924efb7e764afbed86bcdd954df97",
-    "mcp_grant_contract": "sha256:194152568afee305c912c24ffd51a0bb63e1b4502df5e3b19ed7ea4f37abf736",
+    "mcp_grant_contract": "sha256:8c3110abce51f01e01fd79a07abc95428985d879b183dc7f1f31c69312460eb7",
     "mcp_transport": "sha256:1b1dd8999f1fa80d0cad4858729a924df0208d136ef48096c11f54917a713878"
   }
 }

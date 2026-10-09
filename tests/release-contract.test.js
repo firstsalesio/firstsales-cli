@@ -41,7 +41,7 @@ test('generated publish contract matches the complete live public CLI package', 
   assert.equal(actual, expected);
   assert.deepEqual(contract.package, {
     name: '@firstsales.io/cli',
-    version: '0.1.11',
+    version: '0.1.12',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
     repository: {
@@ -81,8 +81,8 @@ test('generated publish contract matches the complete live public CLI package', 
     )
     .sort((left, right) => left.command.localeCompare(right.command));
   assert.deepEqual(contract.commands, expectedCommands);
-  assert.equal(contract.commands.length, 159);
-  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 48);
+  assert.equal(contract.commands.length, 177);
+  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 57);
   assert.deepEqual(
     contract.commands.find((command) => command.command === 'contacts list')?.query,
     [
@@ -259,6 +259,10 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
     "campaign.progress.inspect",
     "campaign.workflow.inspect",
     "campaign.workflow.update_targets",
+    "changelog.feedback_create",
+    "changelog.mark_read",
+    "changelog.react",
+    "changelog.whats_new",
     "company.get",
     "company.list",
     "connector.cal_com.create",
@@ -274,6 +278,9 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
     "email_auth.verify",
     "learning.outcomes.inspect",
     "pipeline.get",
+    "signal_lead.list",
+    "signal.analytics",
+    "signal.list",
     "team.member.inspect"
   ]);
   assert.deepEqual(manifest.consumers, {
@@ -310,6 +317,10 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
         "campaign.progress.inspect",
         "campaign.workflow.inspect",
         "campaign.workflow.update_targets",
+        "changelog.feedback_create",
+        "changelog.mark_read",
+        "changelog.react",
+        "changelog.whats_new",
         "company.get",
         "company.list",
         "connector.cal_com.create",
@@ -325,6 +336,9 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
         "email_auth.verify",
         "learning.outcomes.inspect",
         "pipeline.get",
+        "signal_lead.list",
+        "signal.analytics",
+        "signal.list",
         "team.member.inspect"
       ]
     }

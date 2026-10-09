@@ -39,6 +39,8 @@ export async function fetchJson(config, request) {
 
   const response = await fetch(buildUrl(config.baseUrl, request.route), options);
   const text = await response.text();
+  const isJson = (response.headers?.get('content-type') ?? 'application/json').includes('json');
+  if (!isJson) return { status: response.status, body: text };
   return { status: response.status, body: text ? JSON.parse(text) : {} };
 }
 

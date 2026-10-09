@@ -165,7 +165,7 @@ test('destructive commands require --confirm before calling the API', async () =
 });
 
 test('deferred public surfaces return a stable unsupported-operation error', async () => {
-  const result = await runCli(['signals', 'list', '--json'], {
+  const result = await runCli(['webhooks', 'list', '--json'], {
     FIRSTSALES_API_KEY: 'fs-test-env',
   });
 
@@ -173,7 +173,7 @@ test('deferred public surfaces return a stable unsupported-operation error', asy
   assert.deepEqual(JSON.parse(result.stdout), {
     error: {
       code: 'unsupported_operation',
-      message: 'signals list is not supported by the FirstSales public API.',
+      message: 'webhooks list is not supported by the FirstSales public API.',
     },
   });
 });

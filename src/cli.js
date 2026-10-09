@@ -59,6 +59,11 @@ const QUERY_FLAG_NAMES = Object.freeze([
   'companyId',
   'contactId',
   'type',
+  'signalId',
+  'before',
+  'engagement',
+  'target',
+  'minScore',
 ]);
 
 export async function main(argv, env) {
@@ -166,7 +171,7 @@ export async function main(argv, env) {
     );
     return EXIT.usage;
   }
-  if (parsed.flags.all && !supportsPagination(command)) {
+  if (parsed.flags.all && !supportsPagination(command) && !(command.query ?? []).includes('all')) {
     writeOutput(
       {
         error: {
@@ -239,14 +244,16 @@ export async function main(argv, env) {
     return EXIT.usage;
   }
 
-  if (parsed.flags.all && command.method === 'GET') {
+  if (parsed.flags.all && supportsPagination(command)) {
     return runPaginated(config, route.route, parsed.flags);
   }
 
   try {
     const response = await fetchJson(config, {
       method: command.method,
-      route: withQuery(route.route, { page: parsed.flags.page, limit: parsed.flags.limit }),
+      route: supportsPagination(command)
+        ? withQuery(route.route, { page: parsed.flags.page, limit: parsed.flags.limit })
+        : route.route,
       body: body.value,
     });
     if (command.doctor) {
@@ -254,7 +261,8 @@ export async function main(argv, env) {
       return exitCodeForStatus(response.status);
     }
     printImportSummary(command, response, parsed.flags);
-    writeOutput(response.body, parsed.flags);
+    if (typeof response.body === 'string') process.stdout.write(response.body);
+    else writeOutput(response.body, parsed.flags);
     printMergeUndoHint(command, response);
     printAwaitingApproval(response);
     return exitCodeForStatus(response.status);

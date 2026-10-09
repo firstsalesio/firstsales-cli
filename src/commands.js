@@ -113,6 +113,7 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'deals move',
   'deals update',
   'domains add',
+  'emails compose',
   'emails draft',
   'emails schedule',
   'emails send',
@@ -122,6 +123,14 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'inbox approve-draft',
   'inbox reject-draft',
   'inbox reply',
+  'inbox snooze',
+  'inbox template-create',
+  'inbox template-update',
+  'signals create',
+  'signals update',
+  'changelog read',
+  'changelog react',
+  'changelog feedback',
   'invitations create',
   'kb add-sources',
   'kb create',
@@ -135,7 +144,7 @@ const BODY_REQUIRED_COMMANDS = new Set([
 
 const QUERY_FLAGS_BY_COMMAND = Object.freeze({
   'activities list': ['companyId', 'contactId', 'limit', 'page', 'type'],
-  'alerts list': ['category', 'limit', 'severity', 'skip'],
+  'alerts list': ['category', 'limit', 'severity', 'skip', 'status'],
   'api-keys list': ['page', 'limit'],
   'billing credit-history': ['action', 'campaignId', 'from', 'limit', 'offset', 'to'],
   'billing payments': ['limit', 'page'],
@@ -144,6 +153,7 @@ const QUERY_FLAGS_BY_COMMAND = Object.freeze({
   'campaigns analytics': ['range'],
   'campaigns events': ['since', 'until', 'severity', 'category', 'search', 'cursor', 'limit'],
   'campaigns list': ['page', 'limit', 'status'],
+  'changelog whats-new': ['all'],
   'companies list': ['page', 'limit'],
   'contacts list': [
     'page',
@@ -178,6 +188,9 @@ const QUERY_FLAGS_BY_COMMAND = Object.freeze({
   'learning overview': ['segmentKey'],
   'learning workspace-overview': ['segmentKey'],
   'members list': ['search', 'page', 'limit'],
+  'signals leads': ['before', 'engagement', 'from', 'limit', 'minScore', 'offset', 'q', 'signalId', 'sort', 'target', 'to'],
+  'signals export': ['engagement', 'from', 'minScore', 'q', 'signalId', 'sort', 'target', 'to'],
+  'signals analytics': ['range'],
   'usage get': ['days'],
 });
 
@@ -343,6 +356,15 @@ const COMMANDS = withParityMetadata([
   workspace(['activities', 'log'], 'POST', '/activities'),
   workspace(['inbox', 'assign'], 'POST', '/inbox/threads/{thread}/assign', { required: ['thread'] }),
   workspace(['inbox', 'bulk-read'], 'POST', '/inbox/threads/bulk-read'),
+  workspace(['inbox', 'snooze'], 'POST', '/inbox/threads/{thread}/snooze', { required: ['thread'] }),
+  workspace(['inbox', 'templates'], 'GET', '/inbox/reply-templates'),
+  workspace(['inbox', 'template-create'], 'POST', '/inbox/reply-templates'),
+  workspace(['inbox', 'template-update'], 'PATCH', '/inbox/reply-templates/{template}', { required: ['template'] }),
+  workspace(['inbox', 'template-delete'], 'DELETE', '/inbox/reply-templates/{template}', {
+    required: ['template'],
+    destructive: true,
+  }),
+  workspace(['emails', 'compose'], 'POST', '/emails'),
   workspace(['campaigns', 'leads'], 'GET', '/campaigns/{campaign}/leads', { required: ['campaign'] }),
   workspace(['learning', 'overview'], 'GET', '/campaigns/{campaign}/learning/overview', { required: ['campaign'] }),
   workspace(['learning', 'activity'], 'GET', '/campaigns/{campaign}/learning/activity', { required: ['campaign'] }),
@@ -370,9 +392,21 @@ const COMMANDS = withParityMetadata([
   workspace(['copilot', 'sessions-list'], 'GET', '/copilot/sessions'),
   workspace(['copilot', 'sessions-get'], 'GET', '/copilot/sessions/{session}', { required: ['session'] }),
   workspace(['copilot', 'post-message'], 'POST', '/copilot/sessions/{session}/messages', { required: ['session'] }),
+  workspace(['signals', 'list'], 'GET', '/signals'),
+  workspace(['signals', 'create'], 'POST', '/signals'),
+  workspace(['signals', 'update'], 'PATCH', '/signals/{signal}', { required: ['signal'] }),
+  workspace(['signals', 'delete'], 'DELETE', '/signals/{signal}', { required: ['signal'], destructive: true }),
+  workspace(['signals', 'run'], 'POST', '/signals/{signal}/run', { required: ['signal'] }),
+  workspace(['signals', 'analytics'], 'GET', '/signals/{signal}/analytics', { required: ['signal'] }),
+  workspace(['signals', 'leads'], 'GET', '/signals/leads'),
+  workspace(['signals', 'export'], 'GET', '/signals/leads/export'),
+  workspace(['changelog', 'whats-new'], 'GET', '/changelog/whats-new'),
+  workspace(['changelog', 'read'], 'POST', '/changelog/read'),
+  workspace(['changelog', 'react'], 'PUT', '/changelog/entries/{slug}/reaction', { required: ['slug'] }),
+  workspace(['changelog', 'feedback'], 'POST', '/changelog/entries/{slug}/feedback', { required: ['slug'] }),
 ]);
 
-const DEFERRED = new Set(['signals list', 'webhooks list']);
+const DEFERRED = new Set(['webhooks list']);
 
 export function resolveCommand(positionals, flags = {}) {
   const label = positionals.join(' ');
