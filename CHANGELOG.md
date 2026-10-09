@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.14
+
+### Changes
+
+- The README release status now says the package is published on npm. No CLI command changed.
+
 ## 0.1.13
 
 ### Changes
