@@ -44,6 +44,12 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
   owner: 'owner_123',
   q: 'renewal',
   tab: 'unread',
+  signalId: 'sig_123',
+  engagement: 'comment',
+  target: 'https://www.linkedin.com/in/ana',
+  minScore: '70',
+  before: 'lead_123',
+  all: 'true',
   senderConnectorId: 'conn_123',
   campaignId: 'camp_123',
   sort: 'newest',
@@ -55,6 +61,11 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
 
 const INTENTIONAL_BODY_REQUIRED_OVERRIDES = Object.freeze({
   'campaigns start': true,
+  'testimonials add': true,
+  'testimonials update': true,
+  'inbox score': true,
+  'inbox ai-draft': true,
+  'inbox snooze': true,
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -89,7 +100,8 @@ test('declared query flags route exactly and unsupported query flags fail fast',
     try {
       const args = buildArgs(command);
       for (const name of command.query ?? []) {
-        args.push(`--${toFlag(name)}`, QUERY_SAMPLE_VALUES[name]);
+        if (name === 'all') args.push('--all');
+        else args.push(`--${toFlag(name)}`, QUERY_SAMPLE_VALUES[name]);
       }
 
       const result = await runCli(args, {
@@ -144,8 +156,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 143);
-    assert.equal(commands.length, 150);
+    assert.equal(operations.length, 170);
+    assert.equal(commands.length, 177);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     const commandGroups = new Map();

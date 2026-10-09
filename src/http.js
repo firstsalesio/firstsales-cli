@@ -39,6 +39,13 @@ export async function fetchJson(config, request) {
 
   const response = await fetch(buildUrl(config.baseUrl, request.route), options);
   const text = await response.text();
+  const contentType = response.headers?.get('content-type') ?? 'application/json';
+  if (!contentType.includes('json')) {
+    // Raw text (a CSV export) only on success; a proxy's HTML error page stays a JSON error.
+    if (response.ok) return { status: response.status, body: text };
+    const message = `HTTP ${response.status} returned ${contentType.split(';')[0]} instead of JSON.`;
+    return { status: response.status, body: { error: { code: 'non_json_response', message } } };
+  }
   return { status: response.status, body: text ? JSON.parse(text) : {} };
 }
 

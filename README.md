@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.11-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.12-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 159 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 177 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.10` is published on npm. This checkout and its generated release artifacts target `0.1.11`. Publish only the verified merged release; the new campaign activation commands require the accompanying backend routes to be deployed.
+**Release status:** `0.1.12` is published on npm. It adds signals, changelog, inbox template and email compose commands.
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -269,7 +269,7 @@ flags. Examples: `--status`, `--search`, `--range`, `--sort-by`,
 publishes both values as pagination inputs. Some read routes also accept bounded
 OpenAPI filters without full pagination. For example, `activities list` accepts
 `--company-id`, `--contact-id`, `--limit`, `--page`, and `--type`, while
-`alerts list` accepts `--category`, `--limit`, `--severity`, and `--skip`.
+`alerts list` accepts `--category`, `--limit`, `--severity`, `--skip`, and `--status`.
 
 ---
 

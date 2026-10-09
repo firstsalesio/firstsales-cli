@@ -53,7 +53,8 @@
         "category",
         "limit",
         "severity",
-        "skip"
+        "skip",
+        "status"
       ],
       "required": [
         "org",
@@ -537,6 +538,54 @@
         "org",
         "workspace",
         "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "changelog feedback",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/changelog/entries/{slug}/feedback",
+      "required": [
+        "org",
+        "workspace",
+        "slug"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "changelog react",
+      "destructive": false,
+      "method": "PUT",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/changelog/entries/{slug}/reaction",
+      "required": [
+        "org",
+        "workspace",
+        "slug"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "changelog read",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/changelog/read",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "changelog whats-new",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/changelog/whats-new",
+      "query": [
+        "all"
+      ],
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -1137,6 +1186,17 @@
     },
     {
       "bodyRequired": true,
+      "command": "emails compose",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/emails",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "emails draft",
       "destructive": false,
       "method": "POST",
@@ -1332,6 +1392,62 @@
       "destructive": false,
       "method": "POST",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/score",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "inbox snooze",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/snooze",
+      "required": [
+        "org",
+        "workspace",
+        "thread"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "inbox template-create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/reply-templates",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "inbox template-delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/reply-templates/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "inbox template-update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/reply-templates/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "command": "inbox templates",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/reply-templates",
       "required": [
         "org",
         "workspace"
@@ -1705,6 +1821,118 @@
       ]
     },
     {
+      "command": "signals analytics",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/{signal}/analytics",
+      "query": [
+        "range"
+      ],
+      "required": [
+        "org",
+        "workspace",
+        "signal"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "signals create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "signals delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/{signal}",
+      "required": [
+        "org",
+        "workspace",
+        "signal"
+      ]
+    },
+    {
+      "command": "signals export",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/leads/export",
+      "query": [
+        "engagement",
+        "from",
+        "minScore",
+        "q",
+        "signalId",
+        "sort",
+        "target",
+        "to"
+      ],
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "signals leads",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/leads",
+      "query": [
+        "before",
+        "engagement",
+        "from",
+        "limit",
+        "minScore",
+        "offset",
+        "q",
+        "signalId",
+        "sort",
+        "target",
+        "to"
+      ],
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "signals list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "signals run",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/{signal}/run",
+      "required": [
+        "org",
+        "workspace",
+        "signal"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "signals update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/signals/{signal}",
+      "required": [
+        "org",
+        "workspace",
+        "signal"
+      ]
+    },
+    {
       "bodyRequired": true,
       "command": "suppression check",
       "destructive": false,
@@ -1869,6 +2097,7 @@
     "--auto-approve",
     "--base-url",
     "--bcc",
+    "--before",
     "--body",
     "--booking-url",
     "--cal-com-api-key",
@@ -1891,6 +2120,7 @@
     "--domain",
     "--dry-run",
     "--email",
+    "--engagement",
     "--event-type",
     "--from",
     "--group",
@@ -1905,6 +2135,7 @@
     "--limit",
     "--list",
     "--list-id",
+    "--min-score",
     "--mobile-only",
     "--no-wait",
     "--offering",
@@ -1926,8 +2157,11 @@
     "--sender-connector-id",
     "--session",
     "--severity",
+    "--signal",
+    "--signal-id",
     "--since",
     "--skip",
+    "--slug",
     "--sort",
     "--sort-by",
     "--sort-order",
@@ -1937,6 +2171,7 @@
     "--subject",
     "--tab",
     "--tags",
+    "--target",
     "--template",
     "--testimonial",
     "--thread",
@@ -1979,7 +2214,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.11"
+    "version": "0.1.12"
   },
   "schema_version": "1.0.1-bootstrap"
 }

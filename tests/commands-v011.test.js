@@ -187,6 +187,7 @@ test('learning read-only endpoints route correctly', async () => {
 
 test('alerts, warmup, email-auth route correctly', async () => {
   await expectRoute(['alerts', 'list', ...wsFlags], 'GET', '/api/v1/organizations/org_123/workspaces/ws_123/alerts');
+  await expectRoute(['alerts', 'list', ...wsFlags, '--status', 'open'], 'GET', '/api/v1/organizations/org_123/workspaces/ws_123/alerts?status=open');
   await expectRoute(
     ['alerts', 'ack', ...wsFlags, '--alert', 'al_1'],
     'POST',
