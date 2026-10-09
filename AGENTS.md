@@ -7,7 +7,7 @@ Use this repository only for public FirstSales agent assets.
 - `src/commands.js` is the command registry authority for the packaged CLI surface.
 - `release/firstsales-public-v1.cli-publish-contract.json` is the published CLI contract authority.
 - `https://developer.firstsales.io/llms.txt` is the public docs index for API, CLI, and MCP guidance.
-- `https://developer.firstsales.io/skill.md` is the canonical public FirstSales agent skill.
+- `https://github.com/firstsalesio/firstsales-skills` holds the FirstSales agent skills. This package no longer bundles them. Install steps: `https://developer.firstsales.io/skills/introduction`.
 
 ## Safety rules
 

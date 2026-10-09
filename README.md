@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.12-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.13-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 177 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.12` is published on npm. It adds signals, changelog, inbox template and email compose commands.
+**Release status:** `0.1.13` is prepared for release; it is not yet published on npm. It stops bundling agent skills; they now ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -735,11 +735,10 @@ Public agent assets for this package live in:
 - [`plugin.json`](plugin.json)
 - [`mcp.json`](mcp.json)
 - [`AGENTS.md`](AGENTS.md)
-- [`skills/firstsales-cli/SKILL.md`](skills/firstsales-cli/SKILL.md)
-- [`skills/firstsales-developer-api/SKILL.md`](skills/firstsales-developer-api/SKILL.md)
-- [`skills/firstsales-product-mcp/SKILL.md`](skills/firstsales-product-mcp/SKILL.md)
 
-The bundled MCP configuration points at the canonical Product MCP endpoint `https://api.app.firstsales.io/mcp` and keeps skill guidance aligned with the public CLI, Developer API, and MCP docs shipped on `developer.firstsales.io`.
+The bundled MCP configuration points at the canonical Product MCP endpoint `https://api.app.firstsales.io/mcp`.
+
+Agent skills for Codex, Claude Code and other agents (`/firstsales`, `$firstsales`) now live in their own repository: https://github.com/firstsalesio/firstsales-skills. Install steps: https://developer.firstsales.io/skills/introduction.
 
 ### Inspect Campaign Health
 
