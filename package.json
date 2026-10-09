@@ -1,6 +1,6 @@
 {
   "name": "@firstsales.io/cli",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Command-line interface for the FirstSales Developer API.",
   "type": "module",
   "bin": {
@@ -14,8 +14,7 @@
     "README.md",
     "AGENTS.md",
     "plugin.json",
-    "mcp.json",
-    "skills"
+    "mcp.json"
   ],
   "scripts": {
     "release-contract:check": "node scripts/generate-release-contract.mjs --check",

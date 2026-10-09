@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.13
+
+### Changes
+
+- The package no longer bundles agent skills. Install them from https://github.com/firstsalesio/firstsales-skills (steps at https://developer.firstsales.io/skills/introduction). No CLI command changed.
+
 ## 0.1.12
 
 ### Features
