@@ -77,6 +77,25 @@ test('signals export prints the CSV the API returns', async () => {
   }
 });
 
+test('signals export turns a non-JSON error page into a JSON error', async () => {
+  const server = createServer((req, res) => {
+    res.writeHead(502, { 'content-type': 'text/html' });
+    res.end('<html>Bad Gateway</html>');
+  });
+  await new Promise((resolve) => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const result = await runCli(
+      ['signals', 'export', ...wsFlags, '--json'],
+      env(`http://127.0.0.1:${server.address().port}`)
+    );
+    assert.notEqual(result.code, 0);
+    assert.doesNotMatch(result.stdout, /<html>/);
+    assert.equal(JSON.parse(result.stdout).error.code, 'non_json_response');
+  } finally {
+    await new Promise((resolve) => server.close(resolve));
+  }
+});
+
 test('changelog commands route to the public changelog API', async () => {
   await expectRoute(['changelog', 'whats-new', ...wsFlags], 'GET', `${base}/changelog/whats-new`);
   await expectRoute(['changelog', 'whats-new', ...wsFlags, '--all'], 'GET', `${base}/changelog/whats-new?all=true`);
