@@ -204,9 +204,9 @@ const QUERY_FLAGS_BY_COMMAND = Object.freeze({
   'signals leads': ['before', 'engagement', 'from', 'limit', 'minScore', 'offset', 'q', 'signalId', 'sort', 'target', 'to'],
   'signals export': ['engagement', 'from', 'minScore', 'q', 'signalId', 'sort', 'target', 'to'],
   'signals analytics': ['range'],
-  'meetings slots': ['start', 'end', 'duration', 'timeZone'],
+  'meetings slots': ['from', 'to', 'duration'],
   'meetings roster': ['occurrenceKey'],
-  'meetings bookings': ['status', 'from', 'to', 'limit', 'cursor'],
+  'meetings bookings': ['status', 'from', 'to'],
   'usage get': ['days'],
 });
 

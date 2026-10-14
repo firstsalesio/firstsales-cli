@@ -1694,9 +1694,7 @@
       "query": [
         "status",
         "from",
-        "to",
-        "limit",
-        "cursor"
+        "to"
       ],
       "required": [
         "org",
@@ -1977,10 +1975,9 @@
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/event-types/{eventType}/slots",
       "query": [
-        "start",
-        "end",
-        "duration",
-        "timeZone"
+        "from",
+        "to",
+        "duration"
       ],
       "required": [
         "org",
