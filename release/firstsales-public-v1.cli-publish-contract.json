@@ -1749,6 +1749,13 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/insights/export",
+      "query": [
+        "from",
+        "to",
+        "hostUserId",
+        "eventTypeId",
+        "status"
+      ],
       "required": [
         "org",
         "workspace"
@@ -1759,6 +1766,13 @@
       "destructive": false,
       "method": "GET",
       "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/insights",
+      "query": [
+        "from",
+        "to",
+        "hostUserId",
+        "eventTypeId",
+        "status"
+      ],
       "required": [
         "org",
         "workspace"
@@ -1830,7 +1844,6 @@
       ]
     },
     {
-      "bodyRequired": true,
       "command": "meetings private-link",
       "destructive": false,
       "method": "POST",
@@ -1970,7 +1983,6 @@
       ]
     },
     {
-      "bodyRequired": true,
       "command": "meetings settings-update",
       "destructive": false,
       "method": "PATCH",
@@ -2483,11 +2495,13 @@
     "--endpoint",
     "--engagement",
     "--event-type",
+    "--event-type-id",
     "--form",
     "--from",
     "--group",
     "--handoff",
     "--help",
+    "--host-user-id",
     "--html",
     "--idempotency-key",
     "--include-list",

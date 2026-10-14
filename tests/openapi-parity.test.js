@@ -53,6 +53,8 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
   duration: '30',
   timeZone: 'Asia/Kolkata',
   occurrenceKey: 'occ_1',
+  eventTypeId: '65a000000000000000000001',
+  hostUserId: 'host_1',
   before: 'lead_123',
   all: 'true',
   senderConnectorId: 'conn_123',

@@ -47,9 +47,9 @@ test('meetings write commands send the given body to the Calendar API', async ()
 
 test('meetings slots passes its range filters', async () => {
   await expectRoute(
-    m('slots', '--event-type', 'et_1', '--start', '2026-10-15', '--end', '2026-10-16', '--duration', '30'),
+    m('slots', '--event-type', 'et_1', '--from', '2026-10-15', '--to', '2026-10-16', '--duration', '30'),
     'GET',
-    `${base}/event-types/et_1/slots?start=2026-10-15&end=2026-10-16&duration=30`,
+    `${base}/event-types/et_1/slots?from=2026-10-15&to=2026-10-16&duration=30`,
   );
 });
 

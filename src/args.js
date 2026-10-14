@@ -104,6 +104,8 @@ const VALUE_FLAGS = new Set([
   'type',
   'dkim-selector',
   'event-type',
+  'event-type-id',
+  'host-user-id',
   'booking-url',
   'subject',
   'body',

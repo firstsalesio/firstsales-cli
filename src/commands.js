@@ -130,10 +130,8 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'signals update',
   'meetings booking-action',
   'meetings event-type-update',
-  'meetings private-link',
   'meetings route',
   'meetings schedule-update',
-  'meetings settings-update',
   'meetings webhook-update',
   'meetings workflow-update',
   'meetings series-create',
@@ -207,6 +205,8 @@ const QUERY_FLAGS_BY_COMMAND = Object.freeze({
   'meetings slots': ['from', 'to', 'duration'],
   'meetings roster': ['occurrenceKey'],
   'meetings bookings': ['status', 'from', 'to'],
+  'meetings insights': ['from', 'to', 'hostUserId', 'eventTypeId', 'status'],
+  'meetings export': ['from', 'to', 'hostUserId', 'eventTypeId', 'status'],
   'usage get': ['days'],
 });
 
