@@ -64,6 +64,7 @@ const QUERY_FLAG_NAMES = Object.freeze([
   'engagement',
   'target',
   'minScore',
+  'occurrenceKey',
   'start',
   'end',
   'duration',

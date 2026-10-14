@@ -52,3 +52,15 @@ test('meetings slots passes its range filters', async () => {
     `${base}/event-types/et_1/slots?start=2026-10-15&end=2026-10-16&duration=30`,
   );
 });
+
+test('meetings series and seat commands route to the Calendar API', async () => {
+  const data = ['--data', '{"a":1}'];
+  await expectRoute(m('series-create', ...data), 'POST', `${base}/series`, { a: 1 });
+  await expectRoute(m('series-update', '--series', 's1', ...data), 'PATCH', `${base}/series/s1`, { a: 1 });
+  await expectRoute(m('roster', '--series', 's1', '--occurrence-key', 'k1'), 'GET', `${base}/series/s1/roster?occurrenceKey=k1`);
+  await expectRoute(m('seat-register', '--series', 's1', ...data), 'POST', `${base}/series/s1/seats`, { a: 1 });
+  await expectRoute(m('instant-readiness', '--series', 's1', ...data), 'POST', `${base}/series/s1/instant-readiness`, { a: 1 });
+  await expectRoute(m('seat-accept', '--registration', 'r1'), 'POST', `${base}/seats/r1/accept`);
+  await expectRoute(m('seat-decide', '--registration', 'r1', ...data), 'POST', `${base}/seats/r1/decision`, { a: 1 });
+  await expectRoute(m('seat-release', '--registration', 'r1', '--confirm'), 'DELETE', `${base}/seats/r1`);
+});

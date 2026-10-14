@@ -1757,6 +1757,18 @@
     },
     {
       "bodyRequired": true,
+      "command": "meetings instant-readiness",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/series/{series}/instant-readiness",
+      "required": [
+        "org",
+        "workspace",
+        "series"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "meetings private-link",
       "destructive": false,
       "method": "POST",
@@ -1776,6 +1788,20 @@
         "org",
         "workspace",
         "delivery"
+      ]
+    },
+    {
+      "command": "meetings roster",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/series/{series}/roster",
+      "query": [
+        "occurrenceKey"
+      ],
+      "required": [
+        "org",
+        "workspace",
+        "series"
       ]
     },
     {
@@ -1800,6 +1826,75 @@
         "org",
         "workspace",
         "schedule"
+      ]
+    },
+    {
+      "command": "meetings seat-accept",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/seats/{registration}/accept",
+      "required": [
+        "org",
+        "workspace",
+        "registration"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings seat-decide",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/seats/{registration}/decision",
+      "required": [
+        "org",
+        "workspace",
+        "registration"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings seat-register",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/series/{series}/seats",
+      "required": [
+        "org",
+        "workspace",
+        "series"
+      ]
+    },
+    {
+      "command": "meetings seat-release",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/seats/{registration}",
+      "required": [
+        "org",
+        "workspace",
+        "registration"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings series-create",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/series",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings series-update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/series/{series}",
+      "required": [
+        "org",
+        "workspace",
+        "series"
       ]
     },
     {
@@ -2344,6 +2439,7 @@
     "--min-score",
     "--mobile-only",
     "--no-wait",
+    "--occurrence-key",
     "--offering",
     "--offset",
     "--org",
@@ -2356,12 +2452,14 @@
     "--q",
     "--query",
     "--range",
+    "--registration",
     "--remove",
     "--schedule",
     "--search",
     "--segment-key",
     "--sender",
     "--sender-connector-id",
+    "--series",
     "--session",
     "--severity",
     "--signal",

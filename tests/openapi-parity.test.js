@@ -52,6 +52,7 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
   end: '2026-10-16',
   duration: '30',
   timeZone: 'Asia/Kolkata',
+  occurrenceKey: 'occ_1',
   before: 'lead_123',
   all: 'true',
   senderConnectorId: 'conn_123',
