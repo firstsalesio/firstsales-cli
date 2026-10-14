@@ -49,6 +49,8 @@ const VALUE_FLAGS = new Set([
   'signal-id',
   'series',
   'registration',
+  'quote',
+  'handoff',
   'occurrence-key',
   'booking',
   'delivery',

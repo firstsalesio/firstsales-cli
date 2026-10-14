@@ -64,3 +64,9 @@ test('meetings series and seat commands route to the Calendar API', async () => 
   await expectRoute(m('seat-decide', '--registration', 'r1', ...data), 'POST', `${base}/seats/r1/decision`, { a: 1 });
   await expectRoute(m('seat-release', '--registration', 'r1', '--confirm'), 'DELETE', `${base}/seats/r1`);
 });
+
+test('meetings payment and merchant commands accept their identifier flags', async () => {
+  await expectRoute(m('payment-approve', '--quote', 'q1'), 'POST', `${base}/payments/quotes/q1/approve`);
+  await expectRoute(m('payment-hold', '--quote', 'q1'), 'POST', `${base}/payments/quotes/q1/hold`);
+  await expectRoute(m('merchant-status', '--handoff', 'h1'), 'GET', `${base}/merchant-handoffs/h1`);
+});
