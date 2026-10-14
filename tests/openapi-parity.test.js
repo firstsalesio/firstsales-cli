@@ -66,6 +66,8 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
 
 const INTENTIONAL_BODY_REQUIRED_OVERRIDES = Object.freeze({
   'campaigns start': true,
+  // Native Express initializes an absent body to {}; retry's dryRun is optional.
+  'campaigns retry-drafts': false,
   'testimonials add': true,
   'testimonials update': true,
   'inbox score': true,
@@ -162,7 +164,7 @@ test(
     const operations = collectOperations(spec);
 
     assert.equal(operations.length, 201);
-    assert.equal(commands.length, 207);
+    assert.equal(commands.length, 208);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     const commandGroups = new Map();

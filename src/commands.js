@@ -253,6 +253,7 @@ const COMMANDS = withParityMetadata([
   workspace(['campaigns', 'sources'], 'GET', '/campaigns/{campaign}/sources', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow'], 'GET', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow-update'], 'PUT', '/campaigns/{campaign}/workflow', { required: ['campaign'] }),
+  workspace(['campaigns', 'retry-drafts'], 'POST', '/campaigns/{campaign}/drafts/retry', { required: ['campaign'] }),
   workspace(['campaigns', 'workflow', 'get'], 'GET', '/campaigns/{campaign}/workflow', {
     required: ['campaign'],
     args: 'campaign',

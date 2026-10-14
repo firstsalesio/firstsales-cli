@@ -441,6 +441,17 @@
       ]
     },
     {
+      "command": "campaigns retry-drafts",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/drafts/retry",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
       "bodyRequired": true,
       "command": "campaigns send-test-email",
       "destructive": false,
