@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.15
+
+### Changes
+
+- New `meetings` command group for FirstSales Meeting: list bookings, event types, open slots, deliveries, insights, export and settings, and update event types, schedules, settings, webhooks and workflows. Write commands take `--data` or `--data-file`.
+
 ## 0.1.14
 
 ### Changes

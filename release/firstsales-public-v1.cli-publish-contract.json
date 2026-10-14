@@ -1675,6 +1675,206 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "meetings booking-action",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/bookings/{booking}/actions",
+      "required": [
+        "org",
+        "workspace",
+        "booking"
+      ]
+    },
+    {
+      "command": "meetings bookings",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/bookings",
+      "query": [
+        "status",
+        "from",
+        "to",
+        "limit",
+        "cursor"
+      ],
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings deliveries",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/deliveries",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings event-type-update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/event-types/{eventType}",
+      "required": [
+        "org",
+        "workspace",
+        "eventType"
+      ]
+    },
+    {
+      "command": "meetings event-types",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/event-types",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings export",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/insights/export",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings insights",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/insights",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings private-link",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/event-types/{eventType}/private-links",
+      "required": [
+        "org",
+        "workspace",
+        "eventType"
+      ]
+    },
+    {
+      "command": "meetings replay",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/deliveries/{delivery}/replay",
+      "required": [
+        "org",
+        "workspace",
+        "delivery"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings route",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/routing-forms/{form}/route",
+      "required": [
+        "org",
+        "workspace",
+        "form"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings schedule-update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/schedules/{schedule}",
+      "required": [
+        "org",
+        "workspace",
+        "schedule"
+      ]
+    },
+    {
+      "command": "meetings settings",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/settings",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings settings-update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/settings",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings slots",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/event-types/{eventType}/slots",
+      "query": [
+        "start",
+        "end",
+        "duration",
+        "timeZone"
+      ],
+      "required": [
+        "org",
+        "workspace",
+        "eventType"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings webhook-update",
+      "destructive": false,
+      "method": "PUT",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/webhook-endpoints/{endpoint}",
+      "required": [
+        "org",
+        "workspace",
+        "endpoint"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings workflow-update",
+      "destructive": false,
+      "method": "PUT",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/workflows/{workflow}",
+      "required": [
+        "org",
+        "workspace",
+        "workflow"
+      ]
+    },
+    {
+      "command": "meetings workflows",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/workflows",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "members list",
       "destructive": false,
       "method": "GET",
@@ -2099,6 +2299,7 @@
     "--bcc",
     "--before",
     "--body",
+    "--booking",
     "--booking-url",
     "--cal-com-api-key",
     "--campaign",
@@ -2116,12 +2317,17 @@
     "--data-file",
     "--days",
     "--deal",
+    "--delivery",
     "--dkim-selector",
     "--domain",
     "--dry-run",
+    "--duration",
     "--email",
+    "--end",
+    "--endpoint",
     "--engagement",
     "--event-type",
+    "--form",
     "--from",
     "--group",
     "--help",
@@ -2151,6 +2357,7 @@
     "--query",
     "--range",
     "--remove",
+    "--schedule",
     "--search",
     "--segment-key",
     "--sender",
@@ -2167,6 +2374,7 @@
     "--sort-order",
     "--source",
     "--stage",
+    "--start",
     "--status",
     "--subject",
     "--tab",
@@ -2175,6 +2383,7 @@
     "--template",
     "--testimonial",
     "--thread",
+    "--time-zone",
     "--timeout",
     "--to",
     "--top-n",
@@ -2182,6 +2391,7 @@
     "--until",
     "--verification-status",
     "--wait",
+    "--workflow",
     "--workspace"
   ],
   "output": {
@@ -2214,7 +2424,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.14"
+    "version": "0.1.15"
   },
   "schema_version": "1.0.1-bootstrap"
 }

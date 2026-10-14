@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0.0",
-  "bundle_id": "sha256:a42d9863d1af1463aefb1d6515c3de2ca92e8a64d476d002832e104623c845a6",
-  "authorization_catalog_epoch": "sha256:50ae2263b25bbee2166812e4b606b18f8a938cef9a47eeacb1627378a28580cc",
+  "bundle_id": "sha256:abba03bc0f50037ed9a5e905f5a652015d8b71dc5a03675061cf8d135a7fb146",
+  "authorization_catalog_epoch": "sha256:3e103e502e75e001662f401fbbfc7bc1803702e4864c1d3b37c2319d30a8a021",
   "generated_at": "2026-08-09",
   "release_ready": true,
   "capability_ids": [
@@ -109,15 +109,15 @@
   },
   "hashes": {
     "ledger_subset": "sha256:1ea10fbefc9554e5a823f3e1b5ae229c53cc15acc27beb8ee3391bfc4fa57bb6",
-    "openapi_semantic_subset": "sha256:e05efda7d129455ed153fed3b0edcc42f264a0ba9cfb3e01a7d75fd1cc0e4a1b",
+    "openapi_semantic_subset": "sha256:dbc6e952b64e88a8cb3104693cafabfdd0dfc5d6cfcb2c9b0f3ddf78c14802db",
     "cli_semantic_subset": "sha256:86bde5523a288c3af7491a775daf71b3e07e3a6a61555ddab55d955cae63f7b2",
-    "cli_publish_contract": "sha256:615d444c6442db5a974b00e9a203ca317b378304da6b292776e9773ef81f1394",
-    "proof_matrix_subset": "sha256:6671661814085609a984237ad6c97fdc957ce09b90d7b5464b649ed1081f76a4",
+    "cli_publish_contract": "sha256:b1b0acf551da44294d405fcfacbedb5490c34808af13d0427a0b388158fac29f",
+    "proof_matrix_subset": "sha256:45f67c719b360f97a8ee4e60c2144a588287d50ea5298f5a720d7c0bf68f9859",
     "product_mcp_ledger_subset": "sha256:0f40f0422dda1f242a432f23db897de575a94a7d6c70122e9d443a67d33441f8",
-    "product_mcp_openapi_subset": "sha256:6f1c2fe7a5f511184a352cd4e5d82aab72b61afe8030dc26f006c6cc1da24ec0",
-    "product_mcp_proof_subset": "sha256:98c37303d21fa141592ef3cbad601028137f01bc39ccfc34e785a12840a599e2",
-    "parity_report": "sha256:b4eed921b3c3d66fcfcc8454f46ae1eedb81395d6975d5fef596caf9c0d44744",
-    "mcp_catalog": "sha256:168e10779cababb27412057657e865206f7eb683bbb4e1dcbe1aad317bce96a8",
+    "product_mcp_openapi_subset": "sha256:d590e052ca957a6de751e24347d4ac35b8e756cf06716f3dd97aac16b4cca255",
+    "product_mcp_proof_subset": "sha256:df3656ce34eaa5db250129d960e8f30b764b823cc43a4bdc6656d819e1451681",
+    "parity_report": "sha256:2134b7cecda49731a5717df18aa67734ac8f2eda41f3db4723b6c416ddfe8c5c",
+    "mcp_catalog": "sha256:48e6b6283671d4af19198e5300c16d7babefad8cc9d3271d50f7bbcb0d583f5c",
     "mcp_auth": "sha256:90453fcb0b20db5e6af9cb3e1a38e384a08924efb7e764afbed86bcdd954df97",
     "mcp_grant_contract": "sha256:8c3110abce51f01e01fd79a07abc95428985d879b183dc7f1f31c69312460eb7",
     "mcp_transport": "sha256:1b1dd8999f1fa80d0cad4858729a924df0208d136ef48096c11f54917a713878"

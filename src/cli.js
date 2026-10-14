@@ -64,6 +64,10 @@ const QUERY_FLAG_NAMES = Object.freeze([
   'engagement',
   'target',
   'minScore',
+  'start',
+  'end',
+  'duration',
+  'timeZone',
 ]);
 
 export async function main(argv, env) {
