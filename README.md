@@ -866,6 +866,35 @@ npm pack --dry-run --json
 
 The command registry is the source for CLI docs sync. When public API routes change, update the registry, tests, docs, and OpenAPI contract together.
 
+The full OpenAPI parity test runs in a standalone checkout. Its default authority,
+[`tests/fixtures/firstsales-public-v1.openapi-parity.json`](tests/fixtures/firstsales-public-v1.openapi-parity.json),
+contains all 201 public operations from the matching backend commit
+`3215a87d32b08f0ccc24c108303532b984a8c47f`. It retains only the fields parity consumes;
+the fixture records the source file commit, full-file SHA-256 and projection digest.
+This test fixture is separate from the generated publish contract and release manifest.
+Refresh it only from the matching reviewed backend public OpenAPI, preserving every
+operation and the recorded provenance. Do not use a moving backend checkout as CI's
+implicit authority.
+
+To compare against an explicit full backend OpenAPI file instead:
+
+```bash
+FIRSTSALES_OPENAPI_AUTHORITY=/path/to/firstsales-public-v1.json npm test
+```
+
+A missing or invalid authority fails the parity test; it is never silently skipped.
+
+The managed gate workflow and `.github/preprgate/` runtime are installed unchanged
+from the selected Codex skill:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/preprgate/scripts/install-gate.sh" --ci
+```
+
+The installer also maintains local Git hooks and an ignored `.claude/settings.json`.
+Keep personal guard paths and ephemeral `.preprgate/` state out of commits. Installation
+does not run or pass the gate, publish a release, or establish release readiness.
+
 ### Testimonial and inbox assistance commands
 
 Use `firstsales testimonials list`, `testimonials add`, or `testimonials update` with `--campaign`; updates also require `--testimonial`. Mutations accept `--data` or `--data-file`.

@@ -13,6 +13,7 @@ import { homedir } from 'node:os';
 import { basename, dirname, resolve } from 'node:path';
 import { Transform } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
+import { StringDecoder } from 'node:string_decoder';
 
 const PAGE_BYTES = 32 * 1024;
 const CARRY_CHARS = 16 * 1024;
@@ -64,11 +65,14 @@ class Sanitizer extends Transform {
     this.repo = repo;
     this.carry = '';
     this.discardCredential = false;
+    this.decoder = new StringDecoder('utf8');
+    this.secrets = sensitiveValues();
+    this.carryChars = Math.max(CARRY_CHARS, this.secrets[0]?.length || 0);
   }
 
   _transform(chunk, _encoding, callback) {
     try {
-      let value = chunk.toString('utf8');
+      let value = typeof chunk === 'string' ? chunk : this.decoder.write(chunk);
       if (this.discardCredential) {
         const boundary = value.search(/\s/);
         if (boundary < 0) return callback();
@@ -76,8 +80,19 @@ class Sanitizer extends Transform {
         this.discardCredential = false;
       }
       this.carry += value;
-      if (this.carry.length > CARRY_CHARS * 2) {
-        const end = this.carry.length - CARRY_CHARS;
+      if (this.carry.length > this.carryChars * 2) {
+        let end = this.carry.length - this.carryChars;
+        // Keep the suffix raw and never split a known secret, including overlaps.
+        let previous;
+        do {
+          previous = end;
+          for (const secret of this.secrets) {
+            const start = this.carry.lastIndexOf(secret, end - 1);
+            if (start >= 0 && start + secret.length > end) end = start;
+          }
+        } while (end !== previous);
+        if (end === 0) fail('overlapping secrets prevent bounded log sanitization');
+        if (/[\uDC00-\uDFFF]/.test(this.carry[end])) end -= 1;
         const emitted = this.carry.slice(0, end);
         const openCredential = /(?:\bAuthorization[ \t]*:[ \t]*(?:Bearer|Basic)[ \t]+|\b(?:gh[pousr]_|github_pat_|sk_(?:live|test)_|AKIA))[^\s]*$/i.exec(emitted);
         if (openCredential) {
@@ -99,6 +114,7 @@ class Sanitizer extends Transform {
 
   _flush(callback) {
     try {
+      this.carry += this.decoder.end();
       this.push(sanitizeText(this.carry, this.repo));
       callback();
     } catch (error) {

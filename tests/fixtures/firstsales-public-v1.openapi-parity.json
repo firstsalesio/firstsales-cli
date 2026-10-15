@@ -1,0 +1,4028 @@
+{
+  "source": {
+    "repository": "firstsalesio/firstsales-outreach-backend",
+    "commit": "3215a87d32b08f0ccc24c108303532b984a8c47f",
+    "fileCommit": "0bd756a77edda9be43a8a70914ea23be74c8b156",
+    "path": "openapi/firstsales-public-v1.json",
+    "sha256": "8bcfd7f12f55737f679db943b82b1e88e04a4a5b232ebc1902656ed5ebe1ac16",
+    "projectionSha256": "6aae5dbd025c5b0d1856959c363f426fe6d1351983a559a2ee14958cdb0eed4a",
+    "projection": "All paths, HTTP operations, operation IDs, parameter names/locations/references and request-body requiredness consumed by openapi-parity.test.js; schemas and prose omitted."
+  },
+  "paths": {
+    "/api/v1/organizations": {
+      "get": {
+        "operationId": "getApiV1Organizations",
+        "parameters": []
+      }
+    },
+    "/api/v1/organizations/{orgId}/api-keys": {
+      "post": {
+        "operationId": "createApiKey",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listApiKeys",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/api-keys/{keyId}": {
+      "delete": {
+        "operationId": "revokeApiKey",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "keyId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdBilling",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/checkout": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdBillingCheckout",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/credits": {
+      "get": {
+        "operationId": "getBillingCreditBalance",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/credits/history": {
+      "get": {
+        "operationId": "listBillingCreditHistory",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "action",
+            "in": "query"
+          },
+          {
+            "name": "campaignId",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/credits/usage-summary": {
+      "get": {
+        "operationId": "getBillingUsageSummary",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "days",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/payments": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdBillingPayments",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/top-up": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdBillingTopup",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/billing/top-ups": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdBillingTopups",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "offset",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/domains": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdDomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdDomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/domains/{domainId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdDomainsDomainId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "domainId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/groups": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdGroups",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdGroups",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/groups/{groupId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdGroupsGroupId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "groupId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdGroupsGroupId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "groupId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/invitations": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdInvitations",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdInvitations",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/invitations/{invitationId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdInvitationsInvitationId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "invitationId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/members": {
+      "get": {
+        "operationId": "listTeamMembers",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/teams/api-usage": {
+      "get": {
+        "operationId": "getApiUsage",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "days",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspaces",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/activities": {
+      "get": {
+        "operationId": "listActivities",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "contactId",
+            "in": "query"
+          },
+          {
+            "name": "companyId",
+            "in": "query"
+          },
+          {
+            "name": "type",
+            "in": "query"
+          }
+        ]
+      },
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdActivities",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/alerts": {
+      "get": {
+        "operationId": "listAlerts",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "name": "severity",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "skip",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/alerts/{alertId}/ack": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdAlertsAlertIdAck",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "alertId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/alerts/{alertId}/resolve": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdAlertsAlertIdResolve",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "alertId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/blocked-domains": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdBlockeddomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdBlockeddomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/blocked-domains/{domain}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdBlockeddomainsDomain",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "domain",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/bookings": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarBookings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/bookings/{bookingId}/actions": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarBookingsBookingIdActions",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "bookingId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/deliveries": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarDeliveries",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/deliveries/{deliveryId}/replay": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarDeliveriesDeliveryIdReplay",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "deliveryId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/event-types": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarEventtypes",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/event-types/{eventTypeId}": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCalendarEventtypesEventTypeId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "eventTypeId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/event-types/{eventTypeId}/private-links": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarEventtypesEventTypeIdPrivatelinks",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "eventTypeId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/event-types/{eventTypeId}/slots": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarEventtypesEventTypeIdSlots",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "eventTypeId",
+            "in": "path"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "duration",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/insights": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarInsights",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "hostUserId",
+            "in": "query"
+          },
+          {
+            "name": "eventTypeId",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/insights/export": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarInsightsExport",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "hostUserId",
+            "in": "query"
+          },
+          {
+            "name": "eventTypeId",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/merchant-handoffs": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarMerchanthandoffs",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/merchant-handoffs/{handoffId}": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarMerchanthandoffsHandoffId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "handoffId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/payments/quotes": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarPaymentsQuotes",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/payments/quotes/{quoteId}/approve": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarPaymentsQuotesQuoteIdApprove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "quoteId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/payments/quotes/{quoteId}/hold": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarPaymentsQuotesQuoteIdHold",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "quoteId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/routing-forms/{formKey}/route": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarRoutingformsFormKeyRoute",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "formKey",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/schedules/{scheduleId}": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSchedulesScheduleId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "scheduleId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/seats/{registrationId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeatsRegistrationId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "registrationId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/seats/{registrationId}/accept": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeatsRegistrationIdAccept",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "registrationId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/seats/{registrationId}/decision": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeatsRegistrationIdDecision",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "registrationId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/series": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeries",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/series/{seriesId}": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeriesSeriesId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "seriesId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/series/{seriesId}/instant-readiness": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeriesSeriesIdInstantreadiness",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "seriesId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/series/{seriesId}/roster": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeriesSeriesIdRoster",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "seriesId",
+            "in": "path"
+          },
+          {
+            "name": "occurrenceKey",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/series/{seriesId}/seats": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSeriesSeriesIdSeats",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "seriesId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/settings": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCalendarSettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/webhook-endpoints/{endpointId}": {
+      "put": {
+        "operationId": "putApiV1OrganizationsOrgIdWorkspacesWsIdCalendarWebhookendpointsEndpointId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "endpointId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/workflows": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarWorkflows",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/workflows/{workflowId}": {
+      "put": {
+        "operationId": "putApiV1OrganizationsOrgIdWorkspacesWsIdCalendarWorkflowsWorkflowId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "workflowId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns": {
+      "post": {
+        "operationId": "createCampaign",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listCampaigns",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}": {
+      "get": {
+        "operationId": "getCampaign",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/actions/{action}": {
+      "post": {
+        "operationId": "runCampaignAction",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "action",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": false
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/analytics": {
+      "get": {
+        "operationId": "getCampaignAnalytics",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "range",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/blocked-domains": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdBlockeddomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdBlockeddomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/blocked-domains/{domain}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdBlockeddomainsDomain",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "domain",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/drafts/retry": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdDraftsRetry",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/events": {
+      "get": {
+        "operationId": "getCampaignEvents",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "since",
+            "in": "query"
+          },
+          {
+            "name": "until",
+            "in": "query"
+          },
+          {
+            "name": "severity",
+            "in": "query"
+          },
+          {
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/launch/prepare": {
+      "post": {
+        "operationId": "prepareCampaignLaunch",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/leads": {
+      "get": {
+        "operationId": "listCampaignLeads",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/learning/activity": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdLearningActivity",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "cursor",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/learning/auto-mode-state": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdLearningAutomodestate",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/learning/graph": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdLearningGraph",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "topN",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/learning/outcomes": {
+      "get": {
+        "operationId": "getLearningOutcomes",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/learning/overview": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdLearningOverview",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "segmentKey",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/progress": {
+      "get": {
+        "operationId": "getCampaignProgress",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/readiness": {
+      "get": {
+        "operationId": "getCampaignReadiness",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/sources": {
+      "get": {
+        "operationId": "getCampaignSources",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/test-email": {
+      "post": {
+        "operationId": "sendCampaignTestEmail",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/test-email/prepare": {
+      "post": {
+        "operationId": "prepareCampaignTestEmail",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/testimonials": {
+      "post": {
+        "operationId": "createCampaignTestimonial",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "listCampaignTestimonials",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/testimonials/{testimonialId}": {
+      "patch": {
+        "operationId": "updateCampaignTestimonial",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "testimonialId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaigns/{campaignId}/workflow": {
+      "get": {
+        "operationId": "getCampaignWorkflow",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      },
+      "put": {
+        "operationId": "putApiV1OrganizationsOrgIdWorkspacesWsIdCampaignsCampaignIdWorkflow",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "updateCampaignWorkflowTargets",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "campaignId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/changelog/entries/{slug}/feedback": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdChangelogEntriesSlugFeedback",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "slug",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/changelog/entries/{slug}/reaction": {
+      "put": {
+        "operationId": "putApiV1OrganizationsOrgIdWorkspacesWsIdChangelogEntriesSlugReaction",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "slug",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/changelog/read": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdChangelogRead",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/changelog/whats-new": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdChangelogWhatsnew",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "all",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/companies": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCompanies",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listCompanies",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/companies/{companyId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdCompaniesCompanyId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "companyId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getCompany",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "companyId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdCompaniesCompanyId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "companyId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/companies/{companyId}/duplicates": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCompaniesCompanyIdDuplicates",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "companyId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/companies/imports": {
+      "post": {
+        "operationId": "importCompanies",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/companies/merge": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCompaniesMerge",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdConnectors",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdConnectorsConnectorId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}/display-name": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdConnectorsConnectorIdDisplayname",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}/sender-profile": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdConnectorsConnectorIdSenderprofile",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}/settings": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdConnectorsConnectorIdSettings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}/test": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdConnectorsConnectorIdTest",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/{connectorId}/warmup": {
+      "get": {
+        "operationId": "getConnectorWarmupStatus",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "connectorId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/connectors/cal-com": {
+      "post": {
+        "operationId": "createCalComConnector",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-exports": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContactexports",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-fields": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContactfields",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-imports": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactimports",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-lists": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactlists",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContactlists",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-lists/{listId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdContactlistsListId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "listId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdContactlistsListId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "listId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-lists/{listId}/members": {
+      "post": {
+        "operationId": "updateContactListMembers",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "listId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-tags": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdContacttags",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContacttags",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contact-tags/rename": {
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdContacttagsRename",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContacts",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listContacts",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "sortBy",
+            "in": "query"
+          },
+          {
+            "name": "sortOrder",
+            "in": "query"
+          },
+          {
+            "name": "search",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          },
+          {
+            "name": "source",
+            "in": "query"
+          },
+          {
+            "name": "tags",
+            "in": "query"
+          },
+          {
+            "name": "company",
+            "in": "query"
+          },
+          {
+            "name": "listId",
+            "in": "query"
+          },
+          {
+            "name": "verificationStatus",
+            "in": "query"
+          },
+          {
+            "name": "mobileOnly",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getContact",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}/emails": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdEmails",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}/emails/{emailId}": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdEmailsEmailId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdEmailsEmailId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}/emails/{emailId}/approve": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdEmailsEmailIdApprove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}/emails/{emailId}/cancel": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdEmailsEmailIdCancel",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/{contactId}/overview": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdContactsContactIdOverview",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "contactId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/contacts/merge": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdContactsMerge",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/copilot/sessions": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCopilotSessions",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "listCopilotSessions",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "status",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/copilot/sessions/{sessionId}": {
+      "get": {
+        "operationId": "getCopilotSession",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "sessionId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/copilot/sessions/{sessionId}/messages": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCopilotSessionsSessionIdMessages",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "sessionId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/dashboard": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdDashboard",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/deal-forecast": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdDealforecast",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/deals": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdDeals",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listDeals",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          },
+          {
+            "name": "stage",
+            "in": "query"
+          },
+          {
+            "name": "pipeline",
+            "in": "query"
+          },
+          {
+            "name": "owner",
+            "in": "query"
+          },
+          {
+            "name": "q",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/deals/{dealId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdDealsDealId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "dealId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getDeal",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "dealId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdDealsDealId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "dealId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/deals/{dealId}/move": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdDealsDealIdMove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "dealId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/email-auth": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdEmailauth",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/email-auth/verify": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdEmailauthVerify",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/emails": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdEmails",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/ai-draft": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxAiDraft",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/drafts/{emailId}/approve": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxDraftsEmailIdApprove",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/drafts/{emailId}/content": {
+      "get": {
+        "operationId": "getInboxDraftContent",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/drafts/{emailId}/reject": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxDraftsEmailIdReject",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "emailId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/reply-templates": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxReplyTemplates",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdInboxReplyTemplates",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/reply-templates/{templateId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdInboxReplyTemplatesTemplateId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "templateId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdInboxReplyTemplatesTemplateId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "templateId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/score": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxScore",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads": {
+      "get": {
+        "operationId": "listInboxThreads",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "tab",
+            "in": "query"
+          },
+          {
+            "name": "senderConnectorId",
+            "in": "query"
+          },
+          {
+            "name": "campaignId",
+            "in": "query"
+          },
+          {
+            "name": "category",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/{threadId}": {
+      "get": {
+        "operationId": "getInboxThread",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "threadId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/{threadId}/assign": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxThreadsThreadIdAssign",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "threadId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/{threadId}/read": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxThreadsThreadIdRead",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "threadId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/{threadId}/reply": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxThreadsThreadIdReply",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "threadId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/{threadId}/snooze": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxThreadsThreadIdSnooze",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "threadId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/inbox/threads/bulk-read": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdInboxThreadsBulkread",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/knowledge-bases": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdKnowledgebases",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "listKnowledgeBases",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/knowledge-bases/{kbId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdKnowledgebasesKbId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "kbId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getKnowledgeBase",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "kbId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdKnowledgebasesKbId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "kbId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/knowledge-bases/{kbId}/query": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdKnowledgebasesKbIdQuery",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "kbId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/knowledge-bases/{kbId}/sources": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdKnowledgebasesKbIdSources",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "kbId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/learning/overview": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdLearningOverview",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "segmentKey",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/offerings": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdOfferings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdOfferings",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/offerings/{offeringId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdOfferingsOfferingId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "offeringId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdOfferingsOfferingId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "offeringId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdOfferingsOfferingId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "offeringId",
+            "in": "path"
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/pipelines": {
+      "get": {
+        "operationId": "listPipelines",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/pipelines/{pipelineId}": {
+      "get": {
+        "operationId": "getPipeline",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "pipelineId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/sequence-library": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdSequencelibrary",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdSequencelibrary",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/sequence-library/{templateId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdSequencelibraryTemplateId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "templateId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdSequencelibraryTemplateId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "templateId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdSignals",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdSignals",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals/{signalId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdSignalsSignalId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "path"
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "patchApiV1OrganizationsOrgIdWorkspacesWsIdSignalsSignalId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals/{signalId}/analytics": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdSignalsSignalIdAnalytics",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "path"
+          },
+          {
+            "name": "range",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals/{signalId}/run": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdSignalsSignalIdRun",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals/leads": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdSignalsLeads",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "query"
+          },
+          {
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "name": "engagement",
+            "in": "query"
+          },
+          {
+            "name": "target",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "minScore",
+            "in": "query"
+          },
+          {
+            "name": "sort",
+            "in": "query"
+          },
+          {
+            "name": "before",
+            "in": "query"
+          },
+          {
+            "name": "offset",
+            "in": "query"
+          },
+          {
+            "name": "limit",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/signals/leads/export": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdSignalsLeadsExport",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "signalId",
+            "in": "query"
+          },
+          {
+            "name": "q",
+            "in": "query"
+          },
+          {
+            "name": "engagement",
+            "in": "query"
+          },
+          {
+            "name": "target",
+            "in": "query"
+          },
+          {
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "name": "to",
+            "in": "query"
+          },
+          {
+            "name": "minScore",
+            "in": "query"
+          },
+          {
+            "name": "sort",
+            "in": "query"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/suppression/check": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdSuppressionCheck",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/teams/members": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdTeamsMembers",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/tracking-domains": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdTrackingdomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ],
+        "requestBody": {
+          "required": true
+        }
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdTrackingdomains",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/tracking-domains/{domainId}": {
+      "delete": {
+        "operationId": "deleteApiV1OrganizationsOrgIdWorkspacesWsIdTrackingdomainsDomainId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "domainId",
+            "in": "path"
+          }
+        ]
+      },
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdTrackingdomainsDomainId",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "domainId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/tracking-domains/{domainId}/verify": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdTrackingdomainsDomainIdVerify",
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path"
+          },
+          {
+            "name": "wsId",
+            "in": "path"
+          },
+          {
+            "name": "domainId",
+            "in": "path"
+          }
+        ]
+      }
+    },
+    "/api/v1/whoami": {
+      "get": {
+        "operationId": "getDeveloperIdentity",
+        "parameters": []
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -7,10 +8,10 @@ import { listCommands } from '../src/commands.js';
 import { runCli, startApi } from './helpers.js';
 
 const AUTHORITY_URL = new URL(
-  '../../../../worktrees/firstsales-outreach-backend-product-mcp-parity/openapi/firstsales-public-v1.json',
+  './fixtures/firstsales-public-v1.openapi-parity.json',
   import.meta.url
 );
-// FIRSTSALES_OPENAPI_AUTHORITY points the parity check at a newer backend spec.
+// A full backend OpenAPI file may override the frozen standalone parity fixture.
 const AUTHORITY_PATH = process.env.FIRSTSALES_OPENAPI_AUTHORITY ?? fileURLToPath(AUTHORITY_URL);
 
 const QUERY_SAMPLE_VALUES = Object.freeze({
@@ -75,6 +76,31 @@ const INTENTIONAL_BODY_REQUIRED_OVERRIDES = Object.freeze({
   'inbox score': true,
   'inbox ai-draft': true,
   'inbox snooze': true,
+});
+
+test('standalone OpenAPI fixture retains the frozen public-source provenance and all operations', async () => {
+  const fixture = JSON.parse(await readFile(AUTHORITY_URL, 'utf8'));
+  assert.deepEqual(
+    {
+      repository: fixture.source.repository,
+      commit: fixture.source.commit,
+      fileCommit: fixture.source.fileCommit,
+      path: fixture.source.path,
+      sha256: fixture.source.sha256,
+    },
+    {
+      repository: 'firstsalesio/firstsales-outreach-backend',
+      commit: '3215a87d32b08f0ccc24c108303532b984a8c47f',
+      fileCommit: '0bd756a77edda9be43a8a70914ea23be74c8b156',
+      path: 'openapi/firstsales-public-v1.json',
+      sha256: '8bcfd7f12f55737f679db943b82b1e88e04a4a5b232ebc1902656ed5ebe1ac16',
+    }
+  );
+  assert.equal(
+    createHash('sha256').update(JSON.stringify(fixture.paths)).digest('hex'),
+    fixture.source.projectionSha256
+  );
+  assert.equal(collectOperations(fixture).length, 201);
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -159,8 +185,8 @@ test('declared query flags route exactly and unsupported query flags fail fast',
 
 test(
   'CLI registry stays in full parity with the backend OpenAPI authority',
-  { skip: !existsSync(AUTHORITY_PATH) },
   async () => {
+    assert.ok(existsSync(AUTHORITY_PATH), 'Full OpenAPI parity requires an available authority in a standalone checkout');
     const spec = JSON.parse(await readFile(AUTHORITY_PATH, 'utf8'));
     const commands = listCommands();
     const operations = collectOperations(spec);

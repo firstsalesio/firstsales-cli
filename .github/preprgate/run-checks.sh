@@ -217,9 +217,10 @@ run_tests() {
   # negative regex covers the common runners (jest "Tests: 0 total", vitest "No test
   # files found", mocha "0 passing", pytest "no tests ran"); the trailing guard means
   # any positive test count present ("42 passed") overrides it, so a real run with an
-  # unusual phrasing is never false-blocked.
-  if grep -qiE 'no tests? (found|ran|match|collected)|no test files? (found|match)|ran 0 tests|(^|[^0-9])0 (tests?|passing|passed|specs?|total|collected)|matched 0 test|passwithnotests' "$out" \
-     && ! grep -qiE '[1-9][0-9]* (tests?|passing|passed|specs?)' "$out"; then
+  # unusual phrasing is never false-blocked. Node reports counts after the label
+  # ("# pass 51" in TAP, "ℹ pass 51" in spec); recognize both and an empty plan.
+  if grep -qiE 'no tests? (found|ran|match|collected)|no test files? (found|match)|ran 0 tests|(^|[^0-9])0 (tests?|passing|passed|specs?|total|collected)|matched 0 test|passwithnotests|^(#|ℹ)[[:space:]]+tests[[:space:]]+0([[:space:]]|$)|^1\.\.0([[:space:]]|$)' "$out" \
+     && ! grep -qiE '[1-9][0-9]* (tests?|passing|passed|specs?)|^(#|ℹ)[[:space:]]+pass[[:space:]]+[1-9][0-9]*([[:space:]]|$)' "$out"; then
     echo "  ✗ FAILED: '$test_cmd' passed but ran 0 tests — a vacuous green cannot seal"; fails=$((fails+1)); rm -f "$out"; return
   fi
   if [ -f coverage/coverage-summary.json ]; then
