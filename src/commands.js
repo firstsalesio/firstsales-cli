@@ -139,6 +139,7 @@ const BODY_REQUIRED_COMMANDS = new Set([
   'meetings seat-register',
   'meetings instant-readiness',
   'meetings seat-decide',
+  'meetings payment-quote',
   'changelog read',
   'changelog react',
   'changelog feedback',

@@ -1834,6 +1834,7 @@
       ]
     },
     {
+      "bodyRequired": true,
       "command": "meetings payment-quote",
       "destructive": false,
       "method": "POST",

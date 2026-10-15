@@ -70,3 +70,37 @@ test('meetings payment and merchant commands accept their identifier flags', asy
   await expectRoute(m('payment-hold', '--quote', 'q1'), 'POST', `${base}/payments/quotes/q1/hold`);
   await expectRoute(m('merchant-status', '--handoff', 'h1'), 'GET', `${base}/merchant-handoffs/h1`);
 });
+
+test('meetings payment-quote requires a body before making a request', async () => {
+  const api = await startApi(async () => ({ status: 200, body: { ok: true } }));
+  try {
+    const result = await runCli(['--json', ...m('payment-quote')], env(api.url));
+
+    assert.equal(result.code, 2);
+    assert.deepEqual(JSON.parse(result.stdout), {
+      error: {
+        code: 'missing_required_body',
+        message: 'meetings payment-quote requires --data or --data-file.',
+      },
+    });
+    assert.equal(api.requests.length, 0);
+  } finally {
+    await api.close();
+  }
+});
+
+test('meetings payment-quote forwards the supplied native quote body unchanged', async () => {
+  const quote = {
+    bookingKey: 'appointment-quote',
+    terms: { amountMinor: 2500, currency: 'USD', refundPolicy: 'full-before-cutoff' },
+    needsApproval: false,
+    cutoffAt: '2030-01-01T12:00:00.000Z',
+  };
+
+  await expectRoute(
+    m('payment-quote', '--data', JSON.stringify(quote)),
+    'POST',
+    `${base}/payments/quotes`,
+    quote,
+  );
+});

@@ -87,13 +87,15 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
       fileCommit: fixture.source.fileCommit,
       path: fixture.source.path,
       sha256: fixture.source.sha256,
+      projectionSha256: fixture.source.projectionSha256,
     },
     {
       repository: 'firstsalesio/firstsales-outreach-backend',
-      commit: '3215a87d32b08f0ccc24c108303532b984a8c47f',
-      fileCommit: '0bd756a77edda9be43a8a70914ea23be74c8b156',
+      commit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
+      fileCommit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
       path: 'openapi/firstsales-public-v1.json',
-      sha256: '8bcfd7f12f55737f679db943b82b1e88e04a4a5b232ebc1902656ed5ebe1ac16',
+      sha256: 'b2f8e22c8ec8148213f91203b76dbb7aa075781291c03ee44692ed290b743b6b',
+      projectionSha256: '3831584c3b202e3f81eb493d3acd80f7ceec5f20710d7f55a880b03e9c5e4676',
     }
   );
   assert.equal(
