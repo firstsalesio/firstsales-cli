@@ -1268,6 +1268,54 @@
       ]
     },
     {
+      "command": "fallback-emails delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails/{followUpNumber}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "followUpNumber"
+      ]
+    },
+    {
+      "command": "fallback-emails list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "fallback-emails set",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "fallback-emails update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails/{followUpNumber}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "followUpNumber"
+      ]
+    },
+    {
       "bodyRequired": true,
       "command": "groups create",
       "destructive": false,
@@ -1788,6 +1836,60 @@
         "org",
         "workspace",
         "series"
+      ]
+    },
+    {
+      "command": "meetings merchant-connect",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings merchant-status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs/{handoff}",
+      "required": [
+        "org",
+        "workspace",
+        "handoff"
+      ]
+    },
+    {
+      "command": "meetings payment-approve",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/approve",
+      "required": [
+        "org",
+        "workspace",
+        "quote"
+      ]
+    },
+    {
+      "command": "meetings payment-hold",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/hold",
+      "required": [
+        "org",
+        "workspace",
+        "quote"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings payment-quote",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -2443,9 +2545,11 @@
     "--engagement",
     "--event-type",
     "--event-type-id",
+    "--follow-up-number",
     "--form",
     "--from",
     "--group",
+    "--handoff",
     "--help",
     "--host-user-id",
     "--html",
@@ -2473,6 +2577,7 @@
     "--profile",
     "--q",
     "--query",
+    "--quote",
     "--range",
     "--registration",
     "--remove",
@@ -2544,7 +2649,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.15"
+    "version": "0.1.16"
   },
   "schema_version": "1.0.1-bootstrap"
 }

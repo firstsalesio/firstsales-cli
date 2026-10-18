@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.16
+
+Prepared from source. Not published on npm yet; the matching backend release manifest is still pending.
+
+### Features
+
+- `fallback-emails list|set|update|delete --campaign <id>` manage a campaign's fallback emails. `set` and `update` take `--data` or `--data-file`. `update` and `delete` name one with `--follow-up-number <n>`. `delete` needs `--confirm`.
+- `meetings merchant-connect` starts a merchant handoff and `meetings merchant-status --handoff <id>` reads it. `meetings payment-quote` creates a payment quote from a `--data` or `--data-file` body. `meetings payment-approve|payment-hold --quote <id>` approve or hold one.
+- `inbox draft-content --output table|tsv` keeps a stored draft's subject, body, provenance, score, tags and fix notes together in one row.
+
 ## 0.1.15
 
 ### Changes

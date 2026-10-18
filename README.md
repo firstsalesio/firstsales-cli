@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.15-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.16-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 203 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 212 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.15` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
+**Release status:** `0.1.16` is prepared from source and is not published on npm; `0.1.15` remains the published release. The local release manifest still binds the `0.1.15` contract hash, so the matching backend manifest copy-back is pending. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -126,7 +126,7 @@ release/firstsales-public-v1.release-manifest.json
 scripts/generate-release-contract.mjs
 ```
 
-The publish contract is the 148-command authority for the packaged CLI. The release
+The publish contract is the 212-command authority for the packaged CLI. The release
 manifest binds that package contract to the broader release bundle through exact
 hashes and consumer requirements.
 
@@ -328,7 +328,7 @@ firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --
 
 Product MCP is a separate OAuth-protected surface at
 `https://api.app.firstsales.io/mcp`. The CLI signs full `/api/v1` Developer API
-requests with a Developer API key and exposes the packaged 148-command contract,
+requests with a Developer API key and exposes the packaged 212-command contract,
 while Product MCP is a release-gated subset bound in the release manifest as a
 different consumer (`product_mcp`, not `published_cli`). Use the CLI when you need
 deterministic shell automation or the full public command surface.
