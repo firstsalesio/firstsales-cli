@@ -114,8 +114,8 @@ test('inbox draft-content --output table and tsv keep subject, body, every quali
     subject: 'Re: pricing for Lumen',
     body: 'Hi Lena, here is the plan you asked for.',
     generatedBy: 'ai',
-    gateScore: 87.5,
-    lowScoreTag: false,
+    gateScore: 6.4,
+    lowScoreTag: true,
     unscoredTag: true,
     fixNotes: NOTES,
   };
