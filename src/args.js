@@ -52,6 +52,8 @@ const VALUE_FLAGS = new Set([
   'registration',
   'occurrence-key',
   'booking',
+  'handoff',
+  'quote',
   'delivery',
   'form',
   'schedule',
