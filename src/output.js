@@ -17,6 +17,8 @@ export function render(value, format, flags = {}) {
 function extractRows(value) {
   if (Array.isArray(value)) return value;
   if (value && typeof value === 'object') {
+    // A draft (subject + body) is one record: keep its fields and nested notes in one row.
+    if (typeof value.subject === 'string' && typeof value.body === 'string') return [value];
     const arrayKey = Object.keys(value).find((key) => Array.isArray(value[key]));
     if (arrayKey) return value[arrayKey];
   }
