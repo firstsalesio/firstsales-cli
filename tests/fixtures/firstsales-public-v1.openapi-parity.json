@@ -1,11 +1,11 @@
 {
   "source": {
     "repository": "firstsalesio/firstsales-outreach-backend",
-    "commit": "c76b9727dff29bdaaa232ec47b7cbf60ce08ab24",
-    "fileCommit": "c76b9727dff29bdaaa232ec47b7cbf60ce08ab24",
+    "commit": "06b910eebdc65aff876094f09a8c3bacb52de352",
+    "fileCommit": "06b910eebdc65aff876094f09a8c3bacb52de352",
     "path": "openapi/firstsales-public-v1.json",
-    "sha256": "608aa8b20de3702b2519446ee0f9dba045852b11d76fda89ed9af92095abab98",
-    "projectionSha256": "eb6a01c3721db0e6b5040aaa153ca702c84126c0fa7332194cc262c4d7d6ee59",
+    "sha256": "ff024e435c9765c8a3ed1b313021bd29d5af7d75f12f52706541ad5c04ad670f",
+    "projectionSha256": "f21c41b462b3708ba2f49777b8456b389afd28df6f8a1ed8abec705fe46d84ad",
     "projection": "The complete source document follows this source block unchanged. JSON.stringify of every other top-level field with 2-space indentation and a trailing newline reproduces sha256; projectionSha256 is the compact JSON.stringify digest of paths."
   },
   "openapi": "3.1.0",
@@ -18934,31 +18934,47 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "scope": {
-                    "type": "string",
-                    "enum": [
-                      "one",
-                      "future",
-                      "series"
-                    ]
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "scope": {
+                        "type": "string",
+                        "enum": [
+                          "one",
+                          "future",
+                          "series"
+                        ]
+                      },
+                      "targetKey": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shiftMinutes": {
+                        "type": "integer",
+                        "minimum": -10080,
+                        "maximum": 10080
+                      }
+                    },
+                    "required": [
+                      "scope",
+                      "shiftMinutes"
+                    ],
+                    "additionalProperties": false
                   },
-                  "targetKey": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "shiftMinutes": {
-                    "type": "integer",
-                    "minimum": -10080,
-                    "maximum": 10080
+                  {
+                    "type": "object",
+                    "properties": {
+                      "waitlist": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "waitlist"
+                    ],
+                    "additionalProperties": false
                   }
-                },
-                "required": [
-                  "scope",
-                  "shiftMinutes"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -19344,7 +19360,7 @@
           }
         },
         "requestBody": {
-          "required": true,
+          "required": false,
           "content": {
             "application/json": {
               "schema": {
@@ -19478,6 +19494,169 @@
                   }
                 },
                 "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/templates/{templateKey}": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarTemplatesTemplateKey",
+        "summary": "PublicApiPublishCalendarTemplate",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "templateKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "fields": {
+                    "type": "object",
+                    "propertyNames": {
+                      "type": "string"
+                    },
+                    "additionalProperties": {}
+                  },
+                  "locked": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "overridable": {
+                    "default": [],
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": [
+                  "fields",
+                  "locked",
+                  "overridable"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/templates/{templateKey}/apply": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarTemplatesTemplateKeyApply",
+        "summary": "PublicApiApplyCalendarTemplate",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "templateKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }

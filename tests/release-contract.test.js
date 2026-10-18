@@ -81,8 +81,8 @@ test('generated publish contract matches the complete live public CLI package', 
     )
     .sort((left, right) => left.command.localeCompare(right.command));
   assert.deepEqual(contract.commands, expectedCommands);
-  assert.equal(contract.commands.length, 212);
-  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 71);
+  assert.equal(contract.commands.length, 219);
+  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 73);
   assert.deepEqual(
     contract.commands.find((command) => command.command === 'contacts list')?.query,
     [
