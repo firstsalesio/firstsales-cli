@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.14-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.15-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -14,9 +14,9 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 177 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 203 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.14` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
+**Release status:** `0.1.15` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -865,6 +865,35 @@ npm pack --dry-run --json
 ```
 
 The command registry is the source for CLI docs sync. When public API routes change, update the registry, tests, docs, and OpenAPI contract together.
+
+The full OpenAPI parity test runs in a standalone checkout. Its default authority,
+[`tests/fixtures/firstsales-public-v1.openapi-parity.json`](tests/fixtures/firstsales-public-v1.openapi-parity.json),
+contains all 201 public operations from the matching backend commit
+`eb7f9c15641b0567c1e5a38981992704cee63665`. It retains only the fields parity consumes;
+the fixture records the source file commit, full-file SHA-256 and projection digest.
+This test fixture is separate from the generated publish contract and release manifest.
+Refresh it only from the matching reviewed backend public OpenAPI, preserving every
+operation and the recorded provenance. Do not use a moving backend checkout as CI's
+implicit authority.
+
+To compare against an explicit full backend OpenAPI file instead:
+
+```bash
+FIRSTSALES_OPENAPI_AUTHORITY=/path/to/firstsales-public-v1.json npm test
+```
+
+A missing or invalid authority fails the parity test; it is never silently skipped.
+
+The managed gate workflow and `.github/preprgate/` runtime are installed unchanged
+from the selected Codex skill:
+
+```bash
+bash "${CODEX_HOME:-$HOME/.codex}/skills/preprgate/scripts/install-gate.sh" --ci
+```
+
+The installer also maintains local Git hooks and an ignored `.claude/settings.json`.
+Keep personal guard paths and ephemeral `.preprgate/` state out of commits. Installation
+does not run or pass the gate, publish a release, or establish release readiness.
 
 ### Testimonial and inbox assistance commands
 

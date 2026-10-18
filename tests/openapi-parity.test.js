@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
@@ -7,10 +8,10 @@ import { listCommands } from '../src/commands.js';
 import { runCli, startApi } from './helpers.js';
 
 const AUTHORITY_URL = new URL(
-  '../../../../worktrees/firstsales-outreach-backend-product-mcp-parity/openapi/firstsales-public-v1.json',
+  './fixtures/firstsales-public-v1.openapi-parity.json',
   import.meta.url
 );
-// FIRSTSALES_OPENAPI_AUTHORITY points the parity check at a newer backend spec.
+// A full backend OpenAPI file may override the frozen standalone parity fixture.
 const AUTHORITY_PATH = process.env.FIRSTSALES_OPENAPI_AUTHORITY ?? fileURLToPath(AUTHORITY_URL);
 
 const QUERY_SAMPLE_VALUES = Object.freeze({
@@ -48,6 +49,13 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
   engagement: 'comment',
   target: 'https://www.linkedin.com/in/ana',
   minScore: '70',
+  start: '2026-10-15',
+  end: '2026-10-16',
+  duration: '30',
+  timeZone: 'Asia/Kolkata',
+  occurrenceKey: 'occ_1',
+  eventTypeId: '65a000000000000000000001',
+  hostUserId: 'host_1',
   before: 'lead_123',
   all: 'true',
   senderConnectorId: 'conn_123',
@@ -61,11 +69,40 @@ const QUERY_SAMPLE_VALUES = Object.freeze({
 
 const INTENTIONAL_BODY_REQUIRED_OVERRIDES = Object.freeze({
   'campaigns start': true,
+  // Native Express initializes an absent body to {}; retry's dryRun is optional.
+  'campaigns retry-drafts': false,
   'testimonials add': true,
   'testimonials update': true,
   'inbox score': true,
   'inbox ai-draft': true,
   'inbox snooze': true,
+});
+
+test('standalone OpenAPI fixture retains the frozen public-source provenance and all operations', async () => {
+  const fixture = JSON.parse(await readFile(AUTHORITY_URL, 'utf8'));
+  assert.deepEqual(
+    {
+      repository: fixture.source.repository,
+      commit: fixture.source.commit,
+      fileCommit: fixture.source.fileCommit,
+      path: fixture.source.path,
+      sha256: fixture.source.sha256,
+      projectionSha256: fixture.source.projectionSha256,
+    },
+    {
+      repository: 'firstsalesio/firstsales-outreach-backend',
+      commit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
+      fileCommit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
+      path: 'openapi/firstsales-public-v1.json',
+      sha256: 'b2f8e22c8ec8148213f91203b76dbb7aa075781291c03ee44692ed290b743b6b',
+      projectionSha256: '3831584c3b202e3f81eb493d3acd80f7ceec5f20710d7f55a880b03e9c5e4676',
+    }
+  );
+  assert.equal(
+    createHash('sha256').update(JSON.stringify(fixture.paths)).digest('hex'),
+    fixture.source.projectionSha256
+  );
+  assert.equal(collectOperations(fixture).length, 201);
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -150,16 +187,29 @@ test('declared query flags route exactly and unsupported query flags fail fast',
 
 test(
   'CLI registry stays in full parity with the backend OpenAPI authority',
-  { skip: !existsSync(AUTHORITY_PATH) },
   async () => {
+    assert.ok(existsSync(AUTHORITY_PATH), 'Full OpenAPI parity requires an available authority in a standalone checkout');
     const spec = JSON.parse(await readFile(AUTHORITY_PATH, 'utf8'));
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 170);
-    assert.equal(commands.length, 177);
+    assert.equal(operations.length, 201);
+    assert.equal(commands.length, 203);
 
-    const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
+    // Meeting payments are not released yet, so the CLI does not ship commands for them.
+    const unreleasedOperations = [
+      'GET /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs/{}',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/approve',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/hold',
+    ];
+    const operationGroups = new Map(
+      operations
+        .filter((operation) => !unreleasedOperations.includes(operation.key))
+        .map((operation) => [operation.key, operation])
+    );
+    assert.equal(operationGroups.size + unreleasedOperations.length, new Set(operations.map((operation) => operation.key)).size);
     const commandGroups = new Map();
     for (const command of commands) {
       const key = command.openapi?.operationId === 'runCampaignAction'
