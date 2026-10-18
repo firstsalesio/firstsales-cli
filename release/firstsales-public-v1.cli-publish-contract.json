@@ -1860,6 +1860,26 @@
       ]
     },
     {
+      "command": "meetings organization-catalog",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/organization-catalog",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings organization-profile",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/organization-profile",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "meetings payment-approve",
       "destructive": false,
       "method": "POST",
@@ -1942,6 +1962,18 @@
     },
     {
       "bodyRequired": true,
+      "command": "meetings routing-form-publish",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/routing-forms/{form}",
+      "required": [
+        "org",
+        "workspace",
+        "form"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "meetings schedule-update",
       "destructive": false,
       "method": "PATCH",
@@ -1950,6 +1982,16 @@
         "org",
         "workspace",
         "schedule"
+      ]
+    },
+    {
+      "command": "meetings schedules",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/schedules",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -2055,6 +2097,40 @@
         "org",
         "workspace",
         "eventType"
+      ]
+    },
+    {
+      "command": "meetings template-apply",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}/apply",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "command": "meetings template-preview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}/preview",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings template-publish",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
       ]
     },
     {
