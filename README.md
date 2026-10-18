@@ -868,9 +868,11 @@ The command registry is the source for CLI docs sync. When public API routes cha
 
 The full OpenAPI parity test runs in a standalone checkout. Its default authority,
 [`tests/fixtures/firstsales-public-v1.openapi-parity.json`](tests/fixtures/firstsales-public-v1.openapi-parity.json),
-contains all 201 public operations from the matching backend commit
-`eb7f9c15641b0567c1e5a38981992704cee63665`. It retains only the fields parity consumes;
-the fixture records the source file commit, full-file SHA-256 and projection digest.
+contains all 210 public operations from `openapi/firstsales-public-v1.json` at backend commit
+`c76b9727dff29bdaaa232ec47b7cbf60ce08ab24`. It keeps the complete source document, including
+schemas, request bodies and responses, unchanged beside a `source` block that records the
+file commit, full-file SHA-256 (`608aa8b20de3702b2519446ee0f9dba045852b11d76fda89ed9af92095abab98`)
+and `paths` projection digest. Serializing the fixture without `source` reproduces the exact source file bytes.
 This test fixture is separate from the generated publish contract and release manifest.
 Refresh it only from the matching reviewed backend public OpenAPI, preserving every
 operation and the recorded provenance. Do not use a moving backend checkout as CI's

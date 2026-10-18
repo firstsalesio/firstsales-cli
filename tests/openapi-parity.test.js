@@ -91,18 +91,24 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
     },
     {
       repository: 'firstsalesio/firstsales-outreach-backend',
-      commit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
-      fileCommit: 'eb7f9c15641b0567c1e5a38981992704cee63665',
+      commit: 'c76b9727dff29bdaaa232ec47b7cbf60ce08ab24',
+      fileCommit: 'c76b9727dff29bdaaa232ec47b7cbf60ce08ab24',
       path: 'openapi/firstsales-public-v1.json',
-      sha256: 'b2f8e22c8ec8148213f91203b76dbb7aa075781291c03ee44692ed290b743b6b',
-      projectionSha256: '3831584c3b202e3f81eb493d3acd80f7ceec5f20710d7f55a880b03e9c5e4676',
+      sha256: '608aa8b20de3702b2519446ee0f9dba045852b11d76fda89ed9af92095abab98',
+      projectionSha256: 'eb6a01c3721db0e6b5040aaa153ca702c84126c0fa7332194cc262c4d7d6ee59',
     }
   );
   assert.equal(
     createHash('sha256').update(JSON.stringify(fixture.paths)).digest('hex'),
     fixture.source.projectionSha256
   );
-  assert.equal(collectOperations(fixture).length, 201);
+  // The fixture is the backend file plus `source`, so removing it restores the exact source bytes.
+  const { source, ...spec } = fixture;
+  assert.equal(
+    createHash('sha256').update(`${JSON.stringify(spec, null, 2)}\n`).digest('hex'),
+    source.sha256
+  );
+  assert.equal(collectOperations(fixture).length, 210);
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -193,23 +199,11 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 201);
-    assert.equal(commands.length, 203);
+    assert.equal(operations.length, 210);
+    assert.equal(commands.length, 215);
 
-    // Meeting payments are not released yet, so the CLI does not ship commands for them.
-    const unreleasedOperations = [
-      'GET /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs/{}',
-      'POST /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs',
-      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes',
-      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/approve',
-      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/hold',
-    ];
-    const operationGroups = new Map(
-      operations
-        .filter((operation) => !unreleasedOperations.includes(operation.key))
-        .map((operation) => [operation.key, operation])
-    );
-    assert.equal(operationGroups.size + unreleasedOperations.length, new Set(operations.map((operation) => operation.key)).size);
+    const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
+    assert.equal(operationGroups.size, operations.length);
     const commandGroups = new Map();
     for (const command of commands) {
       const key = command.openapi?.operationId === 'runCampaignAction'
