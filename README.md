@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 208 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 203 commands. No runtime dependencies. Built for agent-safe automation.**
 
 **Release status:** `0.1.15` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
@@ -869,7 +869,7 @@ The command registry is the source for CLI docs sync. When public API routes cha
 The full OpenAPI parity test runs in a standalone checkout. Its default authority,
 [`tests/fixtures/firstsales-public-v1.openapi-parity.json`](tests/fixtures/firstsales-public-v1.openapi-parity.json),
 contains all 201 public operations from the matching backend commit
-`3215a87d32b08f0ccc24c108303532b984a8c47f`. It retains only the fields parity consumes;
+`eb7f9c15641b0567c1e5a38981992704cee63665`. It retains only the fields parity consumes;
 the fixture records the source file commit, full-file SHA-256 and projection digest.
 This test fixture is separate from the generated publish contract and release manifest.
 Refresh it only from the matching reviewed backend public OpenAPI, preserving every
