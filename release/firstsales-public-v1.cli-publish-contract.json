@@ -1791,60 +1791,6 @@
       ]
     },
     {
-      "command": "meetings merchant-connect",
-      "destructive": false,
-      "method": "POST",
-      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs",
-      "required": [
-        "org",
-        "workspace"
-      ]
-    },
-    {
-      "command": "meetings merchant-status",
-      "destructive": false,
-      "method": "GET",
-      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs/{handoff}",
-      "required": [
-        "org",
-        "workspace",
-        "handoff"
-      ]
-    },
-    {
-      "command": "meetings payment-approve",
-      "destructive": false,
-      "method": "POST",
-      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/approve",
-      "required": [
-        "org",
-        "workspace",
-        "quote"
-      ]
-    },
-    {
-      "command": "meetings payment-hold",
-      "destructive": false,
-      "method": "POST",
-      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/hold",
-      "required": [
-        "org",
-        "workspace",
-        "quote"
-      ]
-    },
-    {
-      "bodyRequired": true,
-      "command": "meetings payment-quote",
-      "destructive": false,
-      "method": "POST",
-      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes",
-      "required": [
-        "org",
-        "workspace"
-      ]
-    },
-    {
       "command": "meetings private-link",
       "destructive": false,
       "method": "POST",
@@ -2500,7 +2446,6 @@
     "--form",
     "--from",
     "--group",
-    "--handoff",
     "--help",
     "--host-user-id",
     "--html",
@@ -2528,7 +2473,6 @@
     "--profile",
     "--q",
     "--query",
-    "--quote",
     "--range",
     "--registration",
     "--remove",

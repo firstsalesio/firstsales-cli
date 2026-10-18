@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 208 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.15` is a release candidate pending validation and publication; `0.1.14` is the latest on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
+**Release status:** `0.1.15` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 

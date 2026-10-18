@@ -194,9 +194,22 @@ test(
     const operations = collectOperations(spec);
 
     assert.equal(operations.length, 201);
-    assert.equal(commands.length, 208);
+    assert.equal(commands.length, 203);
 
-    const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
+    // Meeting payments are not released yet, so the CLI does not ship commands for them.
+    const unreleasedOperations = [
+      'GET /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs/{}',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/merchant-handoffs',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/approve',
+      'POST /api/v1/organizations/{}/workspaces/{}/calendar/payments/quotes/{}/hold',
+    ];
+    const operationGroups = new Map(
+      operations
+        .filter((operation) => !unreleasedOperations.includes(operation.key))
+        .map((operation) => [operation.key, operation])
+    );
+    assert.equal(operationGroups.size + unreleasedOperations.length, new Set(operations.map((operation) => operation.key)).size);
     const commandGroups = new Map();
     for (const command of commands) {
       const key = command.openapi?.operationId === 'runCampaignAction'
