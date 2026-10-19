@@ -20,6 +20,15 @@ const cases = [
     'GET',
     `${prefix}/templates/intro/preview`,
   ],
+  [['meetings', 'import-status'], 'GET', `${prefix}/import/status`],
+  [['meetings', 'import-cta', '--data', '{"mode":"native"}'], 'POST', `${prefix}/import/cta`],
+  [['meetings', 'import-intake', '--data', '{"paused":true}'], 'POST', `${prefix}/import/intake`],
+  [
+    ['meetings', 'import-preview', '--data', '{"apiKey":"cal_x"}'],
+    'POST',
+    `${prefix}/import/preview`,
+  ],
+  [['meetings', 'import-run', '--data', '{"apiKey":"cal_x"}'], 'POST', `${prefix}/import`],
 ];
 
 for (const [args, method, url] of cases) {
@@ -231,5 +240,43 @@ test('organization-catalog, organization-profile, template-publish and template-
       commands.filter((entry) => entry.command === record.command),
       [record]
     );
+  }
+});
+
+for (const command of ['import-cta', 'import-intake', 'import-preview', 'import-run']) {
+  test(`meetings ${command} requires --data before sending a request`, async () => {
+    const api = await startApi(async () => ({ status: 200, body: { data: {} } }));
+    try {
+      const result = await runCli(['meetings', command, ...base], env(api.url));
+      assert.equal(result.code, 2, result.stdout);
+      assert.equal(JSON.parse(result.stdout).error.code, 'missing_required_body');
+      assert.equal(api.requests.length, 0);
+    } finally {
+      await api.close();
+    }
+  });
+}
+
+test('meetings import-run sends the Idempotency-Key the import needs', async () => {
+  const api = await startApi(async () => ({ status: 200, body: { data: {} } }));
+  try {
+    const body = { apiKey: 'cal_x', include: { eventTypes: true } };
+    const result = await runCli(
+      [
+        'meetings',
+        'import-run',
+        '--data',
+        JSON.stringify(body),
+        '--idempotency-key',
+        'imp-1',
+        ...base,
+      ],
+      env(api.url)
+    );
+    assert.equal(result.code, 0, result.stdout);
+    assert.equal(api.requests[0].idempotencyKey, 'imp-1');
+    assert.deepEqual(JSON.parse(api.requests[0].body), body);
+  } finally {
+    await api.close();
   }
 });
