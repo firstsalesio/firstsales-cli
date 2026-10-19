@@ -1810,6 +1810,60 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "meetings import-cta",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/cta",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-intake",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/intake",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-preview",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/preview",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-run",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings import-status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/status",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "meetings insights",
       "destructive": false,
       "method": "GET",
