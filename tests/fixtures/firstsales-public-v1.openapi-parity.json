@@ -1,11 +1,11 @@
 {
   "source": {
     "repository": "firstsalesio/firstsales-outreach-backend",
-    "commit": "06b910eebdc65aff876094f09a8c3bacb52de352",
-    "fileCommit": "06b910eebdc65aff876094f09a8c3bacb52de352",
+    "commit": "d79a68fbf8df3ca4ae67e358f317f74f7afcce8e",
+    "fileCommit": "d79a68fbf8df3ca4ae67e358f317f74f7afcce8e",
     "path": "openapi/firstsales-public-v1.json",
-    "sha256": "ff024e435c9765c8a3ed1b313021bd29d5af7d75f12f52706541ad5c04ad670f",
-    "projectionSha256": "f21c41b462b3708ba2f49777b8456b389afd28df6f8a1ed8abec705fe46d84ad",
+    "sha256": "1a03d3fd4cda8a6f2ea607aca4667209afb77cdf778b0d7192cc582d419da4c9",
+    "projectionSha256": "4bb2ce29ac7bd4cfabca406740298069628c1d6d182fd56e8fd937da4021f855",
     "projection": "The complete source document follows this source block unchanged. JSON.stringify of every other top-level field with 2-space indentation and a trailing newline reproduces sha256; projectionSha256 is the compact JSON.stringify digest of paths."
   },
   "openapi": "3.1.0",
@@ -355,6 +355,39 @@
                     "additionalProperties": {}
                   }
                 },
+                "questions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      },
+                      "type": {
+                        "type": "string"
+                      },
+                      "required": {
+                        "type": "boolean"
+                      },
+                      "options": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "label",
+                      "type",
+                      "required"
+                    ],
+                    "additionalProperties": {}
+                  }
+                },
                 "revision": {
                   "type": "number"
                 },
@@ -651,6 +684,39 @@
                     "userId",
                     "priority",
                     "weight"
+                  ],
+                  "additionalProperties": {}
+                }
+              },
+              "questions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "required": {
+                      "type": "boolean"
+                    },
+                    "options": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "label",
+                    "type",
+                    "required"
                   ],
                   "additionalProperties": {}
                 }
@@ -13837,8 +13903,7 @@
                 "required": [
                   "name",
                   "permissions"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -15333,10 +15398,8 @@
                 },
                 "required": [
                   "type",
-                  "contactId",
-                  "payload"
-                ],
-                "additionalProperties": false
+                  "contactId"
+                ]
               }
             }
           }
@@ -15806,8 +15869,7 @@
                 },
                 "required": [
                   "domains"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -16946,8 +17008,7 @@
                         "required": [
                           "connectorId",
                           "calendarId"
-                        ],
-                        "additionalProperties": false
+                        ]
                       },
                       "conflictCalendars": {
                         "maxItems": 20,
@@ -16967,8 +17028,7 @@
                           "required": [
                             "connectorId",
                             "calendarId"
-                          ],
-                          "additionalProperties": false
+                          ]
                         }
                       },
                       "schedulingType": {
@@ -17003,9 +17063,7 @@
                             }
                           },
                           "required": [
-                            "userId",
-                            "priority",
-                            "weight"
+                            "userId"
                           ],
                           "additionalProperties": false
                         }
@@ -17013,6 +17071,55 @@
                       "teamId": {
                         "type": "string",
                         "minLength": 1
+                      },
+                      "questions": {
+                        "maxItems": 30,
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "pattern": "^[A-Za-z0-9_-]{1,64}$"
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 300
+                            },
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "text",
+                                "textarea",
+                                "number",
+                                "select",
+                                "multiselect",
+                                "boolean",
+                                "phone"
+                              ]
+                            },
+                            "required": {
+                              "type": "boolean"
+                            },
+                            "options": {
+                              "minItems": 1,
+                              "maxItems": 50,
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "label",
+                            "type"
+                          ],
+                          "additionalProperties": false
+                        }
                       }
                     },
                     "additionalProperties": false
@@ -17152,6 +17259,393 @@
               "type": "integer",
               "minimum": 5,
               "maximum": 720
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/import": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarImport",
+        "summary": "PublicApiRunCalendarImport",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "description": "One import per workspace. The same key replays the stored status.",
+            "schema": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "apiKey": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "include": {
+                    "type": "object",
+                    "properties": {
+                      "eventTypes": {
+                        "type": "boolean"
+                      },
+                      "schedules": {
+                        "type": "boolean"
+                      },
+                      "bookings": {
+                        "type": "boolean"
+                      },
+                      "workflows": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "eventTypes",
+                      "schedules",
+                      "bookings",
+                      "workflows"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "apiKey",
+                  "include"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/import/cta": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarImportCta",
+        "summary": "PublicApiSetCalendarImportCta",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "native",
+                      "legacy"
+                    ]
+                  }
+                },
+                "required": [
+                  "mode"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/import/intake": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarImportIntake",
+        "summary": "PublicApiSetCalendarImportIntake",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "paused": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "paused"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/import/preview": {
+      "post": {
+        "operationId": "postApiV1OrganizationsOrgIdWorkspacesWsIdCalendarImportPreview",
+        "summary": "PublicApiPreviewCalendarImport",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "apiKey": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "apiKey"
+                ],
+                "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/calendar/import/status": {
+      "get": {
+        "operationId": "getApiV1OrganizationsOrgIdWorkspacesWsIdCalendarImportStatus",
+        "summary": "PublicApiGetCalendarImportStatus",
+        "tags": [
+          "Calendar"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -19076,9 +19570,7 @@
                   }
                 },
                 "required": [
-                  "consentGiven",
-                  "approval",
-                  "payment"
+                  "consentGiven"
                 ],
                 "additionalProperties": false
               }
@@ -19590,9 +20082,7 @@
                   }
                 },
                 "required": [
-                  "fields",
-                  "locked",
-                  "overridable"
+                  "fields"
                 ],
                 "additionalProperties": false
               }
@@ -19825,7 +20315,6 @@
                     },
                     "required": [
                       "url",
-                      "enabled",
                       "subscriptions"
                     ],
                     "additionalProperties": false
@@ -20970,8 +21459,7 @@
                 },
                 "required": [
                   "domains"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -21710,8 +22198,7 @@
                 "required": [
                   "followUpNumber",
                   "body"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -22147,8 +22634,7 @@
                   "body": {
                     "type": "string"
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -24298,8 +24784,7 @@
                 },
                 "required": [
                   "text"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -24476,8 +24961,7 @@
                 },
                 "required": [
                   "reaction"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -24858,8 +25342,7 @@
                 },
                 "required": [
                   "name"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -25291,8 +25774,7 @@
                     "type": "string",
                     "minLength": 1
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -25441,8 +25923,7 @@
                 },
                 "required": [
                   "companies"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -25693,8 +26174,7 @@
                 },
                 "required": [
                   "displayName"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -25848,25 +26328,12 @@
                         "default": false,
                         "type": "boolean"
                       }
-                    },
-                    "required": [
-                      "name",
-                      "title",
-                      "department",
-                      "phone",
-                      "company",
-                      "website",
-                      "address",
-                      "linkedin",
-                      "twitter"
-                    ],
-                    "additionalProperties": false
+                    }
                   },
                   "signatureEnabled": {
                     "type": "boolean"
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -25963,8 +26430,7 @@
                           }
                         ]
                       }
-                    },
-                    "additionalProperties": false
+                    }
                   },
                   "syncSettings": {
                     "type": "object",
@@ -25984,15 +26450,13 @@
                           "private"
                         ]
                       }
-                    },
-                    "additionalProperties": false
+                    }
                   },
                   "resetBackfillCursor": {
                     "type": "boolean",
                     "const": true
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -26581,8 +27045,7 @@
                                   "minimum": 0,
                                   "maximum": 9007199254740991
                                 }
-                              },
-                              "additionalProperties": false
+                              }
                             }
                           ]
                         },
@@ -26609,8 +27072,7 @@
                               "type": "string",
                               "maxLength": 100
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "enrichment": {
                           "type": "object",
@@ -26624,8 +27086,7 @@
                               "format": "date-time",
                               "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "timezone": {
                           "type": "string",
@@ -26695,8 +27156,7 @@
                             "maxLength": 50
                           }
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     }
                   },
                   "listId": {
@@ -26729,10 +27189,8 @@
                 },
                 "required": [
                   "contacts",
-                  "listId",
-                  "source"
-                ],
-                "additionalProperties": false
+                  "listId"
+                ]
               }
             }
           }
@@ -27561,8 +28019,7 @@
                             "minimum": 0,
                             "maximum": 9007199254740991
                           }
-                        },
-                        "additionalProperties": false
+                        }
                       }
                     ]
                   },
@@ -27589,8 +28046,7 @@
                         "type": "string",
                         "maxLength": 100
                       }
-                    },
-                    "additionalProperties": false
+                    }
                   },
                   "enrichment": {
                     "type": "object",
@@ -27604,8 +28060,7 @@
                         "format": "date-time",
                         "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
                       }
-                    },
-                    "additionalProperties": false
+                    }
                   },
                   "timezone": {
                     "type": "string",
@@ -27644,10 +28099,8 @@
                 },
                 "required": [
                   "email",
-                  "listId",
-                  "source"
-                ],
-                "additionalProperties": false
+                  "listId"
+                ]
               }
             }
           }
@@ -28428,12 +28881,7 @@
                 "required": [
                   "connectorId",
                   "subject",
-                  "body",
-                  "cc",
-                  "bcc",
-                  "attachmentIds",
-                  "mode",
-                  "acknowledgedWarnings"
+                  "body"
                 ],
                 "additionalProperties": false
               }
@@ -29946,11 +30394,9 @@
                 "required": [
                   "contactId",
                   "value",
-                  "currency",
                   "pipelineId",
                   "ownerId"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -30430,8 +30876,7 @@
                       "maxLength": 50
                     }
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -30512,8 +30957,7 @@
                 },
                 "required": [
                   "stageId"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -30891,11 +31335,6 @@
                   "connectorId",
                   "subject",
                   "body",
-                  "cc",
-                  "bcc",
-                  "attachmentIds",
-                  "mode",
-                  "acknowledgedWarnings",
                   "to"
                 ],
                 "additionalProperties": false
@@ -32430,10 +32869,8 @@
                   }
                 },
                 "required": [
-                  "name",
-                  "isDefault"
-                ],
-                "additionalProperties": false
+                  "name"
+                ]
               }
             }
           }
@@ -32831,8 +33268,7 @@
                   "isDefault": {
                     "type": "boolean"
                   }
-                },
-                "additionalProperties": false
+                }
               }
             }
           }
@@ -32914,8 +33350,7 @@
                 },
                 "required": [
                   "question"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -33000,8 +33435,7 @@
                 },
                 "required": [
                   "urls"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -33238,8 +33672,7 @@
                   "type",
                   "name",
                   "information"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -34587,8 +35020,7 @@
                 },
                 "required": [
                   "name",
-                  "targets",
-                  "dailyCreditBudget"
+                  "targets"
                 ],
                 "additionalProperties": false
               }
@@ -35394,8 +35826,7 @@
                 },
                 "required": [
                   "values"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }
@@ -35524,8 +35955,7 @@
                 },
                 "required": [
                   "domain"
-                ],
-                "additionalProperties": false
+                ]
               }
             }
           }

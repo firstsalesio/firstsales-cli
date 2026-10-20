@@ -14,7 +14,7 @@
 
 *"Inspect first. Mutate deliberately. Verify after every action."*
 
-**A thin, JSON-first CLI over the FirstSales Developer API. 219 commands. No runtime dependencies. Built for agent-safe automation.**
+**A thin, JSON-first CLI over the FirstSales Developer API. 224 commands. No runtime dependencies. Built for agent-safe automation.**
 
 **Release status:** `0.1.16` is prepared from source and is not published on npm; `0.1.15` remains the published release. The local release manifest still binds the `0.1.15` contract hash, so the matching backend manifest copy-back is pending. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
@@ -126,7 +126,7 @@ release/firstsales-public-v1.release-manifest.json
 scripts/generate-release-contract.mjs
 ```
 
-The publish contract is the 219-command authority for the packaged CLI. The release
+The publish contract is the 224-command authority for the packaged CLI. The release
 manifest binds that package contract to the broader release bundle through exact
 hashes and consumer requirements.
 
@@ -328,7 +328,7 @@ firstsales api POST /api/v1/organizations/org_123/workspaces/ws_123/campaigns --
 
 Product MCP is a separate OAuth-protected surface at
 `https://api.app.firstsales.io/mcp`. The CLI signs full `/api/v1` Developer API
-requests with a Developer API key and exposes the packaged 219-command contract,
+requests with a Developer API key and exposes the packaged 224-command contract,
 while Product MCP is a release-gated subset bound in the release manifest as a
 different consumer (`product_mcp`, not `published_cli`). Use the CLI when you need
 deterministic shell automation or the full public command surface.
@@ -868,10 +868,10 @@ The command registry is the source for CLI docs sync. When public API routes cha
 
 The full OpenAPI parity test runs in a standalone checkout. Its default authority,
 [`tests/fixtures/firstsales-public-v1.openapi-parity.json`](tests/fixtures/firstsales-public-v1.openapi-parity.json),
-contains all 212 public operations from `openapi/firstsales-public-v1.json` at backend commit
-`06b910eebdc65aff876094f09a8c3bacb52de352`. It keeps the complete source document, including
+contains all 217 public operations from `openapi/firstsales-public-v1.json` at backend commit
+`d79a68fbf8df3ca4ae67e358f317f74f7afcce8e`. It keeps the complete source document, including
 schemas, request bodies and responses, unchanged beside a `source` block that records the
-file commit, full-file SHA-256 (`ff024e435c9765c8a3ed1b313021bd29d5af7d75f12f52706541ad5c04ad670f`)
+file commit, full-file SHA-256 (`1a03d3fd4cda8a6f2ea607aca4667209afb77cdf778b0d7192cc582d419da4c9`)
 and `paths` projection digest. Serializing the fixture without `source` reproduces the exact source file bytes.
 This test fixture is separate from the generated publish contract and release manifest.
 Refresh it only from the matching reviewed backend public OpenAPI, preserving every
