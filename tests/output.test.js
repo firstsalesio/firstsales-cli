@@ -38,3 +38,9 @@ test('render: table falls back to JSON when there is no row-shaped data', () => 
 test('render: table with an empty array says so instead of printing nothing', () => {
   assert.equal(render({ contacts: [] }, 'table'), '(no results)');
 });
+
+test('render: a multi-line draft body stays on one tsv and table row', () => {
+  const draft = { subject: 'Hi', body: 'Line one\nLine two\r\n\tSigned' };
+  assert.equal(render(draft, 'tsv'), 'subject\tbody\nHi\tLine one\\nLine two\\r\\n\\tSigned');
+  assert.equal(render(draft, 'table').split('\n').length, 2);
+});

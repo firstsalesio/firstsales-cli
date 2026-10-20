@@ -41,7 +41,7 @@ test('generated publish contract matches the complete live public CLI package', 
   assert.equal(actual, expected);
   assert.deepEqual(contract.package, {
     name: '@firstsales.io/cli',
-    version: '0.1.15',
+    version: '0.1.16',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
     repository: {
@@ -81,8 +81,8 @@ test('generated publish contract matches the complete live public CLI package', 
     )
     .sort((left, right) => left.command.localeCompare(right.command));
   assert.deepEqual(contract.commands, expectedCommands);
-  assert.equal(contract.commands.length, 203);
-  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 68);
+  assert.equal(contract.commands.length, 224);
+  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 77);
   assert.deepEqual(
     contract.commands.find((command) => command.command === 'contacts list')?.query,
     [
@@ -248,6 +248,9 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
     "billing.usage.inspect",
     "blocked_domain.add",
     "blocked_domain.list",
+    "campaign_fallback_email.create",
+    "campaign_fallback_email.list",
+    "campaign_fallback_email.update",
     "campaign_testimonial.create",
     "campaign_testimonial.list",
     "campaign_testimonial.update",
@@ -307,6 +310,9 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
         "billing.usage.inspect",
         "blocked_domain.add",
         "blocked_domain.list",
+        "campaign_fallback_email.create",
+        "campaign_fallback_email.list",
+        "campaign_fallback_email.update",
         "campaign_testimonial.create",
         "campaign_testimonial.list",
         "campaign_testimonial.update",

@@ -17,6 +17,8 @@ export function render(value, format, flags = {}) {
 function extractRows(value) {
   if (Array.isArray(value)) return value;
   if (value && typeof value === 'object') {
+    // A draft (subject + body) is one record: keep its fields and nested notes in one row.
+    if (typeof value.subject === 'string' && typeof value.body === 'string') return [value];
     const arrayKey = Object.keys(value).find((key) => Array.isArray(value[key]));
     if (arrayKey) return value[arrayKey];
   }
@@ -46,5 +48,6 @@ function columnsOf(rows) {
 function cell(value) {
   if (value === undefined || value === null) return '';
   if (typeof value === 'object') return JSON.stringify(value);
-  return String(value);
+  // Escape line breaks and tabs so one record stays on one row.
+  return String(value).replace(/\r/g, '\\r').replace(/\n/g, '\\n').replace(/\t/g, '\\t');
 }

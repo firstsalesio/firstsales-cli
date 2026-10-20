@@ -1268,6 +1268,54 @@
       ]
     },
     {
+      "command": "fallback-emails delete",
+      "destructive": true,
+      "method": "DELETE",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails/{followUpNumber}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "followUpNumber"
+      ]
+    },
+    {
+      "command": "fallback-emails list",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "fallback-emails set",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails",
+      "required": [
+        "org",
+        "workspace",
+        "campaign"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "fallback-emails update",
+      "destructive": false,
+      "method": "PATCH",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaigns/{campaign}/fallback-emails/{followUpNumber}",
+      "required": [
+        "org",
+        "workspace",
+        "campaign",
+        "followUpNumber"
+      ]
+    },
+    {
       "bodyRequired": true,
       "command": "groups create",
       "destructive": false,
@@ -1762,6 +1810,60 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "meetings import-cta",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/cta",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-intake",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/intake",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-preview",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/preview",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings import-run",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings import-status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/import/status",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "meetings insights",
       "destructive": false,
       "method": "GET",
@@ -1788,6 +1890,80 @@
         "org",
         "workspace",
         "series"
+      ]
+    },
+    {
+      "command": "meetings merchant-connect",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings merchant-status",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/merchant-handoffs/{handoff}",
+      "required": [
+        "org",
+        "workspace",
+        "handoff"
+      ]
+    },
+    {
+      "command": "meetings organization-catalog",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/organization-catalog",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings organization-profile",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/organization-profile",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
+      "command": "meetings payment-approve",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/approve",
+      "required": [
+        "org",
+        "workspace",
+        "quote"
+      ]
+    },
+    {
+      "command": "meetings payment-hold",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes/{quote}/hold",
+      "required": [
+        "org",
+        "workspace",
+        "quote"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings payment-quote",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/payments/quotes",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -1840,6 +2016,18 @@
     },
     {
       "bodyRequired": true,
+      "command": "meetings routing-form-publish",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/routing-forms/{form}",
+      "required": [
+        "org",
+        "workspace",
+        "form"
+      ]
+    },
+    {
+      "bodyRequired": true,
       "command": "meetings schedule-update",
       "destructive": false,
       "method": "PATCH",
@@ -1848,6 +2036,16 @@
         "org",
         "workspace",
         "schedule"
+      ]
+    },
+    {
+      "command": "meetings schedules",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/schedules",
+      "required": [
+        "org",
+        "workspace"
       ]
     },
     {
@@ -1953,6 +2151,40 @@
         "org",
         "workspace",
         "eventType"
+      ]
+    },
+    {
+      "command": "meetings template-apply",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}/apply",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "command": "meetings template-preview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}/preview",
+      "required": [
+        "org",
+        "workspace",
+        "template"
+      ]
+    },
+    {
+      "bodyRequired": true,
+      "command": "meetings template-publish",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/calendar/templates/{template}",
+      "required": [
+        "org",
+        "workspace",
+        "template"
       ]
     },
     {
@@ -2443,9 +2675,11 @@
     "--engagement",
     "--event-type",
     "--event-type-id",
+    "--follow-up-number",
     "--form",
     "--from",
     "--group",
+    "--handoff",
     "--help",
     "--host-user-id",
     "--html",
@@ -2473,6 +2707,7 @@
     "--profile",
     "--q",
     "--query",
+    "--quote",
     "--range",
     "--registration",
     "--remove",
@@ -2544,7 +2779,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.15"
+    "version": "0.1.16"
   },
   "schema_version": "1.0.1-bootstrap"
 }
