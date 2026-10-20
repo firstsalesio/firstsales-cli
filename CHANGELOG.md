@@ -2,8 +2,6 @@
 
 ## 0.1.16
 
-Prepared from source against backend release manifest `release_ready: true`. Not published on npm yet.
-
 ### Features
 
 - `fallback-emails list|set|update|delete --campaign <id>` manage a campaign's fallback emails. `set` and `update` take `--data` or `--data-file`. `update` and `delete` name one with `--follow-up-number <n>`. `delete` needs `--confirm`.
