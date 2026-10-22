@@ -23,7 +23,7 @@ test('npm release runs only for version tags with minimal permissions and SHA-pi
   ]);
   assert.match(workflow, /fetch-depth:\s*0/);
   assert.match(workflow, /persist-credentials:\s*false/);
-  assert.match(workflow, /node-version:\s*22\.23\.1/);
+  assert.match(workflow, /node-version:\s*22\.23\.4/);
   assert.match(workflow, /npm@11\.6\.4/);
 });
 
