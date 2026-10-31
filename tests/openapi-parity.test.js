@@ -76,6 +76,7 @@ const INTENTIONAL_BODY_REQUIRED_OVERRIDES = Object.freeze({
   'inbox score': true,
   'inbox ai-draft': true,
   'inbox snooze': true,
+  'inbox bulk-approve': true,
 });
 
 test('standalone OpenAPI fixture retains the frozen public-source provenance and all operations', async () => {
@@ -91,11 +92,11 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
     },
     {
       repository: 'firstsalesio/firstsales-outreach-backend',
-      commit: 'd79a68fbf8df3ca4ae67e358f317f74f7afcce8e',
-      fileCommit: 'd79a68fbf8df3ca4ae67e358f317f74f7afcce8e',
+      commit: '79da3f0d859930aa7dc2a05eae435b0495ef1263',
+      fileCommit: '65126a325246755f0ccf812da5903a52df64184b',
       path: 'openapi/firstsales-public-v1.json',
-      sha256: '1a03d3fd4cda8a6f2ea607aca4667209afb77cdf778b0d7192cc582d419da4c9',
-      projectionSha256: '4bb2ce29ac7bd4cfabca406740298069628c1d6d182fd56e8fd937da4021f855',
+      sha256: '7768d98e38babce5d9e12c756f45500421ecb878c8790b0579a33bbc4e237e14',
+      projectionSha256: '99ee9d3991486376a4f595c72b018f02e346dc3bfb5e7de95a688f894d4e6085',
     }
   );
   assert.equal(
@@ -108,7 +109,7 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
     createHash('sha256').update(`${JSON.stringify(spec, null, 2)}\n`).digest('hex'),
     source.sha256
   );
-  assert.equal(collectOperations(fixture).length, 217);
+  assert.equal(collectOperations(fixture).length, 218);
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -199,8 +200,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 217);
-    assert.equal(commands.length, 224);
+    assert.equal(operations.length, 218);
+    assert.equal(commands.length, 225);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     assert.equal(operationGroups.size, operations.length);

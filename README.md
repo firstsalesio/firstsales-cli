@@ -4,7 +4,7 @@
 
 **Control FirstSales from Codex, Claude Code, Gemini, Claude.ai, CI, scripts, and your terminal.**
 
-[![Contract Version](https://img.shields.io/badge/contract-0.1.16-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
+[![Contract Version](https://img.shields.io/badge/contract-0.1.17-blue.svg)](release/firstsales-public-v1.cli-publish-contract.json)
 [![Node](https://img.shields.io/badge/node-%3E%3D20-339933?logo=node.js&logoColor=white)](https://nodejs.org)
 [![CLI](https://img.shields.io/badge/binary-firstsales-C94310)](#quick-start)
 [![Developer API](https://img.shields.io/badge/API-%2Fapi%2Fv1-C94310)](https://github.com/firstsalesio/docs)
@@ -16,7 +16,7 @@
 
 **A thin, JSON-first CLI over the FirstSales Developer API. 224 commands. No runtime dependencies. Built for agent-safe automation.**
 
-**Release status:** `0.1.16` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
+**Release status:** `0.1.17` is published on npm. Since `0.1.13` the package no longer bundles agent skills; they ship from [firstsales-skills](https://github.com/firstsalesio/firstsales-skills).
 
 [Why](#why-this-exists) · [How It Works](#how-it-works) · [Quick Start](#quick-start) · [Commands](#complete-command-reference) · [Use Cases](#use-cases) · [Safety](#safety-model)
 
@@ -621,6 +621,7 @@ Every command maps to a public Developer API endpoint. Commands marked destructi
 | `inbox reply` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/reply` | no | thread |
 | `inbox read` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/threads/{thread}/read` | no | thread |
 | `inbox approve-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/approve` | no | email |
+| `inbox bulk-approve` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/bulk-approve` | no | org, workspace |
 | `inbox reject-draft` | POST | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/reject` | no | email |
 | `inbox draft-content` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/{email}/content` | no | email |
 | `connectors list` | GET | `/api/v1/organizations/{org}/workspaces/{workspace}/connectors` | no | org, workspace |

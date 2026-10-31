@@ -41,7 +41,7 @@ test('generated publish contract matches the complete live public CLI package', 
   assert.equal(actual, expected);
   assert.deepEqual(contract.package, {
     name: '@firstsales.io/cli',
-    version: '0.1.16',
+    version: '0.1.17',
     bin: { firstsales: 'bin/firstsales.js' },
     engines: { node: '>=20' },
     repository: {
@@ -81,8 +81,8 @@ test('generated publish contract matches the complete live public CLI package', 
     )
     .sort((left, right) => left.command.localeCompare(right.command));
   assert.deepEqual(contract.commands, expectedCommands);
-  assert.equal(contract.commands.length, 224);
-  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 77);
+  assert.equal(contract.commands.length, 225);
+  assert.equal(contract.commands.filter((command) => command.bodyRequired).length, 78);
   assert.deepEqual(
     contract.commands.find((command) => command.command === 'contacts list')?.query,
     [
@@ -279,6 +279,7 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
     "direct_email.schedule",
     "direct_email.send",
     "email_auth.verify",
+    "inbox_draft.bulk_approve",
     "learning.outcomes.inspect",
     "pipeline.get",
     "signal_lead.list",
@@ -340,6 +341,7 @@ test('release manifest copy stays aligned to the local CLI contract and semantic
         "direct_email.schedule",
         "direct_email.send",
         "email_auth.verify",
+        "inbox_draft.bulk_approve",
         "learning.outcomes.inspect",
         "pipeline.get",
         "signal_lead.list",

@@ -1,6 +1,6 @@
 {
   "name": "@firstsales.io/cli",
-  "version": "0.1.16",
+  "version": "0.1.17",
   "description": "Command-line interface for the FirstSales Developer API.",
   "type": "module",
   "bin": {

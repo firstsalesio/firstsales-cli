@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.17
+
+### Features
+
+- `inbox bulk-approve` approves up to 200 pending drafts in one call. Pass the thread IDs as `--data '{"threadIds":["..."]}'` or `--data-file`.
+
 ## 0.1.16
 
 ### Features
