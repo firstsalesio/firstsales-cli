@@ -1390,6 +1390,17 @@
       ]
     },
     {
+      "bodyRequired": true,
+      "command": "inbox bulk-approve",
+      "destructive": false,
+      "method": "POST",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/inbox/drafts/bulk-approve",
+      "required": [
+        "org",
+        "workspace"
+      ]
+    },
+    {
       "command": "inbox bulk-read",
       "destructive": false,
       "method": "POST",
@@ -2779,7 +2790,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.16"
+    "version": "0.1.17"
   },
   "schema_version": "1.0.1-bootstrap"
 }
