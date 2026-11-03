@@ -358,6 +358,7 @@ function dryRunPreview(config, method, route, body) {
 
 async function runApi(positionals, flags, env) {
   const config = await loadConfig(flags, env);
+  // oxlint-disable-next-line react-doctor/server-sequential-independent-await -- Preserve config-error precedence before opening a body file.
   const body = await readBody(flags);
   if (body?.error) {
     writeOutput({ error: body.error }, flags);

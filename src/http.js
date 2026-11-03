@@ -37,6 +37,7 @@ export async function fetchJson(config, request) {
   const options = { method: request.method, headers };
   if (request.body !== undefined) options.body = JSON.stringify(request.body);
 
+  // oxlint-disable-next-line react-doctor/no-fetch-response-used-without-status-check -- Callers map status to exit codes and need the API error body too.
   const response = await fetch(buildUrl(config.baseUrl, request.route), options);
   const text = await response.text();
   const contentType = response.headers?.get('content-type') ?? 'application/json';
