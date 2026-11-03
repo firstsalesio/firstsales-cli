@@ -10,7 +10,7 @@ export async function authLogin(flags, env) {
   const { data } = await readConfigFile(env);
   const profileName = flags.profile ?? env.FIRSTSALES_PROFILE ?? data.currentProfile ?? 'default';
   data.profiles = data.profiles ?? {};
-  const profile = { ...(data.profiles[profileName] ?? {}), apiKey };
+  const profile = { ...data.profiles[profileName], apiKey };
   if (flags.baseUrl) profile.baseUrl = flags.baseUrl;
   if (flags.org) profile.org = flags.org;
   if (flags.workspace) profile.workspace = flags.workspace;

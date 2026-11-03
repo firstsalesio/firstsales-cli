@@ -501,6 +501,7 @@ export function resolveCommand(positionals, flags = {}) {
   }
   const found = COMMANDS.filter((command) => matches(command, positionals));
   return (
+    // oxlint-disable-next-line react-doctor/js-set-map-lookups -- Required flags are short static lists, searched once per CLI invocation.
     found.find((command) => (command.required ?? []).includes('campaign') === Boolean(flags.campaign)) ??
     found[0]
   );
