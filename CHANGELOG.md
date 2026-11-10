@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.18
+
+### Features
+
+- `campaigns email-state --campaign-email <id>` reads one campaign email's state: its status, whether it is awaiting approval, and its scheduled and sent times. It returns no subject, body or recipients.
+
 ## 0.1.17
 
 ### Features
