@@ -1,8 +1,8 @@
 {
   "source": {
     "repository": "firstsalesio/firstsales-outreach-backend",
-    "commit": "43181cb73c78033bdc8697db57207c0319d0fa9e",
-    "fileCommit": "43181cb73c78033bdc8697db57207c0319d0fa9e",
+    "commit": "78edb3b354efa235b64e7e54a8792996c2b1b407",
+    "fileCommit": "78edb3b354efa235b64e7e54a8792996c2b1b407",
     "path": "openapi/firstsales-public-v1.json",
     "sha256": "c45049afad911c5bafa479dfd4927e770a7e00eedf713cf15cefe2e9b8349fd8",
     "projectionSha256": "066e988240e0c9c275624a61debd601f759c7e16cbab51aa05a1c193d4674760",
