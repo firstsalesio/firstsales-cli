@@ -1,11 +1,11 @@
 {
   "source": {
     "repository": "firstsalesio/firstsales-outreach-backend",
-    "commit": "1bb27fc94fcfc049e1ebed4195095248f67f470e",
-    "fileCommit": "1bb27fc94fcfc049e1ebed4195095248f67f470e",
+    "commit": "43181cb73c78033bdc8697db57207c0319d0fa9e",
+    "fileCommit": "43181cb73c78033bdc8697db57207c0319d0fa9e",
     "path": "openapi/firstsales-public-v1.json",
-    "sha256": "80d867cdc0f0f7256f79d2f66f6434f9eac999ef44cd024979bd4f5a411af12c",
-    "projectionSha256": "c95653d998251daf5ff977df32c92cae6a6ec81a7105f5575ee77f1023cca245",
+    "sha256": "c45049afad911c5bafa479dfd4927e770a7e00eedf713cf15cefe2e9b8349fd8",
+    "projectionSha256": "066e988240e0c9c275624a61debd601f759c7e16cbab51aa05a1c193d4674760",
     "projection": "The complete source document follows this source block unchanged. JSON.stringify of every other top-level field with 2-space indentation and a trailing newline reproduces sha256; projectionSha256 is the compact JSON.stringify digest of paths."
   },
   "openapi": "3.1.0",
@@ -2030,6 +2030,29 @@
                 ],
                 "format": "date-time"
               },
+              "pauseReasonCode": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "manual",
+                  "deliverability",
+                  "velocity",
+                  "draft_quality_hold",
+                  "member_suspended",
+                  "deletion_scheduled",
+                  "unknown",
+                  null
+                ]
+              },
+              "pausedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
               "startedAt": {
                 "type": [
                   "string",
@@ -2075,6 +2098,8 @@
               "sendWindow",
               "stalledReason",
               "stalledAt",
+              "pauseReasonCode",
+              "pausedAt",
               "startedAt",
               "lastSendAt",
               "createdAt",
@@ -2878,6 +2903,37 @@
                     }
                   ]
                 },
+                "pauseReasonCode": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "enum": [
+                        "manual",
+                        "deliverability",
+                        "velocity",
+                        "draft_quality_hold",
+                        "member_suspended",
+                        "deletion_scheduled",
+                        "unknown"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "pausedAt": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "format": "date-time",
+                      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
                 "startedAt": {
                   "anyOf": [
                     {
@@ -2959,6 +3015,8 @@
                 "sendWindow",
                 "stalledReason",
                 "stalledAt",
+                "pauseReasonCode",
+                "pausedAt",
                 "startedAt",
                 "lastSendAt",
                 "createdAt",
@@ -20535,6 +20593,68 @@
                   "policy"
                 ],
                 "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaign-emails/{campaignEmailId}/preview": {
+      "get": {
+        "operationId": "getCampaignEmailPreview",
+        "summary": "PublicApiGetCampaignEmailPreview",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaignEmailId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
               }
             }
           }
