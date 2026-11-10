@@ -1,0 +1,158 @@
+{
+ "schema_version": 1,
+ "verdict": "PASS",
+ "repository": {
+  "git_remote_identity": "842d9c2f1e65b4f7df3a46d20edb4537894463ca",
+  "name_with_owner": "firstsalesio/firstsales-cli"
+ },
+ "base": {
+  "ref": "origin/main",
+  "commit": "66d4e70d3d48dd3a9d3be9b510b115966a0058a3",
+  "tree": "d846b7a230fd11e5760b516561548ee28ba48986",
+  "tip": "66d4e70d3d48dd3a9d3be9b510b115966a0058a3",
+  "source": "remote-default"
+ },
+ "head": {
+  "ref": "feat/email-state-cli-261110",
+  "commit": "4831663d4311bfab1387f43864ef3588e556a17d",
+  "tree": "8a8c41c6b910d4eeba7ceb1cedea649709f48b34"
+ },
+ "diff": {
+  "digest": "4ca33be32777235a995ee46054729c823963f9b9e1a7142ff19c735b579c8a7c"
+ },
+ "phases": [
+  {
+   "number": 0,
+   "name": "preflight",
+   "verdict": "PASS",
+   "evidence": "deterministic check passed"
+  },
+  {
+   "number": 1,
+   "name": "spec",
+   "verdict": "PASS",
+   "evidence": "evidence/spec.md"
+  },
+  {
+   "number": 2,
+   "name": "static",
+   "verdict": "PASS",
+   "evidence": "deterministic check passed"
+  },
+  {
+   "number": 3,
+   "name": "tests",
+   "verdict": "PASS",
+   "evidence": "deterministic check passed"
+  },
+  {
+   "number": 4,
+   "name": "regression",
+   "verdict": "PASS",
+   "evidence": "evidence/regression.json"
+  },
+  {
+   "number": 5,
+   "name": "review",
+   "verdict": "PASS",
+   "evidence": "evidence/review.md"
+  },
+  {
+   "number": 6,
+   "name": "zero-debt",
+   "verdict": "PASS",
+   "evidence": "evidence/zero-debt.md"
+  },
+  {
+   "number": 7,
+   "name": "react-health",
+   "verdict": "SKIP",
+   "evidence": "no React detected"
+  },
+  {
+   "number": 8,
+   "name": "security",
+   "verdict": "PASS",
+   "evidence": "evidence/security.md"
+  },
+  {
+   "number": 9,
+   "name": "adversarial",
+   "verdict": "PASS",
+   "evidence": "evidence/adversarial.md"
+  },
+  {
+   "number": 10,
+   "name": "review-verification",
+   "verdict": "PASS",
+   "evidence": "evidence/verification.md"
+  },
+  {
+   "number": 11,
+   "name": "final-verification",
+   "verdict": "PASS",
+   "evidence": "evidence/final.md"
+  }
+ ],
+ "narrative": {
+  "problem": "The public API can return the lifecycle state of one campaign email, but the command line had no way to ask for it. Scripts and agents using the CLI could not tell whether an email was waiting for approval, scheduled, sent, failed or cancelled.",
+  "scope": "Adds one read-only command, `campaigns email-state`, that calls GET /campaign-emails/{campaignEmail}/state. Also bumps the CLI to 0.1.18 and updates the release contract, release manifest, parity fixture, README and CHANGELOG. No backend, no write paths.",
+  "requirements": [
+   "`campaigns email-state --campaign-email <id>` prints the state returned by the API unchanged.",
+   "The id is URL-encoded in the path; a missing id sends no request and fails with missing_required_flag.",
+   "Command counts, release contract, manifest and parity fixture agree on 226 commands and version 0.1.18."
+  ],
+  "changes": [
+   "src/commands.js registers the command; src/args.js allow-lists --campaign-email and adds its help line.",
+   "New tests/campaign-email-state.test.js (2 tests): exact request and output, and the missing-flag refusal.",
+   "Version 0.1.17 to 0.1.18 in package.json, package-lock.json, release-contract test and README badge.",
+   "Regenerated release/firstsales-public-v1.cli-publish-contract.json and release manifest; updated the parity fixture and test.",
+   "package.json affected test command now lists the four relevant test files, so the new test runs in the gate."
+  ],
+  "decisions": [
+   "Read-only command only. Publishing 0.1.18 to npm and creating the GitHub release are manual owner steps after merge.",
+   "The repo-owned affected test command was changed instead of editing any gate tooling, because the gate runner only parses `# pass N` and this repo uses the Node test reporter; it now runs with the TAP reporter.",
+   "Two findings about an untested caller (src/cli.js) were judged wrong: every runCli test spawns the real CLI."
+  ],
+  "zero_debt": "No compatibility shims, no dead code, no duplicate rules. The command reuses the existing command table and request path. Nothing deliberately retained.",
+  "security": "Scanners clean (secrets, static analysis, dependency, filesystem). A hostile id such as `../x/y z` is sent as `..%2Fx%2Fy%20z`. No new network surface beyond one GET on an existing authenticated route.",
+  "regression": "Base 16 passed, 0 failed. Head 18 passed, 0 failed. Full CLI suite: 1035 of 1035 pass. Mutating the path placeholder makes the new test fail.",
+  "compatibility": "Additive only. Existing commands, flags and exit codes are unchanged. Command count 225 to 226.",
+  "risks": [
+   "npm already has 0.1.17, so the new command is not available to users until the owner publishes 0.1.18.",
+   "Backend contract copy and developer docs follow in later changes after npm shows the version."
+  ],
+  "rollback": "Revert the merge commit. Nothing is published to npm by this change.",
+  "gaps": [
+   "The MCP tool for this state stays hidden in the backend until its ledger row is released; unrelated to this CLI change.",
+   "Production browser check of the preview badge is done in a separate step."
+  ]
+ },
+ "commands": [
+  {
+   "command": "node --test --test-reporter=tap --test-concurrency=1 tests/banner.test.js tests/campaign-activation.test.js tests/campaign-email-state.test.js tests/release-contract.test.js",
+   "exit_code": 0,
+   "duration_ms": 1913,
+   "passed": 18,
+   "failed": 0,
+   "skipped": 0,
+   "log": {
+    "file": "[REPO]/.preprgate/evidence/regression-head.log",
+    "digest": "1cfe4f461660c93a92e0b43026ce3e4dd96c2b5d9d5e7b767b725626826f6198",
+    "excerpt": "dential\nok 11 - inbox ai-draft maps to the existing public API with a headless credential\n  ---\n  duration_ms: 101.435125\n  type: 'test'\n  ...\n# Subtest: campaigns email-state GETs the email state path and prints the state exactly\nok 12 - campaigns email-state GETs the email state path and prints the state exactly\n  ---\n  duration_ms: 150.622583\n  type: 'test'\n  ...\n# Subtest: campaigns email-state needs --campaign-email and sends no request without it\nok 13 - campaigns email-state needs --campaign-email and sends no request without it\n  ---\n  duration_ms: 79.7185\n  type: 'test'\n  ...\n# Subtest: generated publish contract matches the complete live public CLI package\nok 14 - generated publish contract matches the complete live public CLI package\n  ---\n  duration_ms: 13.765167\n  type: 'test'\n  ...\n# Subtest: parameterized OpenAPI specializations reject missing or incorrect constant path bindings\nok 15 - parameterized OpenAPI specializations reject missing or incorrect constant path bindings\n  ---\n  duration_ms: 0.562\n  type: 'test'\n  ...\n# Subtest: query metadata rejects empty or invalid bindings\nok 16 - query metadata rejects empty or invalid bindings\n  ---\n  duration_ms: 0.2705\n  type: 'test'\n  ...\n# Subtest: release manifest copy stays aligned to the local CLI contract and semantic subset inputs\nok 17 - release manifest copy stays aligned to the local CLI contract and semantic subset inputs\n  ---\n  duration_ms: 1.201375\n  type: 'test'\n  ...\n# Subtest: npm pack dry-run includes release artifacts and the local contract generator\nok 18 - npm pack dry-run includes release artifacts and the local contract generator\n  ---\n  duration_ms: 252.453333\n  type: 'test'\n  ...\n1..18\n# tests 18\n# suites 0\n# pass 18\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 1913.499583\n"
+   }
+  }
+ ],
+ "telemetry": {
+  "elapsed_ms": 87000,
+  "unique_trees": 1,
+  "command_runs": 2,
+  "avoided_runs": 0,
+  "cache_hits": 0,
+  "cache_misses": 2,
+  "unique_slices": 1,
+  "context_bytes": 0,
+  "judgment_dispatches": 0,
+  "token_usage": null
+ }
+}

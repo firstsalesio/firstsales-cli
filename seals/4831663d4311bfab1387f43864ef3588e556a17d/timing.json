@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "head": "4831663d4311bfab1387f43864ef3588e556a17d",
+  "phases": [
+    {
+      "phase": "0",
+      "name": "preflight",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:51:45.184Z",
+      "finished_at": "2026-11-10T12:51:45.467Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "1",
+      "name": "spec",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:51:50.469Z",
+      "finished_at": "2026-11-10T12:51:50.750Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "2",
+      "name": "static",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:51:52.140Z",
+      "finished_at": "2026-11-10T12:51:52.140Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "3",
+      "name": "tests",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:51:52.140Z",
+      "finished_at": "2026-11-10T12:51:52.140Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "4",
+      "name": "regression",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:51:56.816Z",
+      "finished_at": "2026-11-10T12:51:56.816Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "8",
+      "name": "security",
+      "verdict": "PASS",
+      "seconds": 53,
+      "started_at": "2026-11-10T12:52:01.663Z",
+      "finished_at": "2026-11-10T12:52:55.120Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "5",
+      "name": "review",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:52:53.689Z",
+      "finished_at": "2026-11-10T12:52:53.983Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "6",
+      "name": "zero-debt",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:52:54.266Z",
+      "finished_at": "2026-11-10T12:52:54.545Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "7",
+      "name": "react-health",
+      "verdict": "SKIP",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:52:54.827Z",
+      "finished_at": "2026-11-10T12:52:54.828Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "9",
+      "name": "adversarial",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:52:55.419Z",
+      "finished_at": "2026-11-10T12:52:55.775Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "10",
+      "name": "review-verification",
+      "verdict": "PASS",
+      "seconds": 0,
+      "started_at": "2026-11-10T12:52:56.117Z",
+      "finished_at": "2026-11-10T12:52:56.410Z",
+      "attempt_id": "1794315103000-38130"
+    },
+    {
+      "phase": "11",
+      "name": "final-verification",
+      "verdict": "PASS",
+      "seconds": 6,
+      "started_at": "2026-11-10T12:53:06.238Z",
+      "finished_at": "2026-11-10T12:53:12.328Z",
+      "attempt_id": "1794315103000-38130"
+    }
+  ],
+  "commands": [
+    {
+      "name": "oxlint -f default . || true",
+      "seconds": 0.1,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "regression (HEAD)",
+      "seconds": 2,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "command",
+      "seconds": 21,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "oxlint -f default . || true",
+      "seconds": 0.2,
+      "exit_code": 0,
+      "timed_out": false
+    },
+    {
+      "name": "oxlint -f default . || true",
+      "seconds": 0.1,
+      "exit_code": 0,
+      "timed_out": false
+    }
+  ],
+  "script_seconds": 23.4,
+  "phase_seconds": 59,
+  "idle_gaps": [],
+  "idle_seconds": 0,
+  "attempts": 1,
+  "current_attempt": "1794315103000-38130",
+  "budget_status": "WITHIN_BUDGET"
+}

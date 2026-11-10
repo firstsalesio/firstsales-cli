@@ -1,0 +1,5 @@
+{"name":"oxlint -f default . || true","elapsed_seconds":0.089,"budget_seconds":480,"exit_code":0,"limit":"command","timed_out":false}
+{"name":"regression (HEAD)","elapsed_seconds":1.99,"budget_seconds":480,"exit_code":0,"limit":"command","timed_out":false}
+{"name":"command","elapsed_seconds":21.006,"budget_seconds":480,"exit_code":0,"limit":"command","timed_out":false}
+{"name":"oxlint -f default . || true","elapsed_seconds":0.218,"budget_seconds":480,"exit_code":0,"limit":"command","timed_out":false}
+{"name":"oxlint -f default . || true","elapsed_seconds":0.106,"budget_seconds":480,"exit_code":0,"limit":"command","timed_out":false}
