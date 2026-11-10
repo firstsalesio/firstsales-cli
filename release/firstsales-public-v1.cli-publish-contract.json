@@ -295,6 +295,17 @@
       ]
     },
     {
+      "command": "campaigns email-state",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaign-emails/{campaignEmail}/state",
+      "required": [
+        "org",
+        "workspace",
+        "campaignEmail"
+      ]
+    },
+    {
       "command": "campaigns events",
       "destructive": false,
       "method": "GET",
@@ -2661,6 +2672,7 @@
     "--booking-url",
     "--cal-com-api-key",
     "--campaign",
+    "--campaign-email",
     "--campaign-id",
     "--category",
     "--cc",
@@ -2790,7 +2802,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.17"
+    "version": "0.1.18"
   },
   "schema_version": "1.0.1-bootstrap"
 }

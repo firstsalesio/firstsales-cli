@@ -1,11 +1,11 @@
 {
   "source": {
     "repository": "firstsalesio/firstsales-outreach-backend",
-    "commit": "79da3f0d859930aa7dc2a05eae435b0495ef1263",
-    "fileCommit": "65126a325246755f0ccf812da5903a52df64184b",
+    "commit": "1bb27fc94fcfc049e1ebed4195095248f67f470e",
+    "fileCommit": "1bb27fc94fcfc049e1ebed4195095248f67f470e",
     "path": "openapi/firstsales-public-v1.json",
-    "sha256": "7768d98e38babce5d9e12c756f45500421ecb878c8790b0579a33bbc4e237e14",
-    "projectionSha256": "99ee9d3991486376a4f595c72b018f02e346dc3bfb5e7de95a688f894d4e6085",
+    "sha256": "80d867cdc0f0f7256f79d2f66f6434f9eac999ef44cd024979bd4f5a411af12c",
+    "projectionSha256": "c95653d998251daf5ff977df32c92cae6a6ec81a7105f5575ee77f1023cca245",
     "projection": "The complete source document follows this source block unchanged. JSON.stringify of every other top-level field with 2-space indentation and a trailing newline reproduces sha256; projectionSha256 is the compact JSON.stringify digest of paths."
   },
   "openapi": "3.1.0",
@@ -9240,6 +9240,73 @@
         },
         "required": [
           "thread"
+        ],
+        "additionalProperties": false
+      },
+      "PublicCampaignEmailStateResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "campaignId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "scheduled",
+              "rescheduled",
+              "sent",
+              "failed",
+              "cancelled"
+            ]
+          },
+          "lifecycleState": {
+            "type": "string",
+            "enum": [
+              "draft",
+              "scheduled",
+              "rescheduled",
+              "sent",
+              "failed",
+              "cancelled",
+              "awaiting-approval"
+            ]
+          },
+          "awaitingApproval": {
+            "type": "boolean"
+          },
+          "scheduledAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "sentAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "campaignId",
+          "status",
+          "lifecycleState",
+          "awaitingApproval",
+          "scheduledAt",
+          "sentAt"
         ],
         "additionalProperties": false
       },
@@ -20468,6 +20535,139 @@
                   "policy"
                 ],
                 "additionalProperties": false
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/{orgId}/workspaces/{wsId}/campaign-emails/{campaignEmailId}/state": {
+      "get": {
+        "operationId": "getCampaignEmailState",
+        "summary": "PublicApiGetCampaignEmailState",
+        "tags": [
+          "Campaigns"
+        ],
+        "security": [
+          {
+            "developerKeyBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "orgId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "wsId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "campaignEmailId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{24}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicCampaignEmailStateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Public API error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicErrorEnvelope"
+                }
               }
             }
           }

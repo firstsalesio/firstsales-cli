@@ -1,6 +1,6 @@
 {
   "name": "@firstsales.io/cli",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "description": "Command-line interface for the FirstSales Developer API.",
   "type": "module",
   "bin": {
@@ -39,6 +39,6 @@
   ],
   "license": "UNLICENSED",
   "preprgate": {
-    "affectedTestCommand": "node --test --test-concurrency=1 tests/banner.test.js tests/campaign-activation.test.js tests/release-contract.test.js"
+    "affectedTestCommand": "node --test --test-reporter=tap --test-concurrency=1 tests/banner.test.js tests/campaign-activation.test.js tests/campaign-email-state.test.js tests/release-contract.test.js"
   }
 }

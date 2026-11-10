@@ -92,11 +92,11 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
     },
     {
       repository: 'firstsalesio/firstsales-outreach-backend',
-      commit: '79da3f0d859930aa7dc2a05eae435b0495ef1263',
-      fileCommit: '65126a325246755f0ccf812da5903a52df64184b',
+      commit: '1bb27fc94fcfc049e1ebed4195095248f67f470e',
+      fileCommit: '1bb27fc94fcfc049e1ebed4195095248f67f470e',
       path: 'openapi/firstsales-public-v1.json',
-      sha256: '7768d98e38babce5d9e12c756f45500421ecb878c8790b0579a33bbc4e237e14',
-      projectionSha256: '99ee9d3991486376a4f595c72b018f02e346dc3bfb5e7de95a688f894d4e6085',
+      sha256: '80d867cdc0f0f7256f79d2f66f6434f9eac999ef44cd024979bd4f5a411af12c',
+      projectionSha256: 'c95653d998251daf5ff977df32c92cae6a6ec81a7105f5575ee77f1023cca245',
     }
   );
   assert.equal(
@@ -109,7 +109,7 @@ test('standalone OpenAPI fixture retains the frozen public-source provenance and
     createHash('sha256').update(`${JSON.stringify(spec, null, 2)}\n`).digest('hex'),
     source.sha256
   );
-  assert.equal(collectOperations(fixture).length, 218);
+  assert.equal(collectOperations(fixture).length, 219);
 });
 
 test('required-body commands fail fast before any network call', async () => {
@@ -200,8 +200,8 @@ test(
     const commands = listCommands();
     const operations = collectOperations(spec);
 
-    assert.equal(operations.length, 218);
-    assert.equal(commands.length, 225);
+    assert.equal(operations.length, 219);
+    assert.equal(commands.length, 226);
 
     const operationGroups = new Map(operations.map((operation) => [operation.key, operation]));
     assert.equal(operationGroups.size, operations.length);
