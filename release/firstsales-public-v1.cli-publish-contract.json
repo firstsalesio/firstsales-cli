@@ -295,6 +295,17 @@
       ]
     },
     {
+      "command": "campaigns email-preview",
+      "destructive": false,
+      "method": "GET",
+      "path": "/api/v1/organizations/{org}/workspaces/{workspace}/campaign-emails/{campaignEmail}/preview",
+      "required": [
+        "org",
+        "workspace",
+        "campaignEmail"
+      ]
+    },
+    {
       "command": "campaigns email-state",
       "destructive": false,
       "method": "GET",
@@ -2802,7 +2813,7 @@
       "type": "git",
       "url": "https://github.com/firstsalesio/firstsales-cli"
     },
-    "version": "0.1.18"
+    "version": "0.1.19"
   },
   "schema_version": "1.0.1-bootstrap"
 }

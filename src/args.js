@@ -168,7 +168,7 @@ export function helpText() {
     '  --sender <id>         Sender Email Connector for campaigns workflow update (repeatable)',
     '  --campaign <id>       Campaign id; scopes blocked-domains to one campaign',
     '  --follow-up-number <n>  Follow-up number for fallback-emails update|delete',
-    '  --campaign-email <id>  Campaign email id for campaigns email-state',
+    '  --campaign-email <id>  Campaign email id for campaigns email-state and email-preview',
     '  --dkim-selector <s>   DKIM selector for email-auth verify (with --domain)',
     '  --event-type <id>     Cal.com event type id for connectors create cal-com',
     '  --booking-url <url>   Cal.com booking URL for connectors create cal-com',

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.19
+
+### Features
+
+- `campaigns email-preview --campaign-email <id>` reads one campaign email's preview: subject, body, sender and recipients, status, whether it is awaiting approval, schedule and quality history.
+
 ## 0.1.18
 
 ### Features

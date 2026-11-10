@@ -233,6 +233,7 @@ const COMMANDS = withParityMetadata([
     required: ['campaign'], openapi: { operationId: 'getCampaignReadiness' },
   }),
   workspace(['campaigns', 'email-state'], 'GET', '/campaign-emails/{campaignEmail}/state', { required: ['campaignEmail'] }),
+  workspace(['campaigns', 'email-preview'], 'GET', '/campaign-emails/{campaignEmail}/preview', { required: ['campaignEmail'] }),
   workspace(['campaigns', 'prepare-launch'], 'POST', '/campaigns/{campaign}/launch/prepare', {
     required: ['campaign'], bodyRequired: true, openapi: { operationId: 'prepareCampaignLaunch' },
   }),
