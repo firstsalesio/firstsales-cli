@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "repository": "842d9c2f1e65b4f7df3a46d20edb4537894463ca",
+  "base": {
+    "ref": "origin/main",
+    "commit": "3e546eebd3ebfb4b396945645c53fe86c2f4ee3e",
+    "tree": "8a8c41c6b910d4eeba7ceb1cedea649709f48b34",
+    "tip": "3e546eebd3ebfb4b396945645c53fe86c2f4ee3e",
+    "source": "remote-default"
+  },
+  "head": {
+    "ref": "feat/email-preview-cli-261110",
+    "commit": "46cb44924bcc7e84872634e4c9694954b2d8c7eb",
+    "tree": "b2a8dc318208456e578cff220c01d5dc648a8ba1"
+  },
+  "diff": {
+    "digest": "09ccc364fb16fe3c2f44b69cebd301e0604c677d0a336aa42f7210cf26963b0f"
+  },
+  "lane": "full",
+  "gate_rules": {
+    "version": 1,
+    "digest": "03487e2f2338babfc858e02e14d1b0aca6e1797827f7c7f2622a4b6ab4ce6237"
+  },
+  "project_profile": {
+    "schema_version": 1,
+    "package_manager": "npm",
+    "react": 0,
+    "node": 1,
+    "python": 0,
+    "go": 0,
+    "rust": 0
+  },
+  "context": {
+    "complete": true,
+    "prepared_at": "2026-11-10T19:53:13.623Z",
+    "cache_ttl_hours": 1,
+    "cache_bucket": "2026-11-10T19"
+  },
+  "records": {
+    "base.txt": "2f4846c1f2e93c0a52be6171d1351fd782701bd6e2f45941ddd79a6e8a42e768",
+    "project-profile.json": "b8af6e81132025f872e5f4133f15f971392e6880d69155755f7c95d7c688105c",
+    "commands.txt": "4a7282bdb11bedb6d505a06c3ddd9f3be138e63a6c9bbc317a8d1fe18351c85e",
+    "diff.patch": "09ccc364fb16fe3c2f44b69cebd301e0604c677d0a336aa42f7210cf26963b0f",
+    "diff.index.json": "13b36d3700a6e4adeb03f9869b446785e8b1368a6f03c1a769b84eba0f20f2d6",
+    "changed-files.nul": "b14c0158891c2cd33d32e975e28d74777c29298d7dd16256ec26d7b05022efc7",
+    "changed-files.json": "887cfe19a580b005bbdc0ec2999459989a39160e67c2b3c98c10852908c0ae87",
+    "digest.txt": "fe944dc865e3720a7526242b5d48a4b6c312e5df0bfbcd3d13e2ea8842a273d2",
+    "blast-radius.json": "2dc5813bb038d99d905399e6425c10b2c7684e7c60c941cf1cf7789ec4608a0f",
+    "lane.txt": "5874437384924c4e26c37dd4dcdb43b32529c87a33337a37f157683d79fd7e38"
+  }
+}

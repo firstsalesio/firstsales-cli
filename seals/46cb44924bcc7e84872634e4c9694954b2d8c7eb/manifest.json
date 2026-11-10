@@ -1,0 +1,28 @@
+{
+  "head": "46cb44924bcc7e84872634e4c9694954b2d8c7eb",
+  "base": {
+    "ref": "origin/main",
+    "commit": "3e546eebd3ebfb4b396945645c53fe86c2f4ee3e",
+    "tree": "8a8c41c6b910d4eeba7ceb1cedea649709f48b34",
+    "tip": "3e546eebd3ebfb4b396945645c53fe86c2f4ee3e",
+    "source": "remote-default"
+  },
+  "sealed_at": "2026-11-10T19:55:03.478Z",
+  "version": "",
+  "files": {
+    "phases.json": "8cb56067880b2b127f51d64b3bb66953dbb49cd33d4847964cacaa0e54a6ee27",
+    "findings.jsonl": "31672bcca08ab4e43458d762decf8314fa50c10a8afaf991d83cad2a6e044af4",
+    "command-times.jsonl": "7b9a06d543368da28bc57f6dd648dbe2df4d94cd744ab76adef43e07337e04c4",
+    "timing.md": "dfa7b988401d94ec62cb06a64ea823c351e00141afb4f2663edf063a7bcde7e7",
+    "timing.json": "325024c46b716765b36995e0e652c389ae51ae9477cea793378bfd7c6c6c02b2",
+    "context/manifest.json": "10d1f89729d4198946b860aaa01dc6098cd9c4189b5f3f3d2f2a059495a6c6ca",
+    "evidence/adversarial.md": "ec917c482512004b7ffb9a267a83e5c2411ea6570f8f4965501d170386b5b728",
+    "evidence/review.md": "82a3702ab18f6cb9c822f346a6593f17ff14259831730c331c1f2e6bc5c282f6",
+    "evidence/security.md": "7a1f5784ac64f3821c299e5f822e577fa00386accc84ec452571e3ed83926981",
+    "evidence/spec.md": "9d508e9bd0ff6177fccff9a33a1e00e559d976cab84a9201077f49cbbdbf3bfd",
+    "evidence/verification.md": "5fff6af5f1f6896e3a8da3a5ecaf402a7c1475cae853ad238c8fa0b81f8dfae8",
+    "evidence/zero-debt.md": "3b93d0d8aadfc8a058bfc17be9ff775c46696bed3d438a6809c8d744fc108886",
+    "evidence.json": "cce68ea77f418f568d3584068c28860f470dfa4e52793c78a9bffed579d6d07f"
+  },
+  "truncated": []
+}
